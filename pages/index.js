@@ -1,24 +1,12 @@
-import { Auth } from "@supabase/auth-ui-react";
-import { ThemeSupa } from "@supabase/auth-ui-shared";
-import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
-const Home = () => {
-  const session = useSession();
-  const supabase = useSupabaseClient();
+const Home = ({ session }) => {
+  const router = useRouter();
 
-  return (
-    <div className="container" style={{ padding: "50px 0 100px 0" }}>
-      {!session ? (
-        <Auth
-          supabaseClient={supabase}
-          appearance={{ theme: ThemeSupa }}
-          theme="dark"
-        />
-      ) : (
-        <div>Hello World</div>
-      )}
-    </div>
-  );
+  useEffect(() => {
+    session ? router.push("/dashboard") : router.push("/login");
+  });
 };
 
 export default Home;

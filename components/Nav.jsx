@@ -1,3 +1,4 @@
+import React from "react";
 import Link from "next/link";
 import _ from "lodash";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
@@ -76,7 +77,7 @@ const Navbar = ({ children }) => {
           </div>
           {/* Content of each page appear here */}
           <div className="grow overflow-auto">
-            {React.cloneElement(children)}
+            {React.cloneElement(children, { session: session })}
           </div>
           {/* Content of each page end here */}
         </div>
