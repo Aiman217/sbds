@@ -8,7 +8,13 @@ const index = ({ session }) => {
     !session ? router.push("/login") : [];
   });
 
-  return <>{console.log(session)}</>;
+  return (
+    <>
+      <div className="h-full w-full p-4">
+        <p>Dashboard page</p>
+      </div>
+    </>
+  );
 };
 
 export default index;

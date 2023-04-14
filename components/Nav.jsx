@@ -4,6 +4,8 @@ import _ from "lodash";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { HiMenu } from "react-icons/hi";
 import { FaRegUserCircle } from "react-icons/fa";
+import { RxDashboard } from "react-icons/rx";
+import { RiUserHeartLine, RiUserSettingsLine } from "react-icons/ri";
 import ThemeSelector from "./ThemeSelector";
 
 const Navbar = ({ children }) => {
@@ -12,37 +14,22 @@ const Navbar = ({ children }) => {
 
   return (
     <>
-      <div className="drawer bg-base-200">
+      <div className="drawer bg-primary text-base-100">
         <input id="my-drawer-1" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content flex flex-col min-h-screen">
-          <div className="navbar bg-primary text-base-100 px-4 shadow-sm shadow-neutral">
-            <div className={!session ? "hidden" : "flex-none block lg:hidden"}>
-              <label htmlFor="my-drawer-1" className="btn btn-square btn-ghost">
+          <div className="navbar px-4 lg:px-10 justify-between">
+            <div className={!session ? "hidden" : "block lg:hidden"}>
+              <label
+                htmlFor="my-drawer-1"
+                className="btn btn-sm btn-square btn-ghost"
+              >
                 <HiMenu htmlFor="my-drawer-1" size={25} />
               </label>
             </div>
-            <div className="flex-1 lg:gap-2 justify-start">
-              <h1 className="font-bold text-center lg:text-start w-full">
+            <div>
+              <h1 className="font-bold text-center w-full">
                 <div>SBDS@USM</div>
               </h1>
-            </div>
-            <div className={!session ? "hidden" : "flex-none hidden lg:block"}>
-              <ul className="flex flex-row gap-4 items-center ">
-                <li className="uppercase font-bold">
-                  <div className="tooltip tooltip-bottom" data-tip="Dashboard">
-                    <Link href="/">
-                      <div>Dashboard</div>
-                    </Link>
-                  </div>
-                </li>
-                <li className="uppercase font-bold">
-                  <div className="tooltip tooltip-bottom" data-tip="Patient">
-                    <Link href="/patient">
-                      <div>Patient</div>
-                    </Link>
-                  </div>
-                </li>
-              </ul>
             </div>
             <div
               className={
@@ -75,11 +62,38 @@ const Navbar = ({ children }) => {
               </div>
             </div>
           </div>
-          {/* Content of each page appear here */}
-          <div className="grow overflow-auto">
-            {React.cloneElement(children, { session: session })}
+          <div className="flex flex-row h-full">
+            <div className="h-full w-20">
+              <ul className="flex flex-col justify-center items-center gap-4 py-6">
+                <li className="uppercase font-bold">
+                  <div className="tooltip tooltip-right" data-tip="Statistic">
+                    <Link href="/dashboard">
+                      <RxDashboard size={30} />
+                    </Link>
+                  </div>
+                </li>
+                <li className="uppercase font-bold">
+                  <div className="tooltip tooltip-right" data-tip="Patient">
+                    <Link href="/dashboard/patient">
+                      <RiUserHeartLine size={30} />
+                    </Link>
+                  </div>
+                </li>
+                <li className="uppercase font-bold">
+                  <div className="tooltip tooltip-right" data-tip="Patient">
+                    <Link href="/dashboard/patient-mngmt">
+                      <RiUserSettingsLine size={30} />
+                    </Link>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            {/* Content of each page appear here */}
+            <div className="grow overflow-auto bg-base-200 text-base-content rounded-tl-3xl">
+              {React.cloneElement(children, { session: session })}
+            </div>
+            {/* Content of each page end here */}
           </div>
-          {/* Content of each page end here */}
         </div>
         <div className="drawer-side">
           <label
