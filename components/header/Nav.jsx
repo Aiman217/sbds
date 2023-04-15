@@ -16,7 +16,9 @@ const Navbar = ({ children }) => {
 
   function signOut() {
     supabase.auth.signOut();
-    router.push("/login");
+    setTimeout(() => {
+      router.push("/login");
+    }, 1000);
   }
 
   return (
