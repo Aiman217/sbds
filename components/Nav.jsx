@@ -89,7 +89,7 @@ const Navbar = ({ children }) => {
               </ul>
             </div>
             {/* Content of each page appear here */}
-            <div className="grow overflow-auto bg-base-200 text-base-content rounded-tl-3xl">
+            <div className="grow overflow-auto bg-base-200 text-base-content rounded-tl-2xl">
               {React.cloneElement(children, { session: session })}
             </div>
             {/* Content of each page end here */}

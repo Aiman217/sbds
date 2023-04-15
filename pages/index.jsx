@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
-const Home = ({ session }) => {
+export default function Home ({ session}) {
   const router = useRouter();
 
   useEffect(() => {
@@ -9,4 +9,3 @@ const Home = ({ session }) => {
   });
 };
 
-export default Home;
