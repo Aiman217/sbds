@@ -1,4 +1,4 @@
-import Check from "@/components/Check";
+import Check from "@/components/auth/Check";
 
 export default function Authenticated() {
   return <Check />;
