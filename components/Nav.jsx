@@ -7,10 +7,17 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { RxDashboard } from "react-icons/rx";
 import { RiUserHeartLine, RiUserSettingsLine } from "react-icons/ri";
 import ThemeSelector from "./ThemeSelector";
+import { useRouter } from "next/router";
 
 const Navbar = ({ children }) => {
   const session = useSession();
   const supabase = useSupabaseClient();
+  const router = useRouter();
+
+  function signOut() {
+    supabase.auth.signOut();
+    router.push("/login");
+  }
 
   return (
     <>
@@ -52,7 +59,7 @@ const Navbar = ({ children }) => {
                 {session ? (
                   <button
                     className={"btn btn-sm btn-error m-2"}
-                    onClick={() => supabase.auth.signOut()}
+                    onClick={() => signOut()}
                   >
                     Sign Out
                   </button>

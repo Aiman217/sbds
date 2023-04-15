@@ -1,13 +1,4 @@
-import { useEffect } from "react";
-import { useRouter } from "next/router";
-
-const index = ({ session }) => {
-  const router = useRouter();
-
-  useEffect(() => {
-    !session ? router.push("/login") : [];
-  });
-
+export default function index({ session }) {
   return (
     <>
       <div className="h-full w-full p-4">
@@ -15,6 +6,4 @@ const index = ({ session }) => {
       </div>
     </>
   );
-};
-
-export default index;
+}

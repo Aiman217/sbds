@@ -1,11 +1,5 @@
-import { useRouter } from "next/router";
-import { useEffect } from "react";
+import React from "react";
 
-export default function Home ({ session}) {
-  const router = useRouter();
-
-  useEffect(() => {
-    session ? router.push("/dashboard") : router.push("/login");
-  });
-};
-
+export default function Home() {
+  return <div>index</div>;
+}

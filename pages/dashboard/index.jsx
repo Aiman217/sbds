@@ -1,14 +1,6 @@
-import { useEffect } from "react";
-import { useRouter } from "next/router";
 import Head from "next/head";
 
-const index = ({ session }) => {
-  const router = useRouter();
-
-  useEffect(() => {
-    !session ? router.push("/login") : [];
-  });
-
+export default function index({ session }) {
   return (
     <>
       <Head>
@@ -39,6 +31,4 @@ const index = ({ session }) => {
       </div>
     </>
   );
-};
-
-export default index;
+}

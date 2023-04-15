@@ -4,7 +4,7 @@ import { SessionContextProvider } from "@supabase/auth-helpers-react";
 import { useState } from "react";
 import Navbar from "@/components/Nav";
 
-function MyApp({ Component, pageProps }) {
+export default function MyApp({ Component, pageProps }) {
   const [supabase] = useState(() => createBrowserSupabaseClient());
 
   return (
@@ -18,4 +18,3 @@ function MyApp({ Component, pageProps }) {
     </SessionContextProvider>
   );
 }
-export default MyApp;
