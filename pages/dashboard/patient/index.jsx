@@ -1,14 +1,18 @@
 import Head from "next/head";
+import _ from "lodash";
 import { useState, useEffect } from "react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { AiOutlineClose, AiOutlinePlusCircle } from "react-icons/ai";
 import CreatePatient from "./CreatePatient";
-import Loading from "@/components/Loading";
+import Alert from "@/components/functions/Alert";
+import Loading from "@/components/functions/Loading";
 
 export default function index() {
   const supabase = useSupabaseClient();
   const [patientData, setPatientData] = useState([]);
   const [createModal, setCreateModal] = useState(false);
+  const [alert, setAlert] = useState("");
+  const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -44,7 +48,7 @@ export default function index() {
           </div>
         </div>
         <div className="overflow-x-auto">
-          <table className="table w-full">
+          <table className="table w-full z-0">
             <thead>
               <tr>
                 <th></th>
@@ -78,11 +82,16 @@ export default function index() {
               >
                 <AiOutlineClose size={20} />
               </label>
-              <CreatePatient />
+              <CreatePatient
+                setCreateModal={setCreateModal}
+                setAlert={setAlert}
+                setSuccess={setSuccess}
+              />
             </div>
           </div>
         </div>
       )}
+      {!_.isEmpty(alert) && <Alert alert={alert} setAlert={setAlert} success={success} />}
       {loading && <Loading />}
     </>
   );

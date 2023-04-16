@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
-import Loading from "@/components/Loading";
+import Loading from "@/components/functions/Loading";
 
 export default function index() {
   const supabase = useSupabaseClient();
