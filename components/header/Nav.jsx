@@ -8,6 +8,7 @@ import { RxDashboard } from "react-icons/rx";
 import { RiUserHeartLine, RiUserSettingsLine } from "react-icons/ri";
 import ThemeSelector from "./ThemeSelector";
 import { useRouter } from "next/router";
+import Avatar from "boring-avatars";
 
 const Navbar = ({ children }) => {
   const session = useSession();
@@ -50,7 +51,7 @@ const Navbar = ({ children }) => {
                 className="btn btn-sm md:btn-md btn-ghost btn-circle avatar"
               >
                 <div className="flex rounded-full justify-center items-center">
-                  <FaRegUserCircle size={30} />
+                  <Avatar size={40} name="Eunice Kennedy" variant="bauhaus" />
                 </div>
               </label>
               <div
@@ -72,10 +73,10 @@ const Navbar = ({ children }) => {
             </div>
           </div>
           <div className="flex flex-row h-full">
-            <div className="h-full w-20">
+            <div className="h-full w-20 hidden lg:block">
               <ul className="flex flex-col justify-center items-center gap-4 py-6">
                 <li className="uppercase font-bold">
-                  <div className="tooltip tooltip-right" data-tip="Statistic">
+                  <div className="tooltip tooltip-right" data-tip="Dashboard">
                     <Link href="/dashboard">
                       <RxDashboard size={30} />
                     </Link>
@@ -89,7 +90,10 @@ const Navbar = ({ children }) => {
                   </div>
                 </li>
                 <li className="uppercase font-bold">
-                  <div className="tooltip tooltip-right" data-tip="Patient">
+                  <div
+                    className="tooltip tooltip-right"
+                    data-tip="Patient Management"
+                  >
                     <Link href="/dashboard/patient-mngmt">
                       <RiUserSettingsLine size={30} />
                     </Link>
@@ -98,7 +102,7 @@ const Navbar = ({ children }) => {
               </ul>
             </div>
             {/* Content of each page appear here */}
-            <div className="grow overflow-auto bg-base-200 text-base-content rounded-tl-2xl">
+            <div className="grow overflow-auto bg-base-200 text-base-content rounded-2xl">
               {React.cloneElement(children, { session: session })}
             </div>
             {/* Content of each page end here */}
@@ -109,22 +113,26 @@ const Navbar = ({ children }) => {
             htmlFor="my-drawer-1"
             className="drawer-overlay lg:hidden"
           ></label>
-          <div className="menu flex-nowrap p-4 w-[60%] sm:w-[60%] md:w-[40%] bg-base-100 lg:hidden">
+          <div className="menu bg-primary flex-nowrap p-4 w-[60%] sm:w-[60%] md:w-[40%] lg:hidden">
             <div className="divider" />
-            <ul className="flex flex-col justify-center items-center">
-              <li className="uppercase font-bold">
-                <div className="tooltip tooltip-right" data-tip="Dashboard">
-                  <Link href="/">
-                    <div>Dashboard</div>
-                  </Link>
-                </div>
+            <ul className="flex flex-col justify-center items-start">
+              <li className="uppercase font-bold flex flex-row">
+                <Link href="/dashboard">
+                  <RxDashboard size={30} />
+                  Dashboard
+                </Link>
               </li>
-              <li className="uppercase font-bold">
-                <div className="tooltip tooltip-right" data-tip="Patient">
-                  <Link href="/patient">
-                    <div>Patient</div>
-                  </Link>
-                </div>
+              <li className="uppercase font-bold flex flex-row">
+                <Link href="/dashboard/patient">
+                  <RiUserHeartLine size={30} />
+                  Patient
+                </Link>
+              </li>
+              <li className="uppercase font-bold flex flex-row">
+                <Link href="/dashboard/patient-mngmt">
+                  <RiUserSettingsLine size={30} />
+                  Patient Management
+                </Link>
               </li>
             </ul>
           </div>
