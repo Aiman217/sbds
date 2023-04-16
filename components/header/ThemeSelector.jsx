@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { themeChange } from "theme-change";
 
-const ThemeSelector = (props) => {
+export default function ThemeSelector(props) {
   const themeList = ["Fantasy", "Dark"];
 
   useEffect(() => {
@@ -30,6 +30,4 @@ const ThemeSelector = (props) => {
       </select>
     </>
   );
-};
-
-export default ThemeSelector;
+}

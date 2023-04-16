@@ -3,14 +3,13 @@ import Link from "next/link";
 import _ from "lodash";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { HiMenu } from "react-icons/hi";
-import { FaRegUserCircle } from "react-icons/fa";
 import { RxDashboard } from "react-icons/rx";
 import { RiUserHeartLine, RiUserSettingsLine } from "react-icons/ri";
 import ThemeSelector from "./ThemeSelector";
 import { useRouter } from "next/router";
 import Avatar from "boring-avatars";
 
-const Navbar = ({ children }) => {
+export default function Navbar({ children }) {
   const session = useSession();
   const supabase = useSupabaseClient();
   const router = useRouter();
@@ -102,7 +101,7 @@ const Navbar = ({ children }) => {
               </ul>
             </div>
             {/* Content of each page appear here */}
-            <div className="grow overflow-auto bg-base-200 text-base-content rounded-2xl">
+            <div className="grow overflow-auto bg-base-300 text-base-content rounded-2xl">
               {React.cloneElement(children, { session: session })}
             </div>
             {/* Content of each page end here */}
@@ -140,6 +139,4 @@ const Navbar = ({ children }) => {
       </div>
     </>
   );
-};
-
-export default Navbar;
+}

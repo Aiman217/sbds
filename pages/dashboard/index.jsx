@@ -1,6 +1,24 @@
 import Head from "next/head";
+import { useEffect, useState } from "react";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import Loading from "@/components/Loading";
 
-export default function index({ session }) {
+export default function index() {
+  const supabase = useSupabaseClient();
+  const [patientCount, setPatientCount] = useState(0);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const getPatientCount = async () => {
+      const { count, error } = await supabase
+        .from("patient")
+        .select("*", { count: "exact", head: true });
+      setPatientCount(count);
+      setLoading(false);
+    };
+    getPatientCount();
+  }, []);
+
   return (
     <>
       <Head>
@@ -12,16 +30,14 @@ export default function index({ session }) {
         <div className="stats shadow">
           <div className="stat place-items-center">
             <div className="stat-title">Patients</div>
-            <div className="stat-value text-secondary">31</div>
+            <div className="stat-value text-secondary">{patientCount}</div>
             <div className="stat-desc">Last Updated on 15/04/2023</div>
           </div>
-
           <div className="stat place-items-center">
             <div className="stat-title">High Risk Patients</div>
             <div className="stat-value text-error">3</div>
             <div className="stat-desc">Last Updated on 15/04/202</div>
           </div>
-
           <div className="stat place-items-center">
             <div className="stat-title">New Registers</div>
             <div className="stat-value">1,200</div>
@@ -29,6 +45,7 @@ export default function index({ session }) {
           </div>
         </div>
       </div>
+      {loading && <Loading />}
     </>
   );
 }
