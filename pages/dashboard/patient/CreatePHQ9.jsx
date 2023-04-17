@@ -127,7 +127,7 @@ export default function CreatePHQ9({
             <span className="label-text">Name</span>
           </label>
           <input
-            placeholder={selectedPatient.name}
+            placeholder={selectedPatient?.name}
             type="text"
             className="input input-disabled input-bordered mb-2"
           />
