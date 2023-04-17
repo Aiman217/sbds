@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import _ from "lodash";
 
-export default function CreatePatient({
-  setCreatePatientModal,
+export default function CreatePHQ9({
+  setCreateModal,
   setAlert,
   setSuccess,
   setRefresh,
@@ -17,8 +17,8 @@ export default function CreatePatient({
   const [marital_status, setMaritalStatus] = useState("");
   const [employment, setEmployment] = useState("");
 
-  async function createPatient() {
-    const { data, error } = await supabase.from("patient").insert([
+  async function createPHQ9() {
+    const { data, error } = await supabase.from("phq9").insert([
       {
         name: name,
         age: age,
@@ -29,19 +29,19 @@ export default function CreatePatient({
         employment: employment,
       },
     ]);
-    setCreatePatientModal(false);
+    setCreateModal(false);
     error
-      ? (setAlert("Failed to add patient!"),
+      ? (setAlert("Failed to add patient phq9 questions!"),
         setSuccess(false),
         setTimeout(() => {
           setAlert("");
           setSuccess(false);
         }, 4000))
-      : (setAlert("Successfully add new patient!"),
+      : (setAlert("Successfully add new patient phq9 questions!"),
         setSuccess(true),
         setRefresh(true),
         setTimeout(() => {
-          setAlert("");
+          setAlert(""); 
           setSuccess(false);
         }, 4000));
   }
@@ -175,7 +175,7 @@ export default function CreatePatient({
         </div>
         <div className="form-control">
           <button
-            onClick={createPatient}
+            onClick={createPHQ9}
             className={
               "btn btn-block btn-success mt-6 " +
               (_.isEmpty(name) &&

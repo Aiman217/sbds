@@ -10,7 +10,7 @@ import Loading from "@/components/functions/Loading";
 export default function index() {
   const supabase = useSupabaseClient();
   const [patientData, setPatientData] = useState([]);
-  const [createModal, setCreateModal] = useState(false);
+  const [createPatientModal, setCreatePatientModal] = useState(false);
   const [alert, setAlert] = useState("");
   const [success, setSuccess] = useState(false);
   const [refresh, setRefresh] = useState(false);
@@ -42,7 +42,7 @@ export default function index() {
               htmlFor="my-modal-create"
               className="btn btn-sm btn-ghost modal-button cursor-pointer"
               onClick={() => {
-                setCreateModal(true);
+                setCreatePatientModal(true);
               }}
             >
               <AiOutlinePlusCircle size={25} />
@@ -68,7 +68,7 @@ export default function index() {
           </table>
         </div>
       </div>
-      {createModal && (
+      {createPatientModal && (
         <div>
           <input
             type="checkbox"
@@ -80,12 +80,12 @@ export default function index() {
               <label
                 htmlFor="my-modal-create"
                 className="btn btn-sm btn-circle absolute right-2 top-2"
-                onClick={() => setCreateModal(false)}
+                onClick={() => setCreatePatientModal(false)}
               >
                 <AiOutlineClose size={20} />
               </label>
               <CreatePatient
-                setCreateModal={setCreateModal}
+                setCreatePatientModal={setCreatePatientModal}
                 setAlert={setAlert}
                 setSuccess={setSuccess}
                 setRefresh={setRefresh}
