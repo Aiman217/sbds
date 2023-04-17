@@ -2,15 +2,22 @@ import Head from "next/head";
 import _ from "lodash";
 import { useState, useEffect } from "react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
-import { AiOutlineClose, AiOutlinePlusCircle } from "react-icons/ai";
+import {
+  AiOutlineClose,
+  AiOutlineForm,
+  AiOutlinePlusCircle,
+} from "react-icons/ai";
 import CreatePatient from "./CreatePatient";
 import Alert from "@/components/functions/Alert";
 import Loading from "@/components/functions/Loading";
+import CreatePHQ9 from "./CreatePHQ9";
 
 export default function index() {
   const supabase = useSupabaseClient();
   const [patientData, setPatientData] = useState([]);
   const [createPatientModal, setCreatePatientModal] = useState(false);
+  const [createPHQ9Modal, setCreatePHQ9Modal] = useState(false);
+  const [selectedPatient, setSelectedPatient] = useState([]);
   const [alert, setAlert] = useState("");
   const [success, setSuccess] = useState(false);
   const [refresh, setRefresh] = useState(false);
@@ -39,7 +46,7 @@ export default function index() {
           <h1 className="font-bold text-3xl capitalize mb-4">Patient</h1>
           <div className="tooltip tooltip-left" data-tip="Add new patient">
             <label
-              htmlFor="my-modal-create"
+              htmlFor="my-modal-create-patient"
               className="btn btn-sm btn-ghost modal-button cursor-pointer"
               onClick={() => {
                 setCreatePatientModal(true);
@@ -55,6 +62,7 @@ export default function index() {
               <tr>
                 <th></th>
                 <th>Name</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -62,6 +70,17 @@ export default function index() {
                 <tr key={index}>
                   <th>{++index}</th>
                   <td>{item.name}</td>
+                  <td>
+                    <label
+                      htmlFor="my-modal-create-phq9"
+                      className="btn btn-sm"
+                      onClick={() => {
+                        setSelectedPatient(item), setCreatePHQ9Modal(true);
+                      }}
+                    >
+                      <AiOutlineForm size={20} />
+                    </label>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -72,13 +91,13 @@ export default function index() {
         <div>
           <input
             type="checkbox"
-            id="my-modal-create"
+            id="my-modal-create-patient"
             className="modal-toggle"
           />
           <div className="modal w-full">
             <div className="modal-box w-[90%] sm:w-[80%]">
               <label
-                htmlFor="my-modal-create"
+                htmlFor="my-modal-create-patient"
                 className="btn btn-sm btn-circle absolute right-2 top-2"
                 onClick={() => setCreatePatientModal(false)}
               >
@@ -86,6 +105,33 @@ export default function index() {
               </label>
               <CreatePatient
                 setCreatePatientModal={setCreatePatientModal}
+                setAlert={setAlert}
+                setSuccess={setSuccess}
+                setRefresh={setRefresh}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+      {createPHQ9Modal && (
+        <div>
+          <input
+            type="checkbox"
+            id="my-modal-create-phq9"
+            className="modal-toggle"
+          />
+          <div className="modal w-full">
+            <div className="modal-box w-[90%] sm:w-[80%]">
+              <label
+                htmlFor="my-modal-create-phq9"
+                className="btn btn-sm btn-circle absolute right-2 top-2"
+                onClick={() => setCreatePHQ9Modal(false)}
+              >
+                <AiOutlineClose size={20} />
+              </label>
+              <CreatePHQ9
+                setCreatePHQ9Modal={setCreatePHQ9Modal}
+                selectedPatient={selectedPatient}
                 setAlert={setAlert}
                 setSuccess={setSuccess}
                 setRefresh={setRefresh}

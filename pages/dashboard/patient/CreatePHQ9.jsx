@@ -3,33 +3,102 @@ import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import _ from "lodash";
 
 export default function CreatePHQ9({
-  setCreateModal,
+  setCreatePHQ9Modal,
+  selectedPatient,
   setAlert,
   setSuccess,
   setRefresh,
 }) {
   const supabase = useSupabaseClient();
-  const [name, setName] = useState("");
-  const [age, setAge] = useState("");
-  const [gender, setGender] = useState("");
-  const [ethnicity, setEthnicity] = useState("");
-  const [religion, setReligion] = useState("");
-  const [marital_status, setMaritalStatus] = useState("");
-  const [employment, setEmployment] = useState("");
+  const [littleInterest, setLittleInterest] = useState("");
+  const [feelingDown, setFeelingDown] = useState("");
+  const [sleepingTrouble, setSleepingTrouble] = useState("");
+  const [feelingTired, setFeelingTired] = useState("");
+  const [poorAppetite, setPoorAppetite] = useState("");
+  const [feelingBad, setFeelingBad] = useState("");
+  const [troubleConcentrating, setTroubleConcentrating] = useState("");
+  const [movingSlowly, setMovingSlowly] = useState("");
+  const [thoughtsSelfHarm, setThoughtsSelfHarm] = useState("");
+  const [hasDepressiveDisorder, setHasDepressiveDisorder] = useState("");
+  const [pastPsychiatricDisorder, setPastPsychiatricDisorder] = useState("");
+  const [pastSuicidalAttempt, setPastSuicidalAttempt] = useState("");
+  const [medicalComorbidity, setMedicalComorbidity] = useState("");
+
+  const phq9Input = [
+    {
+      name: "Little Interest",
+      function: setLittleInterest,
+    },
+    {
+      name: "Feeling Down",
+      function: setFeelingDown,
+    },
+    {
+      name: "Sleeping Trouble",
+      function: setSleepingTrouble,
+    },
+    {
+      name: "Feeling Tired",
+      function: setFeelingTired,
+    },
+    {
+      name: "Poor Appetite",
+      function: setPoorAppetite,
+    },
+    {
+      name: "Feeling Bad",
+      function: setFeelingBad,
+    },
+    {
+      name: "Trouble Concentrating",
+      function: setTroubleConcentrating,
+    },
+    {
+      name: "Moving Slowly",
+      function: setMovingSlowly,
+    },
+    {
+      name: "Thoughts Self Harm",
+      function: setThoughtsSelfHarm,
+    },
+    {
+      name: "Has Depressive Disorder",
+      function: setHasDepressiveDisorder,
+    },
+    {
+      name: "Past Psychiatric Disorder",
+      function: setPastPsychiatricDisorder,
+    },
+    {
+      name: "Past Suicidal Attempt",
+      function: setPastSuicidalAttempt,
+    },
+    {
+      name: "Medical Comorbidity",
+      function: setMedicalComorbidity,
+    },
+  ];
 
   async function createPHQ9() {
     const { data, error } = await supabase.from("phq9").insert([
       {
-        name: name,
-        age: age,
-        gender: gender,
-        ethnicity: ethnicity,
-        religion: religion,
-        marital_status: marital_status,
-        employment: employment,
+        patient_id_fk: selectedPatient.id,
+        little_interest: littleInterest,
+        feeling_down: feelingDown,
+        sleeping_trouble: sleepingTrouble,
+        feeling_tired: feelingTired,
+        poor_appetite: poorAppetite,
+        feeling_bad: feelingBad,
+        trouble_concentrating: troubleConcentrating,
+        moving_slowly: movingSlowly,
+        thoughts_self_harm: thoughtsSelfHarm,
+        has_depressive_disorder: hasDepressiveDisorder,
+        past_psychiatric_disorder: pastPsychiatricDisorder,
+        past_suicidal_attempt: pastSuicidalAttempt,
+        medical_comorbidity: medicalComorbidity,
       },
     ]);
-    setCreateModal(false);
+    setCreatePHQ9Modal(false);
     error
       ? (setAlert("Failed to add patient phq9 questions!"),
         setSuccess(false),
@@ -41,7 +110,7 @@ export default function CreatePHQ9({
         setSuccess(true),
         setRefresh(true),
         setTimeout(() => {
-          setAlert(""); 
+          setAlert("");
           setSuccess(false);
         }, 4000));
   }
@@ -50,7 +119,7 @@ export default function CreatePHQ9({
     <>
       <div className="form-control">
         <h1 className="text-lg font-bold uppercase text-center mt-4">
-          Add new patient
+          Create PHQ9 for Patient
         </h1>
         <div className="divider p-0 m-0"></div>
         <div className="form-control w-full">
@@ -58,135 +127,39 @@ export default function CreatePHQ9({
             <span className="label-text">Name</span>
           </label>
           <input
-            onChange={(event) => {
-              setName(event.target.value);
-            }}
+            placeholder={selectedPatient.name}
             type="text"
-            placeholder="name"
-            className="input input-bordered mb-2"
+            className="input input-disabled input-bordered mb-2"
           />
         </div>
-        <div className="form-control w-full">
-          <label className="label">
-            <span className="label-text">Age</span>
-          </label>
-          <input
-            onChange={(event) => {
-              setAge(event.target.value);
-            }}
-            type="number"
-            placeholder="age"
-            className="input input-bordered mb-2"
-          />
-        </div>
-        <div className="form-control w-full">
-          <label className="label">
-            <span className="label-text">Gender</span>
-          </label>
-          <select
-            className="select select-bordered mb-2"
-            onChange={(event) => {
-              setGender(event.target.value);
-            }}
-            defaultValue=""
-          >
-            <option value="" disabled>
-              Pick gender
-            </option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-          </select>
-        </div>
-        <div className="form-control w-full">
-          <label className="label">
-            <span className="label-text">Ethnicity</span>
-          </label>
-          <select
-            className="select select-bordered mb-2"
-            onChange={(event) => {
-              setEthnicity(event.target.value);
-            }}
-            defaultValue=""
-          >
-            <option value="" disabled>
-              Pick ethnicity
-            </option>
-            <option value="Malay">Malay</option>
-            <option value="Chinese">Chinese</option>
-            <option value="Indian">Indian</option>
-          </select>
-        </div>
-        <div className="form-control w-full">
-          <label className="label">
-            <span className="label-text">Religion</span>
-          </label>
-          <select
-            className="select select-bordered mb-2"
-            onChange={(event) => {
-              setReligion(event.target.value);
-            }}
-            defaultValue=""
-          >
-            <option value="" disabled>
-              Pick religion
-            </option>
-            <option value="Islam">Islam</option>
-            <option value="Buddhist">Buddhist</option>
-            <option value="Christian">Christian</option>
-            <option value="Hindu">Hindu</option>
-          </select>
-        </div>
-        <div className="form-control w-full">
-          <label className="label">
-            <span className="label-text">Marital Status</span>
-          </label>
-          <select
-            className="select select-bordered mb-2"
-            onChange={(event) => {
-              setMaritalStatus(event.target.value);
-            }}
-            defaultValue=""
-          >
-            <option value="" disabled>
-              Pick marital status
-            </option>
-            <option value="Married">Married</option>
-            <option value="Single">Single</option>
-            <option value="Divorcee">Divorcee</option>
-          </select>
-        </div>
-        <div className="form-control w-full">
-          <label className="label">
-            <span className="label-text">Employment</span>
-          </label>
-          <select
-            className="select select-bordered mb-2"
-            onChange={(event) => {
-              setEmployment(event.target.value);
-            }}
-            defaultValue=""
-          >
-            <option value="" disabled>
-              Pick employment
-            </option>
-            <option value="Unemployed">Unemployed</option>
-            <option value="Employed">Employed</option>
-          </select>
-        </div>
+        {phq9Input.map((item, index) => (
+          <div key={index + "phq9"} className="form-control w-full">
+            <label className="label">
+              <span className="label-text">{item.name}</span>
+            </label>
+            <select
+              className="select select-bordered mb-2"
+              onChange={(event) => {
+                item.function(event.target.value);
+              }}
+              defaultValue=""
+            >
+              <option value="" disabled>
+                Pick level
+              </option>
+              <option value={1}>1</option>
+              <option value={2}>2</option>
+              <option value={3}>3</option>
+              <option value={4}>4</option>
+              <option value={5}>5</option>
+            </select>
+          </div>
+        ))}
         <div className="form-control">
           <button
             onClick={createPHQ9}
             className={
-              "btn btn-block btn-success mt-6 " +
-              (_.isEmpty(name) &&
-              _.isEmpty(age) &&
-              _.isEmpty(gender) &&
-              _.isEmpty(ethnicity) &&
-              _.isEmpty(religion) &&
-              _.isEmpty(marital_status) &&
-              _.isEmpty(employment)
-                ? "btn-disabled"
-                : "")
+              "btn btn-block btn-success mt-6 " + (false ? "btn-disabled" : "")
             }
           >
             Create
