@@ -13,6 +13,7 @@ export default function index() {
   const [createModal, setCreateModal] = useState(false);
   const [alert, setAlert] = useState("");
   const [success, setSuccess] = useState(false);
+  const [refresh, setRefresh] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -21,10 +22,11 @@ export default function index() {
         .from("patient")
         .select("*");
       setPatientData(patient);
+      setRefresh(false);
       setLoading(false);
     };
     getPatient();
-  }, []);
+  }, [refresh]);
 
   return (
     <>
@@ -86,12 +88,15 @@ export default function index() {
                 setCreateModal={setCreateModal}
                 setAlert={setAlert}
                 setSuccess={setSuccess}
+                setRefresh={setRefresh}
               />
             </div>
           </div>
         </div>
       )}
-      {!_.isEmpty(alert) && <Alert alert={alert} setAlert={setAlert} success={success} />}
+      {!_.isEmpty(alert) && (
+        <Alert alert={alert} setAlert={setAlert} success={success} />
+      )}
       {loading && <Loading />}
     </>
   );

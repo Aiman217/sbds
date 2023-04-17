@@ -6,6 +6,7 @@ export default function CreatePatient({
   setCreateModal,
   setAlert,
   setSuccess,
+  setRefresh,
 }) {
   const supabase = useSupabaseClient();
   const [name, setName] = useState("");
@@ -38,6 +39,7 @@ export default function CreatePatient({
         }, 4000))
       : (setAlert("Successfully add new patient!"),
         setSuccess(true),
+        setRefresh(true),
         setTimeout(() => {
           setAlert("");
           setSuccess(false);
