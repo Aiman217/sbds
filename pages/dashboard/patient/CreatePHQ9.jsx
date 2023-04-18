@@ -19,65 +19,59 @@ export default function CreatePHQ9({
   const [troubleConcentrating, setTroubleConcentrating] = useState("");
   const [movingSlowly, setMovingSlowly] = useState("");
   const [thoughtsSelfHarm, setThoughtsSelfHarm] = useState("");
-  const [hasDepressiveDisorder, setHasDepressiveDisorder] = useState("");
-  const [pastPsychiatricDisorder, setPastPsychiatricDisorder] = useState("");
-  const [pastSuicidalAttempt, setPastSuicidalAttempt] = useState("");
-  const [medicalComorbidity, setMedicalComorbidity] = useState("");
 
   const phq9Input = [
     {
-      name: "Little Interest",
+      name: "Little interest or pleasure in doing things",
       function: setLittleInterest,
     },
     {
-      name: "Feeling Down",
+      name: "Feeling down, depressed or hopeless",
       function: setFeelingDown,
     },
     {
-      name: "Sleeping Trouble",
+      name: "Trouble falling / staying asleep, sleeping too much",
       function: setSleepingTrouble,
     },
     {
-      name: "Feeling Tired",
+      name: "Feeling tired or having little energy",
       function: setFeelingTired,
     },
     {
-      name: "Poor Appetite",
+      name: "Poor appetite or over eating",
       function: setPoorAppetite,
     },
     {
-      name: "Feeling Bad",
+      name: "Feeling bad about yourself or that you are a failure or have let yourself or your family down",
       function: setFeelingBad,
     },
     {
-      name: "Trouble Concentrating",
+      name: "Trouble concentrating on things, such as reading the newspaper or watching television",
       function: setTroubleConcentrating,
     },
     {
-      name: "Moving Slowly",
+      name: "Moving or speaking so slowly that other people could have noticed or being so fidgety or restless that you have been moving around a lot more than usual",
       function: setMovingSlowly,
     },
     {
-      name: "Thoughts Self Harm",
+      name: "Thoughts that you would be better off dead or of hurting yourself in some way",
       function: setThoughtsSelfHarm,
     },
-    {
-      name: "Has Depressive Disorder",
-      function: setHasDepressiveDisorder,
-    },
-    {
-      name: "Past Psychiatric Disorder",
-      function: setPastPsychiatricDisorder,
-    },
-    {
-      name: "Past Suicidal Attempt",
-      function: setPastSuicidalAttempt,
-    },
-    {
-      name: "Medical Comorbidity",
-      function: setMedicalComorbidity,
-    },
   ];
+
+  function formEmpty() {
+    return (
+      _.isEmpty(littleInterest) ||
+      _.isEmpty(feelingDown) ||
+      _.isEmpty(sleepingTrouble) ||
+      _.isEmpty(feelingTired) ||
+      _.isEmpty(poorAppetite) ||
+      _.isEmpty(feelingBad) ||
+      _.isEmpty(troubleConcentrating) ||
+      _.isEmpty(movingSlowly) ||
+      _.isEmpty(thoughtsSelfHarm)
+    );
+  }
 
   async function createPHQ9() {
     const { data, error } = await supabase.from("phq9").insert([
@@ -92,10 +86,6 @@ export default function CreatePHQ9({
         trouble_concentrating: troubleConcentrating,
         moving_slowly: movingSlowly,
         thoughts_self_harm: thoughtsSelfHarm,
-        has_depressive_disorder: hasDepressiveDisorder,
-        past_psychiatric_disorder: pastPsychiatricDisorder,
-        past_suicidal_attempt: pastSuicidalAttempt,
-        medical_comorbidity: medicalComorbidity,
       },
     ]);
     setCreatePHQ9Modal(false);
@@ -119,7 +109,7 @@ export default function CreatePHQ9({
     <>
       <div className="form-control">
         <h1 className="text-lg font-bold uppercase text-center mt-4">
-          Create PHQ9 for Patient
+          Fill in PHQ9 Form for Patient
         </h1>
         <div className="divider p-0 m-0"></div>
         <div className="form-control w-full">
@@ -145,13 +135,12 @@ export default function CreatePHQ9({
               defaultValue=""
             >
               <option value="" disabled>
-                Pick level
+                Pick related option
               </option>
-              <option value={1}>1</option>
-              <option value={2}>2</option>
-              <option value={3}>3</option>
-              <option value={4}>4</option>
-              <option value={5}>5</option>
+              <option value={0}>Not at all</option>
+              <option value={1}>Several days</option>
+              <option value={2}>More than half the days</option>
+              <option value={3}>Nearly everyday</option>
             </select>
           </div>
         ))}
@@ -159,10 +148,11 @@ export default function CreatePHQ9({
           <button
             onClick={createPHQ9}
             className={
-              "btn btn-block btn-success mt-6 " + (false ? "btn-disabled" : "")
+              "btn btn-block btn-success mt-6 " +
+              (formEmpty() ? "btn-disabled" : "")
             }
           >
-            Create
+            Submit
           </button>
         </div>
       </div>

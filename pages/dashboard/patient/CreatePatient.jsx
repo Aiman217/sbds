@@ -16,6 +16,45 @@ export default function CreatePatient({
   const [religion, setReligion] = useState("");
   const [marital_status, setMaritalStatus] = useState("");
   const [employment, setEmployment] = useState("");
+  const [hasDepressiveDisorder, setHasDepressiveDisorder] = useState("");
+  const [pastPsychiatricDisorder, setPastPsychiatricDisorder] = useState("");
+  const [pastSuicidalAttempt, setPastSuicidalAttempt] = useState("");
+  const [medicalComorbidity, setMedicalComorbidity] = useState("");
+
+  const medical_input = [
+    {
+      name: "Depressive Disorder",
+      function: setHasDepressiveDisorder,
+    },
+    {
+      name: "Past Psychiatric Treatment",
+      function: setPastPsychiatricDisorder,
+    },
+    {
+      name: "Past Suicidal Attempt",
+      function: setPastSuicidalAttempt,
+    },
+    {
+      name: "Comorbid Medical Condition",
+      function: setMedicalComorbidity,
+    },
+  ];
+
+  function formEmpty() {
+    return (
+      _.isEmpty(name) ||
+      _.isEmpty(age) ||
+      _.isEmpty(gender) ||
+      _.isEmpty(ethnicity) ||
+      _.isEmpty(religion) ||
+      _.isEmpty(marital_status) ||
+      _.isEmpty(employment) ||
+      _.isEmpty(hasDepressiveDisorder) ||
+      _.isEmpty(pastPsychiatricDisorder) ||
+      _.isEmpty(pastSuicidalAttempt) ||
+      _.isEmpty(medicalComorbidity)
+    );
+  }
 
   async function createPatient() {
     const { data, error } = await supabase.from("patient").insert([
@@ -27,6 +66,10 @@ export default function CreatePatient({
         religion: religion,
         marital_status: marital_status,
         employment: employment,
+        has_depressive_disorder: hasDepressiveDisorder,
+        past_psychiatric_disorder: pastPsychiatricDisorder,
+        past_suicidal_attempt: pastSuicidalAttempt,
+        medical_comorbidity: medicalComorbidity,
       },
     ]);
     setCreatePatientModal(false);
@@ -173,20 +216,32 @@ export default function CreatePatient({
             <option value="Employed">Employed</option>
           </select>
         </div>
+        {medical_input.map((item, index) => (
+          <div key={index + "patient"} className="form-control w-full">
+            <label className="label">
+              <span className="label-text">{item.name}</span>
+            </label>
+            <select
+              className="select select-bordered mb-2"
+              onChange={(event) => {
+                item.function(event.target.value);
+              }}
+              defaultValue=""
+            >
+              <option value="" disabled>
+                Pick related option
+              </option>
+              <option value={0}>No</option>
+              <option value={1}>Yes</option>
+            </select>
+          </div>
+        ))}
         <div className="form-control">
           <button
             onClick={createPatient}
             className={
               "btn btn-block btn-success mt-6 " +
-              (_.isEmpty(name) &&
-              _.isEmpty(age) &&
-              _.isEmpty(gender) &&
-              _.isEmpty(ethnicity) &&
-              _.isEmpty(religion) &&
-              _.isEmpty(marital_status) &&
-              _.isEmpty(employment)
-                ? "btn-disabled"
-                : "")
+              (formEmpty() ? "btn-disabled" : "")
             }
           >
             Create

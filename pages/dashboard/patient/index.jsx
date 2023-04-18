@@ -11,6 +11,7 @@ import CreatePatient from "./CreatePatient";
 import Alert from "@/components/functions/Alert";
 import Loading from "@/components/functions/Loading";
 import CreatePHQ9 from "./CreatePHQ9";
+import InputConverter from "@/components/functions/InputConverter";
 
 export default function index() {
   const supabase = useSupabaseClient();
@@ -34,6 +35,25 @@ export default function index() {
     };
     getPatient();
   }, [refresh]);
+
+  async function getPrediction(id) {
+    const { data: patient, error } = await supabase
+      .from("patient")
+      .select("*, phq9(*)")
+      .eq("id", id);
+    console.log(InputConverter(patient[0]));
+    fetch("https://sbds-ml-model.onrender.com/predict", {
+      method: "POST",
+      body: JSON.stringify(InputConverter(patient[0])),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      });
+  }
 
   return (
     <>
@@ -62,6 +82,7 @@ export default function index() {
               <tr>
                 <th></th>
                 <th>Name</th>
+                <th>Predict</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -70,6 +91,17 @@ export default function index() {
                 <tr key={index}>
                   <th>{++index}</th>
                   <td>{item.name}</td>
+                  <td>
+                    <button
+                      htmlFor="my-modal-create-phq9"
+                      className="btn btn-sm"
+                      onClick={() => {
+                        getPrediction(item.id);
+                      }}
+                    >
+                      <AiOutlineForm size={20} />
+                    </button>
+                  </td>
                   <td>
                     <label
                       htmlFor="my-modal-create-phq9"
