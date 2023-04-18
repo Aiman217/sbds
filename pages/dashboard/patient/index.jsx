@@ -42,12 +42,13 @@ export default function index() {
       .select("*, phq9(*)")
       .eq("id", id);
     console.log(InputConverter(patient[0]));
-    fetch("https://sbds-ml-model.onrender.com/predict", {
+    await fetch("https://sbds-ml-model.onrender.com/predict", {
       method: "POST",
-      body: JSON.stringify(InputConverter(patient[0])),
       headers: {
+        Accept: "application/json",
         "Content-Type": "application/json",
       },
+      body: JSON.stringify(InputConverter(patient[0])),
     })
       .then((res) => res.json())
       .then((data) => {
