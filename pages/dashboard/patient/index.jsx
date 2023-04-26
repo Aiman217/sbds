@@ -12,12 +12,14 @@ import Alert from "@/components/functions/Alert";
 import Loading from "@/components/functions/Loading";
 import CreatePHQ9 from "./CreatePHQ9";
 import InputConverter from "@/components/functions/InputConverter";
+import CreatePredict from "./CreatePredict";
 
 export default function index() {
   const supabase = useSupabaseClient();
   const [patientData, setPatientData] = useState([]);
   const [createPatientModal, setCreatePatientModal] = useState(false);
   const [createPHQ9Modal, setCreatePHQ9Modal] = useState(false);
+  const [createPredictModal, setCreatePredictModal] = useState(false);
   const [selectedPatient, setSelectedPatient] = useState([]);
   const [alert, setAlert] = useState("");
   const [success, setSuccess] = useState(false);
@@ -93,15 +95,15 @@ export default function index() {
                   <th>{++index}</th>
                   <td>{item.name}</td>
                   <td>
-                    <button
-                      htmlFor="my-modal-create-phq9"
+                    <label
+                      htmlFor="my-modal-create-predict"
                       className="btn btn-sm"
                       onClick={() => {
-                        getPrediction(item.id);
+                        setSelectedPatient(item), setCreatePredictModal(true);
                       }}
                     >
                       <AiOutlineForm size={20} />
-                    </button>
+                    </label>
                   </td>
                   <td>
                     <label
@@ -169,6 +171,27 @@ export default function index() {
                 setSuccess={setSuccess}
                 setRefresh={setRefresh}
               />
+            </div>
+          </div>
+        </div>
+      )}
+      {createPredictModal && (
+        <div>
+          <input
+            type="checkbox"
+            id="my-modal-create-predict"
+            className="modal-toggle"
+          />
+          <div className="modal w-full">
+            <div className="modal-box w-[90%] sm:w-[80%]">
+              <label
+                htmlFor="my-modal-create-predict"
+                className="btn btn-sm btn-circle absolute right-2 top-2"
+                onClick={() => setCreatePredictModal(false)}
+              >
+                <AiOutlineClose size={20} />
+              </label>
+              <CreatePredict selectedPatient={selectedPatient} />
             </div>
           </div>
         </div>
