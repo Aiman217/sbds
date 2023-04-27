@@ -72,7 +72,7 @@ export default function Navbar({ children }) {
             </div>
           </div>
           <div className="flex flex-row h-full">
-            <div className="h-full w-20 hidden lg:block">
+            <div className={"h-full w-20 " + (!session ? "hidden" : "hidden lg:block")}>
               <ul className="flex flex-col justify-center items-center gap-4 py-6">
                 <li className="uppercase font-bold">
                   <div className="tooltip tooltip-right" data-tip="Dashboard">

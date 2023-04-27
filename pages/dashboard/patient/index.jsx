@@ -4,15 +4,16 @@ import { useState, useEffect } from "react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import {
   AiOutlineClose,
+  AiOutlineEdit,
   AiOutlineForm,
-  AiOutlinePlusCircle,
+  AiOutlinePlusSquare,
 } from "react-icons/ai";
-import CreatePatient from "./CreatePatient";
+import { TbReportAnalytics } from "react-icons/tb";
+import CreatePatient from "../../../components/dashboard/patient/CreatePatient";
 import Alert from "@/components/functions/Alert";
 import Loading from "@/components/functions/Loading";
-import CreatePHQ9 from "./CreatePHQ9";
-import InputConverter from "@/components/functions/InputConverter";
-import CreatePredict from "./CreatePredict";
+import CreatePHQ9 from "../../../components/dashboard/patient/CreatePHQ9";
+import CreatePredict from "../../../components/dashboard/patient/CreatePredict";
 
 export default function index() {
   const supabase = useSupabaseClient();
@@ -30,33 +31,13 @@ export default function index() {
     const getPatient = async () => {
       const { data: patient, error } = await supabase
         .from("patient")
-        .select("*");
+        .select("*, phq9(*)");
       setPatientData(patient);
       setRefresh(false);
       setLoading(false);
     };
     getPatient();
   }, [refresh]);
-
-  async function getPrediction(id) {
-    const { data: patient, error } = await supabase
-      .from("patient")
-      .select("*, phq9(*)")
-      .eq("id", id);
-    console.log(InputConverter(patient[0]));
-    await fetch("https://sbds-ml-model.onrender.com/predict", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(InputConverter(patient[0])),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-      });
-  }
 
   return (
     <>
@@ -67,17 +48,16 @@ export default function index() {
       <div className="h-full w-full p-4 flex flex-col gap-4">
         <div className="flex flex-row justify-between items-center">
           <h1 className="font-bold text-3xl capitalize mb-4">Patient</h1>
-          <div className="tooltip tooltip-left" data-tip="Add new patient">
-            <label
-              htmlFor="my-modal-create-patient"
-              className="btn btn-sm btn-ghost modal-button cursor-pointer"
-              onClick={() => {
-                setCreatePatientModal(true);
-              }}
-            >
-              <AiOutlinePlusCircle size={25} />
-            </label>
-          </div>
+          <label
+            htmlFor="my-modal-create-patient"
+            className="btn btn-sm gap-2 modal-button"
+            onClick={() => {
+              setCreatePatientModal(true);
+            }}
+          >
+            <AiOutlinePlusSquare size={25} />
+            Add Patient
+          </label>
         </div>
         <div className="overflow-x-auto">
           <table className="table w-full z-0">
@@ -85,6 +65,9 @@ export default function index() {
               <tr>
                 <th></th>
                 <th>Name</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>Religion</th>
                 <th>Predict</th>
                 <th>Actions</th>
               </tr>
@@ -94,26 +77,42 @@ export default function index() {
                 <tr key={index}>
                   <th>{++index}</th>
                   <td>{item.name}</td>
+                  <td>{item.age}</td>
+                  <td>{item.gender}</td>
+                  <td>{item.religion}</td>
                   <td>
                     <label
                       htmlFor="my-modal-create-predict"
-                      className="btn btn-sm"
+                      className={
+                        "btn btn-sm gap-2 " + (item.phq9 ? "" : "btn-disabled")
+                      }
                       onClick={() => {
                         setSelectedPatient(item), setCreatePredictModal(true);
                       }}
                     >
-                      <AiOutlineForm size={20} />
+                      <TbReportAnalytics size={20} />
+                      Predict
                     </label>
                   </td>
                   <td>
                     <label
                       htmlFor="my-modal-create-phq9"
-                      className="btn btn-sm"
+                      className="btn btn-sm gap-2"
                       onClick={() => {
                         setSelectedPatient(item), setCreatePHQ9Modal(true);
                       }}
                     >
-                      <AiOutlineForm size={20} />
+                      {item.phq9 ? (
+                        <>
+                          <AiOutlineEdit size={20} />
+                          Edit
+                        </>
+                      ) : (
+                        <>
+                          <AiOutlineForm size={20} />
+                          Fill In
+                        </>
+                      )}
                     </label>
                   </td>
                 </tr>
@@ -191,7 +190,13 @@ export default function index() {
               >
                 <AiOutlineClose size={20} />
               </label>
-              <CreatePredict selectedPatient={selectedPatient} />
+              <CreatePredict
+                setCreatePredictModal={setCreatePredictModal}
+                selectedPatient={selectedPatient}
+                setAlert={setAlert}
+                setSuccess={setSuccess}
+                setRefresh={setRefresh}
+              />
             </div>
           </div>
         </div>

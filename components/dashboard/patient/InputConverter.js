@@ -1,4 +1,4 @@
-export default function InputConverter(data) {
+export default function InputConverter(data, algoCode) {
   let gender = data.gender == "Male" ? 0 : 1;
   let ethnicity =
     data.ethnicity == "Malay" ? 0 : data.ethnicity == "Chinese" ? 1 : 2;
@@ -39,7 +39,7 @@ export default function InputConverter(data) {
       Past_Psychiatric_Disorder: data.past_psychiatric_disorder,
       Past_Suicidal_Attempt: data.past_suicidal_attempt,
       Medical_Comorbidity: data.medical_comorbidity,
-      Algo: "nb",
+      Algo: algoCode,
     };
   }
 

@@ -6,6 +6,7 @@ import Loading from "@/components/functions/Loading";
 export default function index() {
   const supabase = useSupabaseClient();
   const [patientCount, setPatientCount] = useState(0);
+  const [highRiskCount, setHighRiskCount] = useState(0);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -14,9 +15,17 @@ export default function index() {
         .from("patient")
         .select("*", { count: "exact", head: true });
       setPatientCount(count);
+    };
+    const getHighRiskCount = async () => {
+      const { count, error } = await supabase
+        .from("result")
+        .select("*", { count: "exact", head: true })
+        .eq("result", "Positive");
+      setHighRiskCount(count);
       setLoading(false);
     };
     getPatientCount();
+    getHighRiskCount();
   }, []);
 
   return (
@@ -31,17 +40,10 @@ export default function index() {
           <div className="stat place-items-center">
             <div className="stat-title">Patients</div>
             <div className="stat-value text-secondary">{patientCount}</div>
-            <div className="stat-desc">Last Updated on 15/04/2023</div>
           </div>
           <div className="stat place-items-center">
             <div className="stat-title">High Risk Patients</div>
-            <div className="stat-value text-error">3</div>
-            <div className="stat-desc">Last Updated on 15/04/202</div>
-          </div>
-          <div className="stat place-items-center">
-            <div className="stat-title">New Registers</div>
-            <div className="stat-value">1,200</div>
-            <div className="stat-desc">↘︎ 90 (14%)</div>
+            <div className="stat-value text-error">{highRiskCount}</div>
           </div>
         </div>
       </div>
