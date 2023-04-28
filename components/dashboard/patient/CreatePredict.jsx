@@ -15,8 +15,10 @@ export default function CreatePredict({
   const [result, setResult] = useState([]);
   const [predict, setPredict] = useState([]);
   const [algoCode, setAlgoCode] = useState("");
+  const [loading, setLoading] = useState(false);
 
   async function getPrediction(id) {
+    setLoading(true);
     const { data: patient, error } = await supabase
       .from("patient")
       .select("*, phq9(*)")
@@ -32,6 +34,7 @@ export default function CreatePredict({
     })
       .then((res) => res.json())
       .then((data) => {
+        setLoading(false);
         setPredict(data);
       });
   }
@@ -114,6 +117,10 @@ export default function CreatePredict({
           Suicidal Behaviour Prediction
         </h1>
         <div className="divider p-0 m-0"></div>
+        <p className="text-base">
+          Prediction process might take some time due to requirement to
+          cold-start a ML model server. Please wait patiently.
+        </p>
         <div className="form-control flex-1">
           <label className="label">
             <span className="label-text">Name</span>
@@ -146,9 +153,9 @@ export default function CreatePredict({
               onClick={() => {
                 getPrediction(selectedPatient?.id);
               }}
-              className="btn btn-circle btn-success"
+              className={"btn btn-success " + (loading ? "loading" : "")}
             >
-              <AiOutlineReload size={25} />
+              {!loading ? "Predict" : ""}
             </button>
           </div>
         </div>

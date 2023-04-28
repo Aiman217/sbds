@@ -91,7 +91,6 @@ export default function index() {
                       }}
                     >
                       <TbReportAnalytics size={20} />
-                      Predict
                     </label>
                   </td>
                   <td>
@@ -105,12 +104,10 @@ export default function index() {
                       {item.phq9 ? (
                         <>
                           <AiOutlineEdit size={20} />
-                          Edit
                         </>
                       ) : (
                         <>
                           <AiOutlineForm size={20} />
-                          Fill In
                         </>
                       )}
                     </label>
