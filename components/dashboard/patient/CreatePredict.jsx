@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
-import { AiOutlineReload } from "react-icons/ai";
 import { MdOutlineHealthAndSafety } from "react-icons/md";
 import InputConverter from "@/components/dashboard/patient/InputConverter";
 
@@ -14,7 +13,7 @@ export default function CreatePredict({
   const supabase = useSupabaseClient();
   const [result, setResult] = useState([]);
   const [predict, setPredict] = useState([]);
-  const [algoCode, setAlgoCode] = useState("");
+  const [algo, setAlgo] = useState("");
   const [loading, setLoading] = useState(false);
 
   async function getPrediction(id) {
@@ -29,7 +28,7 @@ export default function CreatePredict({
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(InputConverter(patient[0], algoCode)),
+      body: JSON.stringify(InputConverter(patient[0], algo)),
     })
       .then((res) => res.json())
       .then((data) => {
@@ -40,14 +39,13 @@ export default function CreatePredict({
 
   async function updatePrediction(result, id) {
     if (!_.isEmpty(result)) {
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from("result")
         .update([
           {
             patient_id_fk: selectedPatient.id,
             result: predict.prediction,
             algo: predict.algorithm,
-            algo_code: algoCode,
             update_at: new Date().toISOString(),
           },
         ])
@@ -68,14 +66,13 @@ export default function CreatePredict({
             setSuccess(false);
           }, 4000));
     } else {
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from("result")
         .insert([
           {
             patient_id_fk: selectedPatient.id,
             result: predict.predictions,
             algo: predict.algorithm,
-            algo_code: algoCode,
           },
         ])
         .eq("patient_id_fk", id);
@@ -104,7 +101,6 @@ export default function CreatePredict({
         .select("*")
         .eq("patient_id_fk", selectedPatient?.id);
       setResult(check[0]);
-      setAlgoCode(check[0].algo_code);
     };
     getResult();
   }, []);
@@ -117,8 +113,7 @@ export default function CreatePredict({
         </h1>
         <div className="divider p-0 m-0"></div>
         <p className="text-base">
-          Prediction process might take some time to cold start the ML model
-          server. Please wait patiently.
+          Prediction process might take some time. Please wait patiently.
         </p>
         <div className="form-control flex-1">
           <label className="label">
@@ -134,17 +129,43 @@ export default function CreatePredict({
         <div className="flex flex-row gap-4 justify-around">
           <div className="form-control flex-1">
             <label className="label">
+              <span className="label-text">Latest Status</span>
+            </label>
+            <input
+              placeholder={result?.result || "No Prediction Saved"}
+              type="text"
+              className="input input-bordered mb-2"
+              disabled
+            />
+          </div>
+          <div className="flex flex-col justify-center">
+            {result?.result == "High Risk" ? (
+              <MdOutlineHealthAndSafety size={40} color="red" />
+            ) : result?.result == "Low Risk" ? (
+              <MdOutlineHealthAndSafety size={40} color="green" />
+            ) : (
+              <MdOutlineHealthAndSafety size={40} color="grey" />
+            )}
+          </div>
+        </div>
+        <div className="divider p-0 m-0"></div>
+        <div className="flex flex-row gap-4 justify-around">
+          <div className="form-control flex-1">
+            <label className="label">
               <span className="label-text">Choose Algorithm</span>
             </label>
             <select
               className="select select-bordered mb-2"
               onChange={(event) => {
-                setAlgoCode(event.target.value);
+                setAlgo(event.target.value);
               }}
-              value={algoCode}
+              defaultValue=""
             >
-              <option value="dtree">Decision Tree</option>
-              <option value="nb">Naive Bayes</option>
+              <option value="" disabled>
+                Pick algorithms
+              </option>
+              <option value="dtree">Decision Tree (More Sensitive)</option>
+              <option value="nb">Naive Bayes (Less Sensitive)</option>
             </select>
           </div>
           <div className="form-control justify-center">
@@ -161,10 +182,10 @@ export default function CreatePredict({
         <div className="flex flex-row gap-4 justify-around">
           <div className="form-control flex-1">
             <label className="label">
-              <span className="label-text">Status</span>
+              <span className="label-text">Prediction Result</span>
             </label>
             <input
-              placeholder={predict?.prediction}
+              placeholder={predict?.prediction || "Make Prediction"}
               type="text"
               className="input input-bordered mb-2"
               disabled
@@ -173,8 +194,10 @@ export default function CreatePredict({
           <div className="flex flex-col justify-center">
             {predict?.prediction == "High Risk" ? (
               <MdOutlineHealthAndSafety size={40} color="red" />
-            ) : (
+            ) : predict?.prediction == "Low Risk" ? (
               <MdOutlineHealthAndSafety size={40} color="green" />
+            ) : (
+              <MdOutlineHealthAndSafety size={40} color="grey" />
             )}
           </div>
         </div>
