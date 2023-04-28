@@ -118,8 +118,8 @@ export default function CreatePredict({
         </h1>
         <div className="divider p-0 m-0"></div>
         <p className="text-base">
-          Prediction process might take some time due to requirement to
-          cold-start a ML model server. Please wait patiently.
+          Prediction process might take some time to cold start the ML model
+          server. Please wait patiently.
         </p>
         <div className="form-control flex-1">
           <label className="label">
@@ -128,7 +128,8 @@ export default function CreatePredict({
           <input
             placeholder={selectedPatient?.name}
             type="text"
-            className="input input-disabled input-bordered mb-2"
+            className="input input-bordered mb-2"
+            disabled
           />
         </div>
         <div className="flex flex-row gap-4 justify-around">
@@ -167,7 +168,8 @@ export default function CreatePredict({
             <input
               placeholder={result?.result}
               type="text"
-              className="input input-disabled input-bordered mb-2"
+              className="input input-bordered mb-2"
+              disabled
             />
           </div>
           <div className="flex flex-col justify-center">

@@ -119,7 +119,8 @@ export default function CreatePHQ9({
           <input
             placeholder={selectedPatient?.name}
             type="text"
-            className="input input-disabled input-bordered mb-2"
+            className="input input-bordered mb-2"
+            disabled
           />
         </div>
         {phq9Input.map((item, index) => (
