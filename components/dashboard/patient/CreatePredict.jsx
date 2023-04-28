@@ -23,7 +23,6 @@ export default function CreatePredict({
       .from("patient")
       .select("*, phq9(*)")
       .eq("id", id);
-    await fetch("https://sbds-ml-model.onrender.com");
     await fetch("https://sbds-ml-model.onrender.com/predict", {
       method: "POST",
       headers: {
@@ -46,7 +45,7 @@ export default function CreatePredict({
         .update([
           {
             patient_id_fk: selectedPatient.id,
-            result: predict.predictions,
+            result: predict.prediction,
             algo: predict.algorithm,
             algo_code: algoCode,
             update_at: new Date().toISOString(),
@@ -144,7 +143,6 @@ export default function CreatePredict({
               }}
               value={algoCode}
             >
-              <option value="em">Ensemble Model</option>
               <option value="dtree">Decision Tree</option>
               <option value="nb">Naive Bayes</option>
             </select>
@@ -166,14 +164,14 @@ export default function CreatePredict({
               <span className="label-text">Status</span>
             </label>
             <input
-              placeholder={result?.result}
+              placeholder={predict?.prediction}
               type="text"
               className="input input-bordered mb-2"
               disabled
             />
           </div>
           <div className="flex flex-col justify-center">
-            {result?.result == "Positive" ? (
+            {predict?.prediction == "High Risk" ? (
               <MdOutlineHealthAndSafety size={40} color="red" />
             ) : (
               <MdOutlineHealthAndSafety size={40} color="green" />
