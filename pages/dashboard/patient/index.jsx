@@ -81,36 +81,47 @@ export default function index() {
                   <td>{item.gender}</td>
                   <td>{item.religion}</td>
                   <td>
-                    <label
-                      htmlFor="my-modal-create-predict"
-                      className={
-                        "btn btn-sm gap-2 " + (item.phq9 ? "" : "btn-disabled")
-                      }
-                      onClick={() => {
-                        setSelectedPatient(item), setCreatePredictModal(true);
-                      }}
+                    <div
+                      className="tooltip tooltip-left uppercase font-bold"
+                      data-tip="Make Prediction"
                     >
-                      <TbReportAnalytics size={20} />
-                    </label>
+                      <label
+                        htmlFor="my-modal-create-predict"
+                        className={
+                          "btn btn-sm gap-2 " +
+                          (item.phq9 ? "" : "btn-disabled")
+                        }
+                        onClick={() => {
+                          setSelectedPatient(item), setCreatePredictModal(true);
+                        }}
+                      >
+                        <TbReportAnalytics size={20} />
+                      </label>
+                    </div>
                   </td>
                   <td>
-                    <label
-                      htmlFor="my-modal-create-phq9"
-                      className="btn btn-sm gap-2"
-                      onClick={() => {
-                        setSelectedPatient(item), setCreatePHQ9Modal(true);
-                      }}
+                    <div
+                      className="tooltip tooltip-left uppercase font-bold"
+                      data-tip="Create/Update PHQ9"
                     >
-                      {item.phq9 ? (
-                        <>
-                          <AiOutlineEdit size={20} />
-                        </>
-                      ) : (
-                        <>
-                          <AiOutlineForm size={20} />
-                        </>
-                      )}
-                    </label>
+                      <label
+                        htmlFor="my-modal-create-phq9"
+                        className="btn btn-sm gap-2"
+                        onClick={() => {
+                          setSelectedPatient(item), setCreatePHQ9Modal(true);
+                        }}
+                      >
+                        {item.phq9 ? (
+                          <>
+                            <AiOutlineEdit size={20} />
+                          </>
+                        ) : (
+                          <>
+                            <AiOutlineForm size={20} />
+                          </>
+                        )}
+                      </label>
+                    </div>
                   </td>
                 </tr>
               ))}
