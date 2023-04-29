@@ -75,7 +75,6 @@ export default function CreatePatient({
     setCreatePatientModal(false);
     AlertMsgHndl(
       "Successfully add new patient!",
-      "Failed to add patient!",
       error,
       setAlert,
       setSuccess,

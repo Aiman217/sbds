@@ -39,7 +39,7 @@ export default function CreatePredict({
   }
 
   async function updatePrediction(predict, id) {
-    if (!_.isEmpty(predict)) {
+    if (!_.isEmpty(selectedPatient?.result)) {
       const { error } = await supabase
         .from("result")
         .update([
@@ -61,20 +61,16 @@ export default function CreatePredict({
         setRefresh
       );
     } else {
-      const { error } = await supabase
-        .from("result")
-        .insert([
-          {
-            patient_id_fk: selectedPatient.id,
-            result: predict.predictions,
-            algo: predict.algorithm,
-          },
-        ])
-        .eq("patient_id_fk", id);
+      const { error } = await supabase.from("result").insert([
+        {
+          patient_id_fk: selectedPatient.id,
+          result: predict.predictions,
+          algo: predict.algorithm,
+        },
+      ]);
       setCreatePredictModal(false);
       AlertMsgHndl(
         "Successfully add patient prediction result!",
-        "Failed to add patient prediction result!",
         error,
         setAlert,
         setSuccess,

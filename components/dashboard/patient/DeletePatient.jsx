@@ -13,7 +13,6 @@ export default function DeletePatient({
     setDeletePatientModal(false);
     AlertMsgHndl(
       "Successfully delete patient!",
-      "Failed to delete patient!",
       error,
       setAlert,
       setSuccess,
@@ -25,7 +24,7 @@ export default function DeletePatient({
     <>
       <div className="form-control">
         <h1 className="text-lg font-bold uppercase text-center mt-4">
-          Confirmation on deleting patient
+          Confirmation on patient deletion
         </h1>
         <div className="divider p-0 m-0"></div>
         <p className="text-base text-center">

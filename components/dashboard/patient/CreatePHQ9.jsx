@@ -91,7 +91,6 @@ export default function CreatePHQ9({
     setCreatePHQ9Modal(false);
     AlertMsgHndl(
       "Successfully add new patient phq9 questions!",
-      "Failed to add patient phq9 questions!",
       error,
       setAlert,
       setSuccess,

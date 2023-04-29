@@ -30,7 +30,7 @@ export default function index() {
       const { data: patient } = await supabase
         .from("patient")
         .select(
-          "id, name, age, gender, religion, phq9(id), result(algo, result)"
+          "id, name, age, gender, religion, phq9(*), result(algo, result)"
         );
       setPatientData(patient);
       setRefresh(false);

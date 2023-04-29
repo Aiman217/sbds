@@ -1,13 +1,12 @@
 export default function AlertMsgHndl(
   successMsg,
-  failMsg,
   errorInput,
   setAlert,
   setSuccess,
   setRefresh
 ) {
   errorInput
-    ? (setAlert(failMsg),
+    ? (setAlert(errorInput.message),
       setSuccess(false),
       setTimeout(() => {
         setAlert("");
