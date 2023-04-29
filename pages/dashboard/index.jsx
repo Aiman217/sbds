@@ -11,16 +11,16 @@ export default function index() {
 
   useEffect(() => {
     const getPatientCount = async () => {
-      const { count, error } = await supabase
+      const { count } = await supabase
         .from("patient")
         .select("*", { count: "exact", head: true });
       setPatientCount(count);
     };
     const getHighRiskCount = async () => {
-      const { count, error } = await supabase
+      const { count } = await supabase
         .from("result")
         .select("*", { count: "exact", head: true })
-        .eq("result", "Positive");
+        .eq("result", "High Risk");
       setHighRiskCount(count);
       setLoading(false);
     };

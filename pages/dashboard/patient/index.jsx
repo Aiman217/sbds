@@ -2,12 +2,7 @@ import Head from "next/head";
 import _ from "lodash";
 import { useState, useEffect } from "react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
-import {
-  AiOutlineClose,
-  AiOutlineEdit,
-  AiOutlineForm,
-  AiOutlinePlusSquare,
-} from "react-icons/ai";
+import { AiOutlineClose, AiOutlineEdit, AiOutlineForm } from "react-icons/ai";
 import { TbReportAnalytics } from "react-icons/tb";
 import { MdOutlineHealthAndSafety } from "react-icons/md";
 import CreatePatient from "@/components/dashboard/patient/CreatePatient";
@@ -15,6 +10,7 @@ import Alert from "@/components/functions/Alert";
 import Loading from "@/components/functions/Loading";
 import CreatePHQ9 from "@/components/dashboard/patient/CreatePHQ9";
 import CreatePredict from "@/components/dashboard/patient/CreatePredict";
+import DeletePatient from "@/components/dashboard/patient/DeletePatient";
 
 export default function index() {
   const supabase = useSupabaseClient();
@@ -59,7 +55,6 @@ export default function index() {
               setCreatePatientModal(true);
             }}
           >
-            <AiOutlinePlusSquare size={25} />
             Add Patient
           </label>
         </div>
@@ -116,27 +111,44 @@ export default function index() {
                     </div>
                   </td>
                   <td>
-                    <div
-                      className="tooltip tooltip-left uppercase font-bold"
-                      data-tip="Create/Update PHQ9"
-                    >
-                      <label
-                        htmlFor="my-modal-create-phq9"
-                        className="btn btn-sm gap-2"
-                        onClick={() => {
-                          setSelectedPatient(item), setCreatePHQ9Modal(true);
-                        }}
+                    <div className="flex flex-wrap gap-4">
+                      <div
+                        className="tooltip tooltip-left uppercase font-bold"
+                        data-tip="Create/Update PHQ9"
                       >
-                        {item.phq9 ? (
-                          <>
-                            <AiOutlineEdit size={20} />
-                          </>
-                        ) : (
-                          <>
-                            <AiOutlineForm size={20} />
-                          </>
-                        )}
-                      </label>
+                        <label
+                          htmlFor="my-modal-create-phq9"
+                          className="btn btn-sm btn-info gap-2"
+                          onClick={() => {
+                            setSelectedPatient(item), setCreatePHQ9Modal(true);
+                          }}
+                        >
+                          {item.phq9 ? (
+                            <>
+                              <AiOutlineEdit size={20} />
+                            </>
+                          ) : (
+                            <>
+                              <AiOutlineForm size={20} />
+                            </>
+                          )}
+                        </label>
+                      </div>
+                      <div
+                        className="tooltip tooltip-left uppercase font-bold"
+                        data-tip="Delete Patient"
+                      >
+                        <label
+                          htmlFor="my-modal-delete-patient"
+                          className="btn btn-sm btn-error btn-circle gap-2"
+                          onClick={() => {
+                            setSelectedPatient(item),
+                              setDeletePatientModal(true);
+                          }}
+                        >
+                          <AiOutlineClose size={20} />
+                        </label>
+                      </div>
                     </div>
                   </td>
                 </tr>
@@ -219,6 +231,34 @@ export default function index() {
               <CreatePredict
                 supabase={supabase}
                 setCreatePredictModal={setCreatePredictModal}
+                selectedPatient={selectedPatient}
+                setAlert={setAlert}
+                setSuccess={setSuccess}
+                setRefresh={setRefresh}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+      {deletePatientModal && (
+        <div>
+          <input
+            type="checkbox"
+            id="my-modal-delete-patient"
+            className="modal-toggle"
+          />
+          <div className="modal w-full">
+            <div className="modal-box w-[90%] sm:w-[80%]">
+              <label
+                htmlFor="my-modal-delete-patient"
+                className="btn btn-sm btn-circle absolute right-2 top-2"
+                onClick={() => setDeletePatientModal(false)}
+              >
+                <AiOutlineClose size={20} />
+              </label>
+              <DeletePatient
+                supabase={supabase}
+                setDeletePatientModal={setDeletePatientModal}
                 selectedPatient={selectedPatient}
                 setAlert={setAlert}
                 setSuccess={setSuccess}
