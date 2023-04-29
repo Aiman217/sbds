@@ -2,6 +2,7 @@ import { useState } from "react";
 import { MdOutlineHealthAndSafety } from "react-icons/md";
 import InputConverter from "@/components/dashboard/patient/InputConverter";
 import AlertMsgHndl from "@/components/functions/AlertMsgHndl";
+import EmptyCheck from "@/components/functions/EmptyCheck";
 
 export default function CreatePredict({
   supabase,
@@ -38,13 +39,16 @@ export default function CreatePredict({
     });
   }
 
+  function formEmpty() {
+    return EmptyCheck(predict);
+  }
+
   async function updatePrediction(predict, id) {
-    if (!_.isEmpty(selectedPatient?.result)) {
+    if (!EmptyCheck(selectedPatient?.result)) {
       const { error } = await supabase
         .from("result")
         .update([
           {
-            patient_id_fk: selectedPatient.id,
             result: predict.prediction,
             algo: predict.algorithm,
             update_at: new Date().toISOString(),
@@ -54,7 +58,6 @@ export default function CreatePredict({
       setCreatePredictModal(false);
       AlertMsgHndl(
         "Successfully update patient prediction result!",
-        "Failed to update patient prediction result!",
         error,
         setAlert,
         setSuccess,
@@ -64,7 +67,7 @@ export default function CreatePredict({
       const { error } = await supabase.from("result").insert([
         {
           patient_id_fk: selectedPatient.id,
-          result: predict.predictions,
+          result: predict.prediction,
           algo: predict.algorithm,
         },
       ]);
@@ -195,7 +198,10 @@ export default function CreatePredict({
             onClick={() => {
               updatePrediction(predict, selectedPatient?.id);
             }}
-            className="btn btn-block btn-success mt-6"
+            className={
+              "btn btn-block btn-success mt-6 " +
+              (formEmpty() ? "btn-disabled" : "")
+            }
           >
             Update
           </button>

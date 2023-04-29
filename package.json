@@ -16,7 +16,6 @@
     "autoprefixer": "10.4.14",
     "boring-avatars": "^1.7.0",
     "daisyui": "^2.51.5",
-    "lodash": "^4.17.21",
     "next": "13.3.0",
     "postcss": "8.4.21",
     "react": "18.2.0",

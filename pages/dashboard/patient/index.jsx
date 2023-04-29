@@ -1,5 +1,4 @@
 import Head from "next/head";
-import _ from "lodash";
 import { useState, useEffect } from "react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { AiOutlineClose, AiOutlineEdit, AiOutlineForm } from "react-icons/ai";
@@ -11,13 +10,15 @@ import Loading from "@/components/functions/Loading";
 import CreatePHQ9 from "@/components/dashboard/patient/CreatePHQ9";
 import CreatePredict from "@/components/dashboard/patient/CreatePredict";
 import DeletePatient from "@/components/dashboard/patient/DeletePatient";
+import UpdatePHQ9 from "@/components/dashboard/patient/UpdatePHQ9";
+import EmptyCheck from "@/components/functions/EmptyCheck";
 
 export default function index() {
   const supabase = useSupabaseClient();
   const [patientData, setPatientData] = useState([]);
   const [createPatientModal, setCreatePatientModal] = useState(false);
   const [deletePatientModal, setDeletePatientModal] = useState(false);
-  const [createPHQ9Modal, setCreatePHQ9Modal] = useState(false);
+  const [PHQ9Modal, setPHQ9Modal] = useState(false);
   const [createPredictModal, setCreatePredictModal] = useState(false);
   const [selectedPatient, setSelectedPatient] = useState([]);
   const [alert, setAlert] = useState("");
@@ -120,7 +121,7 @@ export default function index() {
                           htmlFor="my-modal-create-phq9"
                           className="btn btn-sm btn-info gap-2"
                           onClick={() => {
-                            setSelectedPatient(item), setCreatePHQ9Modal(true);
+                            setSelectedPatient(item), setPHQ9Modal(true);
                           }}
                         >
                           {item.phq9 ? (
@@ -184,7 +185,7 @@ export default function index() {
           </div>
         </div>
       )}
-      {createPHQ9Modal && (
+      {PHQ9Modal && (
         <div>
           <input
             type="checkbox"
@@ -196,18 +197,29 @@ export default function index() {
               <label
                 htmlFor="my-modal-create-phq9"
                 className="btn btn-sm btn-circle absolute right-2 top-2"
-                onClick={() => setCreatePHQ9Modal(false)}
+                onClick={() => setPHQ9Modal(false)}
               >
                 <AiOutlineClose size={20} />
               </label>
-              <CreatePHQ9
-                supabase={supabase}
-                setCreatePHQ9Modal={setCreatePHQ9Modal}
-                selectedPatient={selectedPatient}
-                setAlert={setAlert}
-                setSuccess={setSuccess}
-                setRefresh={setRefresh}
-              />
+              {!EmptyCheck(selectedPatient?.phq9) ? (
+                <UpdatePHQ9
+                  supabase={supabase}
+                  setPHQ9Modal={setPHQ9Modal}
+                  selectedPatient={selectedPatient}
+                  setAlert={setAlert}
+                  setSuccess={setSuccess}
+                  setRefresh={setRefresh}
+                />
+              ) : (
+                <CreatePHQ9
+                  supabase={supabase}
+                  setPHQ9Modal={setPHQ9Modal}
+                  selectedPatient={selectedPatient}
+                  setAlert={setAlert}
+                  setSuccess={setSuccess}
+                  setRefresh={setRefresh}
+                />
+              )}
             </div>
           </div>
         </div>
@@ -268,7 +280,7 @@ export default function index() {
           </div>
         </div>
       )}
-      {!_.isEmpty(alert) && (
+      {!EmptyCheck(alert) && (
         <Alert alert={alert} setAlert={setAlert} success={success} />
       )}
       {loading && <Loading />}

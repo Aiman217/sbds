@@ -1,6 +1,6 @@
 import { useState } from "react";
-import _ from "lodash";
 import AlertMsgHndl from "@/components/functions/AlertMsgHndl";
+import EmptyCheck from "@/components/functions/EmptyCheck";
 
 export default function CreatePatient({
   supabase,
@@ -42,17 +42,17 @@ export default function CreatePatient({
 
   function formEmpty() {
     return (
-      _.isEmpty(name) ||
-      _.isEmpty(age) ||
-      _.isEmpty(gender) ||
-      _.isEmpty(ethnicity) ||
-      _.isEmpty(religion) ||
-      _.isEmpty(marital_status) ||
-      _.isEmpty(employment) ||
-      _.isEmpty(hasDepressiveDisorder) ||
-      _.isEmpty(pastPsychiatricDisorder) ||
-      _.isEmpty(pastSuicidalAttempt) ||
-      _.isEmpty(medicalComorbidity)
+      EmptyCheck(name) ||
+      EmptyCheck(age) ||
+      EmptyCheck(gender) ||
+      EmptyCheck(ethnicity) ||
+      EmptyCheck(religion) ||
+      EmptyCheck(marital_status) ||
+      EmptyCheck(employment) ||
+      EmptyCheck(hasDepressiveDisorder) ||
+      EmptyCheck(pastPsychiatricDisorder) ||
+      EmptyCheck(pastSuicidalAttempt) ||
+      EmptyCheck(medicalComorbidity)
     );
   }
 

@@ -1,6 +1,5 @@
 import React from "react";
 import Link from "next/link";
-import _ from "lodash";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { HiMenu } from "react-icons/hi";
 import { RxDashboard } from "react-icons/rx";
