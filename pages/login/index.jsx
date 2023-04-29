@@ -25,7 +25,7 @@ export default function index({ session }) {
       <div className="h-full w-full p-4 flex justify-center items-center">
         <div className="h-full w-full p-10">
           <Auth
-            redirectTo="http://localhost:3000/auth-check"
+            redirectTo={process.env.NEXT_PUBLIC_REDIRECT_GITHUB}
             providers={["github"]}
             supabaseClient={supabase}
             appearance={{ theme: ThemeSupa }}
