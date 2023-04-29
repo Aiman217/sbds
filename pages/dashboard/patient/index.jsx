@@ -9,11 +9,12 @@ import {
   AiOutlinePlusSquare,
 } from "react-icons/ai";
 import { TbReportAnalytics } from "react-icons/tb";
-import CreatePatient from "../../../components/dashboard/patient/CreatePatient";
+import { MdOutlineHealthAndSafety } from "react-icons/md";
+import CreatePatient from "@/components/dashboard/patient/CreatePatient";
 import Alert from "@/components/functions/Alert";
 import Loading from "@/components/functions/Loading";
-import CreatePHQ9 from "../../../components/dashboard/patient/CreatePHQ9";
-import CreatePredict from "../../../components/dashboard/patient/CreatePredict";
+import CreatePHQ9 from "@/components/dashboard/patient/CreatePHQ9";
+import CreatePredict from "@/components/dashboard/patient/CreatePredict";
 
 export default function index() {
   const supabase = useSupabaseClient();
@@ -29,9 +30,9 @@ export default function index() {
 
   useEffect(() => {
     const getPatient = async () => {
-      const { data: patient, error } = await supabase
+      const { data: patient } = await supabase
         .from("patient")
-        .select("*, phq9(*)");
+        .select("id, name, age, gender, religion, phq9(id), result(result)");
       setPatientData(patient);
       setRefresh(false);
       setLoading(false);
@@ -68,6 +69,7 @@ export default function index() {
                 <th>Age</th>
                 <th>Gender</th>
                 <th>Religion</th>
+                <th>Status</th>
                 <th>Predict</th>
                 <th>Actions</th>
               </tr>
@@ -80,6 +82,17 @@ export default function index() {
                   <td>{item.age}</td>
                   <td>{item.gender}</td>
                   <td>{item.religion}</td>
+                  <td>
+                    <>
+                      {item?.result?.result == "High Risk" ? (
+                        <MdOutlineHealthAndSafety size={40} color="red" />
+                      ) : item?.result?.result == "Low Risk" ? (
+                        <MdOutlineHealthAndSafety size={40} color="green" />
+                      ) : (
+                        <MdOutlineHealthAndSafety size={40} color="grey" />
+                      )}
+                    </>
+                  </td>
                   <td>
                     <div
                       className="tooltip tooltip-left uppercase font-bold"

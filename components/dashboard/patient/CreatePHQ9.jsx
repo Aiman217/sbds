@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import _ from "lodash";
+import AlertMsgHndl from "@/components/functions/AlertMsgHndl";
 
 export default function CreatePHQ9({
   setCreatePHQ9Modal,
@@ -74,7 +75,7 @@ export default function CreatePHQ9({
   }
 
   async function createPHQ9() {
-    const { data, error } = await supabase.from("phq9").insert([
+    const { error } = await supabase.from("phq9").insert([
       {
         patient_id_fk: selectedPatient.id,
         little_interest: littleInterest,
@@ -89,20 +90,14 @@ export default function CreatePHQ9({
       },
     ]);
     setCreatePHQ9Modal(false);
-    error
-      ? (setAlert("Failed to add patient phq9 questions!"),
-        setSuccess(false),
-        setTimeout(() => {
-          setAlert("");
-          setSuccess(false);
-        }, 4000))
-      : (setAlert("Successfully add new patient phq9 questions!"),
-        setSuccess(true),
-        setRefresh(true),
-        setTimeout(() => {
-          setAlert("");
-          setSuccess(false);
-        }, 4000));
+    AlertMsgHndl(
+      "Successfully add new patient phq9 questions!",
+      "Failed to add patient phq9 questions!",
+      error,
+      setAlert,
+      setSuccess,
+      setRefresh
+    );
   }
 
   return (

@@ -4,8 +4,7 @@ export default function AlertMsgHndl(
   errorInput,
   setAlert,
   setSuccess,
-  setRefresh,
-  timeout
+  setRefresh
 ) {
   errorInput
     ? (setAlert(failMsg),
@@ -13,7 +12,7 @@ export default function AlertMsgHndl(
       setTimeout(() => {
         setAlert("");
         setSuccess(false);
-      }, timeout))
+      }, 4000))
     : (setAlert(successMsg),
       setSuccess(true),
       setRefresh(true),

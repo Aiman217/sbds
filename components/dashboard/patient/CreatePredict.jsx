@@ -19,7 +19,7 @@ export default function CreatePredict({
 
   async function getPrediction(id) {
     setLoading(true);
-    const { data: patient, error } = await supabase
+    const { data: patient } = await supabase
       .from("patient")
       .select("*, phq9(*)")
       .eq("id", id);
@@ -60,8 +60,7 @@ export default function CreatePredict({
         error,
         setAlert,
         setSuccess,
-        setRefresh,
-        4000
+        setRefresh
       );
     } else {
       const { error } = await supabase
@@ -81,8 +80,7 @@ export default function CreatePredict({
         error,
         setAlert,
         setSuccess,
-        setRefresh,
-        4000
+        setRefresh
       );
     }
   }

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import _ from "lodash";
+import AlertMsgHndl from "@/components/functions/AlertMsgHndl";
 
 export default function CreatePatient({
   setCreatePatientModal,
@@ -57,7 +58,7 @@ export default function CreatePatient({
   }
 
   async function createPatient() {
-    const { data, error } = await supabase.from("patient").insert([
+    const { error } = await supabase.from("patient").insert([
       {
         name: name,
         age: age,
@@ -73,20 +74,14 @@ export default function CreatePatient({
       },
     ]);
     setCreatePatientModal(false);
-    error
-      ? (setAlert("Failed to add patient!"),
-        setSuccess(false),
-        setTimeout(() => {
-          setAlert("");
-          setSuccess(false);
-        }, 4000))
-      : (setAlert("Successfully add new patient!"),
-        setSuccess(true),
-        setRefresh(true),
-        setTimeout(() => {
-          setAlert("");
-          setSuccess(false);
-        }, 4000));
+    AlertMsgHndl(
+      "Successfully add new patient!",
+      "Failed to add patient!",
+      error,
+      setAlert,
+      setSuccess,
+      setRefresh
+    );
   }
 
   return (

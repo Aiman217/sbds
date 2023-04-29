@@ -2,7 +2,7 @@ import "../styles/globals.css";
 import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { SessionContextProvider } from "@supabase/auth-helpers-react";
 import { useState } from "react";
-import Navbar from "@/components/header/Nav";
+import Nav from "@/components/header/Nav";
 
 export default function MyApp({ Component, pageProps }) {
   const [supabase] = useState(() => createBrowserSupabaseClient());
@@ -12,9 +12,9 @@ export default function MyApp({ Component, pageProps }) {
       supabaseClient={supabase}
       initialSession={pageProps.initialSession}
     >
-      <Navbar>
+      <Nav>
         <Component {...pageProps} />
-      </Navbar>
+      </Nav>
     </SessionContextProvider>
   );
 }
