@@ -9,7 +9,7 @@ import ThemeSelector from "./ThemeSelector";
 import { useRouter } from "next/router";
 import Avatar from "boring-avatars";
 
-export default function Navbar({ children }) {
+export default function Nav({ children }) {
   const session = useSession();
   const supabase = useSupabaseClient();
   const router = useRouter();
