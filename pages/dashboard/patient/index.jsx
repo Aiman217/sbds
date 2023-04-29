@@ -20,6 +20,7 @@ export default function index() {
   const supabase = useSupabaseClient();
   const [patientData, setPatientData] = useState([]);
   const [createPatientModal, setCreatePatientModal] = useState(false);
+  const [deletePatientModal, setDeletePatientModal] = useState(false);
   const [createPHQ9Modal, setCreatePHQ9Modal] = useState(false);
   const [createPredictModal, setCreatePredictModal] = useState(false);
   const [selectedPatient, setSelectedPatient] = useState([]);
@@ -32,7 +33,9 @@ export default function index() {
     const getPatient = async () => {
       const { data: patient } = await supabase
         .from("patient")
-        .select("id, name, age, gender, religion, phq9(id), result(result)");
+        .select(
+          "id, name, age, gender, religion, phq9(id), result(algo, result)"
+        );
       setPatientData(patient);
       setRefresh(false);
       setLoading(false);
@@ -159,6 +162,7 @@ export default function index() {
                 <AiOutlineClose size={20} />
               </label>
               <CreatePatient
+                supabase={supabase}
                 setCreatePatientModal={setCreatePatientModal}
                 setAlert={setAlert}
                 setSuccess={setSuccess}
@@ -185,6 +189,7 @@ export default function index() {
                 <AiOutlineClose size={20} />
               </label>
               <CreatePHQ9
+                supabase={supabase}
                 setCreatePHQ9Modal={setCreatePHQ9Modal}
                 selectedPatient={selectedPatient}
                 setAlert={setAlert}
@@ -212,6 +217,7 @@ export default function index() {
                 <AiOutlineClose size={20} />
               </label>
               <CreatePredict
+                supabase={supabase}
                 setCreatePredictModal={setCreatePredictModal}
                 selectedPatient={selectedPatient}
                 setAlert={setAlert}

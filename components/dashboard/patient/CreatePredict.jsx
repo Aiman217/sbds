@@ -1,18 +1,16 @@
-import { useEffect, useState } from "react";
-import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { useState } from "react";
 import { MdOutlineHealthAndSafety } from "react-icons/md";
 import InputConverter from "@/components/dashboard/patient/InputConverter";
 import AlertMsgHndl from "@/components/functions/AlertMsgHndl";
 
 export default function CreatePredict({
+  supabase,
   setCreatePredictModal,
   selectedPatient,
   setAlert,
   setSuccess,
   setRefresh,
 }) {
-  const supabase = useSupabaseClient();
-  const [result, setResult] = useState([]);
   const [predict, setPredict] = useState([]);
   const [algo, setAlgo] = useState("");
   const [loading, setLoading] = useState(false);
@@ -40,8 +38,8 @@ export default function CreatePredict({
     });
   }
 
-  async function updatePrediction(result, id) {
-    if (!_.isEmpty(result)) {
+  async function updatePrediction(predict, id) {
+    if (!_.isEmpty(predict)) {
       const { error } = await supabase
         .from("result")
         .update([
@@ -85,17 +83,6 @@ export default function CreatePredict({
     }
   }
 
-  useEffect(() => {
-    const getResult = async () => {
-      const { data: check } = await supabase
-        .from("result")
-        .select("*")
-        .eq("patient_id_fk", selectedPatient?.id);
-      setResult(check[0]);
-    };
-    getResult();
-  }, []);
-
   return (
     <>
       <div className="form-control">
@@ -122,7 +109,7 @@ export default function CreatePredict({
             <span className="label-text">Latest Algorithm Used</span>
           </label>
           <input
-            placeholder={result?.algo || "No Prediction Saved"}
+            placeholder={selectedPatient?.result?.algo || "No Prediction Saved"}
             type="text"
             className="input input-bordered mb-2"
             disabled
@@ -134,16 +121,18 @@ export default function CreatePredict({
               <span className="label-text">Latest Status</span>
             </label>
             <input
-              placeholder={result?.result || "No Prediction Saved"}
+              placeholder={
+                selectedPatient?.result?.result || "No Prediction Saved"
+              }
               type="text"
               className="input input-bordered mb-2"
               disabled
             />
           </div>
           <div className="flex flex-col justify-center">
-            {result?.result == "High Risk" ? (
+            {selectedPatient?.result?.result == "High Risk" ? (
               <MdOutlineHealthAndSafety size={40} color="red" />
-            ) : result?.result == "Low Risk" ? (
+            ) : selectedPatient?.result?.result == "Low Risk" ? (
               <MdOutlineHealthAndSafety size={40} color="green" />
             ) : (
               <MdOutlineHealthAndSafety size={40} color="grey" />
@@ -208,7 +197,7 @@ export default function CreatePredict({
         <div className="form-control">
           <button
             onClick={() => {
-              updatePrediction(result, selectedPatient?.id);
+              updatePrediction(predict, selectedPatient?.id);
             }}
             className="btn btn-block btn-success mt-6"
           >

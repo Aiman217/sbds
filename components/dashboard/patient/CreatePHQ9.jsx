@@ -1,16 +1,15 @@
 import { useState } from "react";
-import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import _ from "lodash";
 import AlertMsgHndl from "@/components/functions/AlertMsgHndl";
 
 export default function CreatePHQ9({
+  supabase,
   setCreatePHQ9Modal,
   selectedPatient,
   setAlert,
   setSuccess,
   setRefresh,
 }) {
-  const supabase = useSupabaseClient();
   const [littleInterest, setLittleInterest] = useState("");
   const [feelingDown, setFeelingDown] = useState("");
   const [sleepingTrouble, setSleepingTrouble] = useState("");

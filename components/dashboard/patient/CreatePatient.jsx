@@ -1,15 +1,14 @@
 import { useState } from "react";
-import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import _ from "lodash";
 import AlertMsgHndl from "@/components/functions/AlertMsgHndl";
 
 export default function CreatePatient({
+  supabase,
   setCreatePatientModal,
   setAlert,
   setSuccess,
   setRefresh,
 }) {
-  const supabase = useSupabaseClient();
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
   const [gender, setGender] = useState("");
