@@ -70,7 +70,7 @@ export default function Nav({ children }) {
               </div>
             </div>
           </div>
-          <div className="flex flex-row h-full">
+          <div className="flex flex-row h-full overflow-hidden">
             <div className={"h-full w-20 " + (!session ? "hidden" : "hidden lg:block")}>
               <ul className="flex flex-col justify-center items-center gap-4 py-6">
                 <li className="uppercase font-bold">

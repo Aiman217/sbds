@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import GenderBar from "@/components/dashboard/GenderBar";
 import Loading from "@/components/functions/Loading";
 
 export default function index() {
@@ -37,7 +38,7 @@ export default function index() {
       </Head>
       <div className="h-full w-full p-4 flex flex-col gap-4">
         <h1 className="font-bold text-3xl capitalize mb-4">Dashboard</h1>
-        <div className="stats shadow">
+        <div className="stats w-full shadow">
           <div className="stat place-items-center">
             <div className="stat-title">Patients</div>
             <div className="stat-value text-secondary">
@@ -45,7 +46,7 @@ export default function index() {
             </div>
           </div>
         </div>
-        <div className="stats shadow">
+        <div className="stats w-full shadow">
           <div className="stat place-items-center">
             <div className="stat-title">High Risk</div>
             <div className="stat-value text-error">{highRiskCount}</div>
@@ -57,6 +58,14 @@ export default function index() {
           <div className="stat place-items-center">
             <div className="stat-title">Not Tested</div>
             <div className="stat-value text-warning">{notTestedCount}</div>
+          </div>
+        </div>
+        <div className="card w-full bg-base-100 shadow-xl hidden lg:flex">
+          <div className="card-body items-center text-center">
+            <h2 className="card-title">Data Visualization</h2>
+            <div className="w-[90%] flex flex-row gap-8 flex-wrap">
+              <GenderBar data={patientData} />
+            </div>
           </div>
         </div>
       </div>
