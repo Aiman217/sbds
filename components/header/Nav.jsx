@@ -4,7 +4,6 @@ import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { HiMenu } from "react-icons/hi";
 import { RxDashboard } from "react-icons/rx";
 import { RiUserHeartLine, RiUserSettingsLine } from "react-icons/ri";
-import ThemeSelector from "./ThemeSelector";
 import { useRouter } from "next/router";
 import Avatar from "boring-avatars";
 
@@ -21,7 +20,7 @@ export default function Nav({ children }) {
   }
 
   return (
-    <>
+    <div data-theme="light">
       <div className="drawer bg-primary text-base-100">
         <input id="my-drawer-1" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content flex flex-col min-h-screen">
@@ -54,9 +53,8 @@ export default function Nav({ children }) {
               </label>
               <div
                 tabIndex={0}
-                className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-primary text-base-100 rounded-box w-52"
+                className="mt-3 p-2 shadow menu menu-compact border-2 border-base-100 dropdown-content bg-primary rounded-box w-52"
               >
-                <ThemeSelector theme="select-sm" />
                 {session ? (
                   <button
                     className={"btn btn-sm btn-error m-2"}
@@ -71,7 +69,11 @@ export default function Nav({ children }) {
             </div>
           </div>
           <div className="flex flex-row h-full overflow-hidden">
-            <div className={"h-full w-20 " + (!session ? "hidden" : "hidden lg:block")}>
+            <div
+              className={
+                "h-full w-20 " + (!session ? "hidden" : "hidden lg:block")
+              }
+            >
               <ul className="flex flex-col justify-center items-center gap-4 py-6">
                 <li className="uppercase font-bold">
                   <div className="tooltip tooltip-right" data-tip="Dashboard">
@@ -100,7 +102,7 @@ export default function Nav({ children }) {
               </ul>
             </div>
             {/* Content of each page appear here */}
-            <div className="grow overflow-auto bg-base-300 text-base-content rounded-2xl">
+            <div className="grow overflow-auto border-2 border-base-100 bg-base-200 text-neutral rounded-2xl">
               {React.cloneElement(children, { session: session })}
             </div>
             {/* Content of each page end here */}
@@ -111,9 +113,9 @@ export default function Nav({ children }) {
             htmlFor="my-drawer-1"
             className="drawer-overlay lg:hidden"
           ></label>
-          <div className="menu bg-primary flex-nowrap p-4 w-[60%] sm:w-[60%] md:w-[40%] lg:hidden">
-            <div className="divider" />
-            <ul className="flex flex-col justify-center items-start">
+          <div className="menu border-r-2 border-base-100 rounded-r-2xl bg-primary p-4 w-[60%] sm:w-[60%] md:w-[40%] lg:hidden">
+            <div className="divider flex-none before:bg-base-100 after:bg-base-100" />
+            <ul className="flex grow flex-col justify-center items-start gap-4">
               <li className="uppercase font-bold flex flex-row">
                 <Link href="/dashboard">
                   <RxDashboard size={30} />
@@ -133,9 +135,10 @@ export default function Nav({ children }) {
                 </Link>
               </li>
             </ul>
+            <div className="divider flex-none before:bg-base-100 after:bg-base-100" />
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
