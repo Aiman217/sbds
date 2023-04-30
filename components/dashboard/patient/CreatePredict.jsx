@@ -164,7 +164,7 @@ export default function CreatePredict({
                 getPrediction(selectedPatient?.id);
               }}
               className={
-                "btn btn-success " + (loading ? "loading btn-circle" : "")
+                "btn btn-warning " + (loading ? "loading btn-circle" : "")
               }
             >
               {!loading ? "Predict" : ""}
@@ -199,7 +199,7 @@ export default function CreatePredict({
               updatePrediction(predict, selectedPatient?.id);
             }}
             className={
-              "btn btn-block btn-success mt-6 " +
+              "btn btn-block btn-info mt-6 " +
               (formEmpty() ? "btn-disabled" : "")
             }
           >

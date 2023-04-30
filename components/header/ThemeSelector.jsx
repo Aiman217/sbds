@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { themeChange } from "theme-change";
 
 export default function ThemeSelector(props) {
-  const themeList = ["Fantasy", "Dark"];
+  const themeList = ["Fantasy", "Dracula"];
 
   useEffect(() => {
     themeChange(false);

@@ -2,40 +2,55 @@ import { useState } from "react";
 import AlertMsgHndl from "@/components/functions/AlertMsgHndl";
 import EmptyCheck from "@/components/functions/EmptyCheck";
 
-export default function CreatePatient({
+export default function UpdatePatient({
   supabase,
-  setCreatePatientModal,
+  setUpdatePatientModal,
+  selectedPatient,
   setAlert,
   setSuccess,
   setRefresh,
 }) {
-  const [name, setName] = useState("");
-  const [age, setAge] = useState("");
-  const [gender, setGender] = useState("");
-  const [ethnicity, setEthnicity] = useState("");
-  const [religion, setReligion] = useState("");
-  const [marital_status, setMaritalStatus] = useState("");
-  const [employment, setEmployment] = useState("");
-  const [hasDepressiveDisorder, setHasDepressiveDisorder] = useState("");
-  const [pastPsychiatricDisorder, setPastPsychiatricDisorder] = useState("");
-  const [pastSuicidalAttempt, setPastSuicidalAttempt] = useState("");
-  const [medicalComorbidity, setMedicalComorbidity] = useState("");
+  const [name, setName] = useState(selectedPatient?.name);
+  const [age, setAge] = useState(selectedPatient?.age);
+  const [gender, setGender] = useState(selectedPatient?.gender);
+  const [ethnicity, setEthnicity] = useState(selectedPatient?.ethnicity);
+  const [religion, setReligion] = useState(selectedPatient?.religion);
+  const [marital_status, setMaritalStatus] = useState(
+    selectedPatient?.marital_status
+  );
+  const [employment, setEmployment] = useState(selectedPatient?.employment);
+  const [hasDepressiveDisorder, setHasDepressiveDisorder] = useState(
+    selectedPatient?.has_depressive_disorder
+  );
+  const [pastPsychiatricDisorder, setPastPsychiatricDisorder] = useState(
+    selectedPatient?.past_psychiatric_disorder
+  );
+  const [pastSuicidalAttempt, setPastSuicidalAttempt] = useState(
+    selectedPatient?.past_suicidal_attempt
+  );
+  const [medicalComorbidity, setMedicalComorbidity] = useState(
+    selectedPatient?.medical_comorbidity
+  );
 
   const medical_input = [
     {
       name: "Depressive Disorder",
+      input: "has_depressive_disorder",
       function: setHasDepressiveDisorder,
     },
     {
       name: "Past Psychiatric Treatment",
+      input: "past_psychiatric_disorder",
       function: setPastPsychiatricDisorder,
     },
     {
       name: "Past Suicidal Attempt",
+      input: "past_suicidal_attempt",
       function: setPastSuicidalAttempt,
     },
     {
       name: "Comorbid Medical Condition",
+      input: "medical_comorbidity",
       function: setMedicalComorbidity,
     },
   ];
@@ -56,25 +71,28 @@ export default function CreatePatient({
     );
   }
 
-  async function createPatient() {
-    const { error } = await supabase.from("patient").insert([
-      {
-        name: name,
-        age: age,
-        gender: gender,
-        ethnicity: ethnicity,
-        religion: religion,
-        marital_status: marital_status,
-        employment: employment,
-        has_depressive_disorder: hasDepressiveDisorder,
-        past_psychiatric_disorder: pastPsychiatricDisorder,
-        past_suicidal_attempt: pastSuicidalAttempt,
-        medical_comorbidity: medicalComorbidity,
-      },
-    ]);
-    setCreatePatientModal(false);
+  async function updatePatient() {
+    const { error } = await supabase
+      .from("patient")
+      .update([
+        {
+          name: name,
+          age: age,
+          gender: gender,
+          ethnicity: ethnicity,
+          religion: religion,
+          marital_status: marital_status,
+          employment: employment,
+          has_depressive_disorder: hasDepressiveDisorder,
+          past_psychiatric_disorder: pastPsychiatricDisorder,
+          past_suicidal_attempt: pastSuicidalAttempt,
+          medical_comorbidity: medicalComorbidity,
+        },
+      ])
+      .eq("id", selectedPatient.id);
+    setUpdatePatientModal(false);
     AlertMsgHndl(
-      "Successfully add new patient!",
+      "Successfully update patient!",
       error,
       setAlert,
       setSuccess,
@@ -86,7 +104,7 @@ export default function CreatePatient({
     <>
       <div className="form-control">
         <h1 className="text-lg font-bold uppercase text-center mt-4">
-          Add New Patient
+          Update Patient
         </h1>
         <div className="divider p-0 m-0"></div>
         <div className="form-control w-full">
@@ -98,7 +116,7 @@ export default function CreatePatient({
               setName(event.target.value);
             }}
             type="text"
-            placeholder="name"
+            value={name}
             className="input input-bordered mb-2"
           />
         </div>
@@ -111,7 +129,7 @@ export default function CreatePatient({
               setAge(event.target.value);
             }}
             type="number"
-            placeholder="age"
+            value={age}
             className="input input-bordered mb-2"
           />
         </div>
@@ -124,7 +142,7 @@ export default function CreatePatient({
             onChange={(event) => {
               setGender(event.target.value);
             }}
-            defaultValue=""
+            defaultValue={gender}
           >
             <option value="" disabled>
               Pick gender
@@ -142,7 +160,7 @@ export default function CreatePatient({
             onChange={(event) => {
               setEthnicity(event.target.value);
             }}
-            defaultValue=""
+            defaultValue={ethnicity}
           >
             <option value="" disabled>
               Pick ethnicity
@@ -161,7 +179,7 @@ export default function CreatePatient({
             onChange={(event) => {
               setReligion(event.target.value);
             }}
-            defaultValue=""
+            defaultValue={religion}
           >
             <option value="" disabled>
               Pick religion
@@ -181,7 +199,7 @@ export default function CreatePatient({
             onChange={(event) => {
               setMaritalStatus(event.target.value);
             }}
-            defaultValue=""
+            defaultValue={marital_status}
           >
             <option value="" disabled>
               Pick marital status
@@ -200,7 +218,7 @@ export default function CreatePatient({
             onChange={(event) => {
               setEmployment(event.target.value);
             }}
-            defaultValue=""
+            defaultValue={employment}
           >
             <option value="" disabled>
               Pick employment
@@ -219,7 +237,7 @@ export default function CreatePatient({
               onChange={(event) => {
                 item.function(event.target.value);
               }}
-              defaultValue=""
+              defaultValue={selectedPatient[item.input]}
             >
               <option value="" disabled>
                 Pick related option
@@ -231,13 +249,13 @@ export default function CreatePatient({
         ))}
         <div className="form-control">
           <button
-            onClick={createPatient}
+            onClick={updatePatient}
             className={
-              "btn btn-block btn-success mt-6 " +
+              "btn btn-block btn-info mt-6 " +
               (formEmpty() ? "btn-disabled" : "")
             }
           >
-            Create
+            Update
           </button>
         </div>
       </div>

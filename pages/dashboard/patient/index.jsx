@@ -5,18 +5,20 @@ import { AiOutlineClose, AiOutlineEdit, AiOutlineForm } from "react-icons/ai";
 import { TbReportAnalytics } from "react-icons/tb";
 import { MdOutlineHealthAndSafety } from "react-icons/md";
 import CreatePatient from "@/components/dashboard/patient/CreatePatient";
+import UpdatePatient from "@/components/dashboard/patient/UpdatePatient";
+import DeletePatient from "@/components/dashboard/patient/DeletePatient";
+import CreatePHQ9 from "@/components/dashboard/patient/CreatePHQ9";
+import UpdatePHQ9 from "@/components/dashboard/patient/UpdatePHQ9";
+import CreatePredict from "@/components/dashboard/patient/CreatePredict";
 import Alert from "@/components/functions/Alert";
 import Loading from "@/components/functions/Loading";
-import CreatePHQ9 from "@/components/dashboard/patient/CreatePHQ9";
-import CreatePredict from "@/components/dashboard/patient/CreatePredict";
-import DeletePatient from "@/components/dashboard/patient/DeletePatient";
-import UpdatePHQ9 from "@/components/dashboard/patient/UpdatePHQ9";
 import EmptyCheck from "@/components/functions/EmptyCheck";
 
 export default function index() {
   const supabase = useSupabaseClient();
   const [patientData, setPatientData] = useState([]);
   const [createPatientModal, setCreatePatientModal] = useState(false);
+  const [updatePatientModal, setUpdatePatientModal] = useState(false);
   const [deletePatientModal, setDeletePatientModal] = useState(false);
   const [PHQ9Modal, setPHQ9Modal] = useState(false);
   const [createPredictModal, setCreatePredictModal] = useState(false);
@@ -30,9 +32,8 @@ export default function index() {
     const getPatient = async () => {
       const { data: patient } = await supabase
         .from("patient")
-        .select(
-          "id, name, age, gender, religion, phq9(*), result(algo, result)"
-        );
+        .select("*, phq9(*), result(algo, result)")
+        .order("name");
       setPatientData(patient);
       setRefresh(false);
       setLoading(false);
@@ -51,7 +52,7 @@ export default function index() {
           <h1 className="font-bold text-3xl capitalize mb-4">Patient</h1>
           <label
             htmlFor="my-modal-create-patient"
-            className="btn btn-sm gap-2 modal-button"
+            className="btn btn-sm btn-success gap-2 modal-button"
             onClick={() => {
               setCreatePatientModal(true);
             }}
@@ -60,7 +61,7 @@ export default function index() {
           </label>
         </div>
         <div className="overflow-x-auto">
-          <table className="table w-full z-0">
+          <table className="table w-full z-0 [&_thead_tr_th]:bg-primary [&_thead_tr_th]:text-base-100">
             <thead>
               <tr>
                 <th></th>
@@ -69,6 +70,7 @@ export default function index() {
                 <th>Gender</th>
                 <th>Religion</th>
                 <th>Status</th>
+                <th>PHQ9</th>
                 <th>Predict</th>
                 <th>Actions</th>
               </tr>
@@ -81,6 +83,34 @@ export default function index() {
                   <td>{item.age}</td>
                   <td>{item.gender}</td>
                   <td>{item.religion}</td>
+                  <td>
+                    <div
+                      className="tooltip tooltip-left uppercase font-bold"
+                      data-tip={item.phq9 ? "Update PHQ9" : "Create PHQ9"}
+                    >
+                      <label
+                        htmlFor="my-modal-action-phq9"
+                        className={
+                          "btn btn-sm gap-2 " +
+                          (item.phq9 ? "btn-info" : "btn-success")
+                        }
+                        onClick={() => {
+                          setSelectedPatient(item);
+                          setPHQ9Modal(true);
+                        }}
+                      >
+                        {item.phq9 ? (
+                          <>
+                            <AiOutlineEdit size={20} />
+                          </>
+                        ) : (
+                          <>
+                            <AiOutlineForm size={20} />
+                          </>
+                        )}
+                      </label>
+                    </div>
+                  </td>
                   <td>
                     <>
                       {item?.result?.result == "High Risk" ? (
@@ -100,11 +130,12 @@ export default function index() {
                       <label
                         htmlFor="my-modal-create-predict"
                         className={
-                          "btn btn-sm gap-2 " +
+                          "btn btn-sm btn-warning gap-2 " +
                           (item.phq9 ? "" : "btn-disabled")
                         }
                         onClick={() => {
-                          setSelectedPatient(item), setCreatePredictModal(true);
+                          setSelectedPatient(item);
+                          setCreatePredictModal(true);
                         }}
                       >
                         <TbReportAnalytics size={20} />
@@ -112,27 +143,20 @@ export default function index() {
                     </div>
                   </td>
                   <td>
-                    <div className="flex flex-wrap gap-4">
+                    <div className="flex gap-4">
                       <div
                         className="tooltip tooltip-left uppercase font-bold"
-                        data-tip="Create/Update PHQ9"
+                        data-tip="Update Patient"
                       >
                         <label
-                          htmlFor="my-modal-create-phq9"
+                          htmlFor="my-modal-update-patient"
                           className="btn btn-sm btn-info gap-2"
                           onClick={() => {
-                            setSelectedPatient(item), setPHQ9Modal(true);
+                            setSelectedPatient(item);
+                            setUpdatePatientModal(true);
                           }}
                         >
-                          {item.phq9 ? (
-                            <>
-                              <AiOutlineEdit size={20} />
-                            </>
-                          ) : (
-                            <>
-                              <AiOutlineForm size={20} />
-                            </>
-                          )}
+                          <AiOutlineEdit size={20} />
                         </label>
                       </div>
                       <div
@@ -143,8 +167,8 @@ export default function index() {
                           htmlFor="my-modal-delete-patient"
                           className="btn btn-sm btn-error btn-circle gap-2"
                           onClick={() => {
-                            setSelectedPatient(item),
-                              setDeletePatientModal(true);
+                            setSelectedPatient(item);
+                            setDeletePatientModal(true);
                           }}
                         >
                           <AiOutlineClose size={20} />
@@ -185,17 +209,45 @@ export default function index() {
           </div>
         </div>
       )}
-      {PHQ9Modal && (
+      {updatePatientModal && (
         <div>
           <input
             type="checkbox"
-            id="my-modal-create-phq9"
+            id="my-modal-update-patient"
             className="modal-toggle"
           />
           <div className="modal w-full">
             <div className="modal-box w-[90%] sm:w-[80%]">
               <label
-                htmlFor="my-modal-create-phq9"
+                htmlFor="my-modal-update-patient"
+                className="btn btn-sm btn-circle absolute right-2 top-2"
+                onClick={() => setUpdatePatientModal(false)}
+              >
+                <AiOutlineClose size={20} />
+              </label>
+              <UpdatePatient
+                supabase={supabase}
+                setUpdatePatientModal={setUpdatePatientModal}
+                selectedPatient={selectedPatient}
+                setAlert={setAlert}
+                setSuccess={setSuccess}
+                setRefresh={setRefresh}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+      {PHQ9Modal && (
+        <div>
+          <input
+            type="checkbox"
+            id="my-modal-action-phq9"
+            className="modal-toggle"
+          />
+          <div className="modal w-full">
+            <div className="modal-box w-[90%] sm:w-[80%]">
+              <label
+                htmlFor="my-modal-action-phq9"
                 className="btn btn-sm btn-circle absolute right-2 top-2"
                 onClick={() => setPHQ9Modal(false)}
               >

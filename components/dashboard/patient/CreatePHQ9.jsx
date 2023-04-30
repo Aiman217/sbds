@@ -131,10 +131,10 @@ export default function CreatePHQ9({
               <option value="" disabled>
                 Pick related option
               </option>
-              <option value={1}>Not at all</option>
-              <option value={2}>Several days</option>
-              <option value={3}>More than half the days</option>
-              <option value={4}>Nearly everyday</option>
+              <option value={0}>Not at all</option>
+              <option value={1}>Several days</option>
+              <option value={2}>More than half the days</option>
+              <option value={3}>Nearly everyday</option>
             </select>
           </div>
         ))}
