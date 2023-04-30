@@ -5,27 +5,28 @@ import Loading from "@/components/functions/Loading";
 
 export default function index() {
   const supabase = useSupabaseClient();
-  const [patientCount, setPatientCount] = useState(0);
+  const [patientData, setPatientData] = useState([]);
   const [highRiskCount, setHighRiskCount] = useState(0);
+  const [lowRiskCount, setLowRiskCount] = useState(0);
+  const [notTestedCount, setNotTestedCount] = useState(0);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const getPatientCount = async () => {
-      const { count } = await supabase
+    const getPatient = async () => {
+      const { data } = await supabase
         .from("patient")
-        .select("*", { count: "exact", head: true });
-      setPatientCount(count);
-    };
-    const getHighRiskCount = async () => {
-      const { count } = await supabase
-        .from("result")
-        .select("*", { count: "exact", head: true })
-        .eq("result", "High Risk");
-      setHighRiskCount(count);
+        .select("*, result(result)");
+      setPatientData(data);
+      setHighRiskCount(
+        data.filter((c) => c.result?.result == "High Risk").length
+      );
+      setLowRiskCount(
+        data.filter((c) => c.result?.result == "Low Risk").length
+      );
+      setNotTestedCount(data.filter((c) => c.result == null).length);
       setLoading(false);
     };
-    getPatientCount();
-    getHighRiskCount();
+    getPatient();
   }, []);
 
   return (
@@ -39,11 +40,23 @@ export default function index() {
         <div className="stats shadow">
           <div className="stat place-items-center">
             <div className="stat-title">Patients</div>
-            <div className="stat-value text-secondary">{patientCount}</div>
+            <div className="stat-value text-secondary">
+              {patientData.length}
+            </div>
+          </div>
+        </div>
+        <div className="stats shadow">
+          <div className="stat place-items-center">
+            <div className="stat-title">High Risk</div>
+            <div className="stat-value text-error">{highRiskCount}</div>
           </div>
           <div className="stat place-items-center">
-            <div className="stat-title">High Risk Patients</div>
-            <div className="stat-value text-error">{highRiskCount}</div>
+            <div className="stat-title">Low Risk</div>
+            <div className="stat-value text-success">{lowRiskCount}</div>
+          </div>
+          <div className="stat place-items-center">
+            <div className="stat-title">Not Tested</div>
+            <div className="stat-value text-warning">{notTestedCount}</div>
           </div>
         </div>
       </div>
