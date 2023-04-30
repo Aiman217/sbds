@@ -49,7 +49,14 @@ export default function index() {
       </Head>
       <div className="h-full w-full p-4 flex flex-col gap-4">
         <div className="flex flex-row justify-between items-center">
-          <h1 className="font-bold text-3xl capitalize mb-4">Patient</h1>
+          <div className="flex flex-col">
+            <h1 className="font-bold text-3xl capitalize mb-4">Patient</h1>
+            <p className="text-md mb-4">
+              The prediction process required the patient&apos;s PHQ9 form. If
+              the prediction button is disabled, please fill in the PHQ9 Form
+              first before trying again.
+            </p>
+          </div>
           <label
             htmlFor="my-modal-create-patient"
             className="btn btn-sm btn-success gap-2 modal-button"
@@ -84,6 +91,17 @@ export default function index() {
                   <td>{item.gender}</td>
                   <td>{item.religion}</td>
                   <td>
+                    <>
+                      {item?.result?.result == "High Risk" ? (
+                        <MdOutlineHealthAndSafety size={40} color="red" />
+                      ) : item?.result?.result == "Low Risk" ? (
+                        <MdOutlineHealthAndSafety size={40} color="green" />
+                      ) : (
+                        <MdOutlineHealthAndSafety size={40} color="grey" />
+                      )}
+                    </>
+                  </td>
+                  <td>
                     <div
                       className="tooltip tooltip-left uppercase font-bold"
                       data-tip={item.phq9 ? "Update PHQ9" : "Create PHQ9"}
@@ -110,17 +128,6 @@ export default function index() {
                         )}
                       </label>
                     </div>
-                  </td>
-                  <td>
-                    <>
-                      {item?.result?.result == "High Risk" ? (
-                        <MdOutlineHealthAndSafety size={40} color="red" />
-                      ) : item?.result?.result == "Low Risk" ? (
-                        <MdOutlineHealthAndSafety size={40} color="green" />
-                      ) : (
-                        <MdOutlineHealthAndSafety size={40} color="grey" />
-                      )}
-                    </>
                   </td>
                   <td>
                     <div
