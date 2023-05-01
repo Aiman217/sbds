@@ -21,6 +21,7 @@ ChartJS.register(
 
 export const options = {
   responsive: true,
+  maintainAspectRatio: false,
   plugins: {
     legend: {
       position: "top",
@@ -91,7 +92,7 @@ export default function GenderBar({ data }) {
 
   return (
     <>
-      <div className="w-[40%]">
+      <div className="relative h-[40vh] w-[80vw] overflow-auto">
         <Bar options={options} data={bar_data} />
       </div>
     </>

@@ -102,7 +102,7 @@ export default function Nav({ children }) {
               </ul>
             </div>
             {/* Content of each page appear here */}
-            <div className="grow overflow-auto border-2 border-base-100 bg-base-200 text-neutral rounded-2xl">
+            <div className="grow overflow-auto border-2 border-base-100 bg-base-300 text-neutral rounded-2xl">
               {React.cloneElement(children, { session: session })}
             </div>
             {/* Content of each page end here */}
@@ -113,7 +113,7 @@ export default function Nav({ children }) {
             htmlFor="my-drawer-1"
             className="drawer-overlay lg:hidden"
           ></label>
-          <div className="menu border-r-2 border-base-100 rounded-r-2xl bg-primary p-4 w-[60%] sm:w-[60%] md:w-[40%] lg:hidden">
+          <div className="menu border-r-2 border-base-100 rounded-r-2xl bg-primary p-4 w-[70%] md:w-[50%] lg:hidden">
             <div className="divider flex-none before:bg-base-100 after:bg-base-100" />
             <ul className="flex grow flex-col justify-center items-start gap-4">
               <li className="uppercase font-bold flex flex-row">

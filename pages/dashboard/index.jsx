@@ -38,33 +38,40 @@ export default function index() {
       </Head>
       <div className="h-full w-full p-4 flex flex-col gap-4">
         <h1 className="font-bold text-3xl capitalize mb-4">Dashboard</h1>
-        <div className="stats w-full shadow">
-          <div className="stat place-items-center">
-            <div className="stat-title">Patients</div>
-            <div className="stat-value text-secondary">
-              {patientData.length}
+        <div className="card w-full bg-base-200 shadow-xl">
+          <div className="card-body p-2 items-center text-center">
+            <h2 className="card-title">Statistics</h2>
+            <div className="stats w-full shadow">
+              <div className="stat place-items-center">
+                <div className="stat-title">Patients</div>
+                <div className="stat-value text-secondary">
+                  {patientData.length}
+                </div>
+              </div>
+            </div>
+            <div className="stats w-full shadow">
+              <div className="stat place-items-center">
+                <div className="stat-title">High Risk</div>
+                <div className="stat-value text-error">{highRiskCount}</div>
+              </div>
+              <div className="stat place-items-center">
+                <div className="stat-title">Low Risk</div>
+                <div className="stat-value text-success">{lowRiskCount}</div>
+              </div>
+              <div className="stat place-items-center">
+                <div className="stat-title">Not Tested</div>
+                <div className="stat-value text-warning">{notTestedCount}</div>
+              </div>
             </div>
           </div>
         </div>
-        <div className="stats w-full shadow">
-          <div className="stat place-items-center">
-            <div className="stat-title">High Risk</div>
-            <div className="stat-value text-error">{highRiskCount}</div>
-          </div>
-          <div className="stat place-items-center">
-            <div className="stat-title">Low Risk</div>
-            <div className="stat-value text-success">{lowRiskCount}</div>
-          </div>
-          <div className="stat place-items-center">
-            <div className="stat-title">Not Tested</div>
-            <div className="stat-value text-warning">{notTestedCount}</div>
-          </div>
-        </div>
-        <div className="card w-full bg-base-100 shadow-xl hidden lg:flex">
-          <div className="card-body items-center text-center">
+        <div className="card w-full bg-base-200 shadow-xl">
+          <div className="card-body p-2 items-center text-center">
             <h2 className="card-title">Data Visualization</h2>
-            <div className="w-[90%] flex flex-row gap-8 flex-wrap">
-              <GenderBar data={patientData} />
+            <div className="card w-full bg-base-100 shadow-xl">
+              <div className="card-body items-center text-center">
+                <GenderBar data={patientData} />
+              </div>
             </div>
           </div>
         </div>
