@@ -166,10 +166,6 @@ export default function index() {
               <DownloadCSV
                 supabase={supabase}
                 setDownloadCSVModal={setDownloadCSVModal}
-                selectedPatient={selectedPatient}
-                setAlert={setAlert}
-                setSuccess={setSuccess}
-                setRefresh={setRefresh}
               />
             </div>
           </div>
