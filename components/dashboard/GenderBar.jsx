@@ -49,17 +49,17 @@ export default function GenderBar({ data }) {
       {
         label: "High Risk",
         data: [highRiskMaleCount, highRiskFemaleCount],
-        backgroundColor: "rgba(255, 99, 132, 0.5)",
+        backgroundColor: "rgba(239, 68, 68, 0.5)",
       },
       {
         label: "Low Risk",
         data: [lowRiskMaleCount, lowRiskFemaleCount],
-        backgroundColor: "rgba(53, 162, 235, 0.5)",
+        backgroundColor: "rgba(34, 197, 94, 0.5)",
       },
       {
         label: "Not Tested",
         data: [notTestedMaleCount, notTestedFemaleCount],
-        backgroundColor: "rgba(53, 162, 235, 0.5)",
+        backgroundColor: "rgba(234, 179, 8, 0.5)",
       },
     ],
   };

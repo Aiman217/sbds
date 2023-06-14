@@ -53,7 +53,7 @@ export default function Nav({ children }) {
               </label>
               <div
                 tabIndex={0}
-                className="mt-3 p-2 shadow menu menu-compact border-2 border-base-100 dropdown-content bg-primary rounded-box w-52"
+                className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-primary rounded-box w-52"
               >
                 {session ? (
                   <button
@@ -102,7 +102,7 @@ export default function Nav({ children }) {
               </ul>
             </div>
             {/* Content of each page appear here */}
-            <div className="grow overflow-auto border-2 border-base-100 bg-base-300 text-neutral rounded-2xl">
+            <div className="grow overflow-auto bg-base-100 text-neutral rounded-2xl">
               {React.cloneElement(children, { session: session })}
             </div>
             {/* Content of each page end here */}
