@@ -11,7 +11,8 @@ export default function DownloadCSV({ supabase, setDownloadCSVModal }) {
   async function getCSV() {
     const { data: patient } = await supabase
       .from("patient")
-      .select("*")
+      .select("*, result!inner(*)")
+      .eq(filterType, filterAs)
       .order("name");
     setDownloadData(patient);
   }
@@ -41,8 +42,8 @@ export default function DownloadCSV({ supabase, setDownloadCSVModal }) {
             <option value="" disabled>
               Please select/ignore
             </option>
-            <option value="Status">Status</option>
-            <option value="Gender">Gender</option>
+            <option value="result.result">Status</option>
+            <option value="gender">Gender</option>
           </select>
         </div>
         {!EmptyCheck(filterType) ? (
@@ -60,10 +61,10 @@ export default function DownloadCSV({ supabase, setDownloadCSVModal }) {
               <option value="" disabled>
                 Please select
               </option>
-              {filterType == "Status" ? (
+              {filterType == "result.result" ? (
                 <>
-                  <option value="Male">High Risk</option>
-                  <option value="Female">Low Risk</option>
+                  <option value="High Risk">High Risk</option>
+                  <option value="Low Risk">Low Risk</option>
                 </>
               ) : (
                 <>
@@ -78,7 +79,7 @@ export default function DownloadCSV({ supabase, setDownloadCSVModal }) {
         )}
         <div className="form-control flex-row gap-4 mt-6">
           {!EmptyCheck(downloadData) ? (
-            <CSVLink data={downloadData} filename={"StudentLists.csv"}>
+            <CSVLink data={downloadData} filename={"PatientList.csv"}>
               <button className={"btn btn-info btn-circle flex-1"}>
                 <AiOutlineCloudDownload size={20} />
               </button>
