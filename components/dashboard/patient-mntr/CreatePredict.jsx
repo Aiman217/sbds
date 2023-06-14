@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { MdOutlineHealthAndSafety } from "react-icons/md";
-import InputConverter from "@/components/dashboard/patient/InputConverter";
+import InputConverter from "@/components/dashboard/patient-mntr/InputConverter";
 import AlertMsgHndl from "@/components/functions/AlertMsgHndl";
 import EmptyCheck from "@/components/functions/EmptyCheck";
 

@@ -83,8 +83,11 @@ export default function Nav({ children }) {
                   </div>
                 </li>
                 <li className="uppercase font-bold">
-                  <div className="tooltip tooltip-right" data-tip="Patient">
-                    <Link href="/dashboard/patient">
+                  <div
+                    className="tooltip tooltip-right"
+                    data-tip="Patient Monitoring"
+                  >
+                    <Link href="/dashboard/patient-mntr">
                       <RiUserHeartLine size={30} />
                     </Link>
                   </div>
@@ -123,9 +126,9 @@ export default function Nav({ children }) {
                 </Link>
               </li>
               <li className="uppercase font-bold flex flex-row">
-                <Link href="/dashboard/patient">
+                <Link href="/dashboard/patient-mntr">
                   <RiUserHeartLine size={30} />
-                  Patient
+                  Patient Monitoring
                 </Link>
               </li>
               <li className="uppercase font-bold flex flex-row">

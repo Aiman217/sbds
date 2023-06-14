@@ -4,12 +4,9 @@ import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { AiOutlineClose, AiOutlineEdit, AiOutlineForm } from "react-icons/ai";
 import { TbReportAnalytics } from "react-icons/tb";
 import { MdOutlineHealthAndSafety } from "react-icons/md";
-import CreatePatient from "@/components/dashboard/patient/CreatePatient";
-import UpdatePatient from "@/components/dashboard/patient/UpdatePatient";
-import DeletePatient from "@/components/dashboard/patient/DeletePatient";
-import CreatePHQ9 from "@/components/dashboard/patient/CreatePHQ9";
-import UpdatePHQ9 from "@/components/dashboard/patient/UpdatePHQ9";
-import CreatePredict from "@/components/dashboard/patient/CreatePredict";
+import CreatePHQ9 from "@/components/dashboard/patient-mntr/CreatePHQ9";
+import UpdatePHQ9 from "@/components/dashboard/patient-mntr/UpdatePHQ9";
+import CreatePredict from "@/components/dashboard/patient-mntr/CreatePredict";
 import Alert from "@/components/functions/Alert";
 import Loading from "@/components/functions/Loading";
 import EmptyCheck from "@/components/functions/EmptyCheck";
@@ -17,9 +14,6 @@ import EmptyCheck from "@/components/functions/EmptyCheck";
 export default function index() {
   const supabase = useSupabaseClient();
   const [patientData, setPatientData] = useState([]);
-  const [createPatientModal, setCreatePatientModal] = useState(false);
-  const [updatePatientModal, setUpdatePatientModal] = useState(false);
-  const [deletePatientModal, setDeletePatientModal] = useState(false);
   const [PHQ9Modal, setPHQ9Modal] = useState(false);
   const [createPredictModal, setCreatePredictModal] = useState(false);
   const [selectedPatient, setSelectedPatient] = useState([]);
@@ -44,28 +38,21 @@ export default function index() {
   return (
     <>
       <Head>
-        <title>Patient</title>
+        <title>Patient Monitoring</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <div className="h-full w-full p-4 flex flex-col gap-4">
         <div className="flex flex-row justify-between items-center">
           <div className="flex flex-col">
-            <h1 className="font-bold text-3xl capitalize mb-4">Patient</h1>
+            <h1 className="font-bold text-3xl capitalize mb-4">
+              Patient Monitoring
+            </h1>
             <p className="text-md mb-4">
               The prediction process required the patient&apos;s PHQ9 form. If
               the prediction button is disabled, please fill in the PHQ9 Form
               first before trying again.
             </p>
           </div>
-          <label
-            htmlFor="my-modal-create-patient"
-            className="btn btn-sm btn-success gap-2 modal-button"
-            onClick={() => {
-              setCreatePatientModal(true);
-            }}
-          >
-            Add Patient
-          </label>
         </div>
         <div className="overflow-x-auto">
           <table className="table w-full z-0 [&_thead_tr_th]:bg-primary [&_tbody_tr_th]:bg-base-200 [&_tbody_tr_td]:bg-base-200 [&_thead_tr_th]:text-base-100">
@@ -79,7 +66,6 @@ export default function index() {
                 <th>Status</th>
                 <th>PHQ9</th>
                 <th>Predict</th>
-                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -149,101 +135,12 @@ export default function index() {
                       </label>
                     </div>
                   </td>
-                  <td>
-                    <div className="flex gap-4">
-                      <div
-                        className="tooltip tooltip-left uppercase font-bold"
-                        data-tip="Update Patient"
-                      >
-                        <label
-                          htmlFor="my-modal-update-patient"
-                          className="btn btn-sm btn-info gap-2"
-                          onClick={() => {
-                            setSelectedPatient(item);
-                            setUpdatePatientModal(true);
-                          }}
-                        >
-                          <AiOutlineEdit size={20} />
-                        </label>
-                      </div>
-                      <div
-                        className="tooltip tooltip-left uppercase font-bold"
-                        data-tip="Delete Patient"
-                      >
-                        <label
-                          htmlFor="my-modal-delete-patient"
-                          className="btn btn-sm btn-error btn-circle gap-2"
-                          onClick={() => {
-                            setSelectedPatient(item);
-                            setDeletePatientModal(true);
-                          }}
-                        >
-                          <AiOutlineClose size={20} />
-                        </label>
-                      </div>
-                    </div>
-                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
       </div>
-      {createPatientModal && (
-        <div>
-          <input
-            type="checkbox"
-            id="my-modal-create-patient"
-            className="modal-toggle"
-          />
-          <div className="modal w-full">
-            <div className="modal-box w-[90%] sm:w-[80%]">
-              <label
-                htmlFor="my-modal-create-patient"
-                className="btn btn-sm btn-circle absolute right-2 top-2"
-                onClick={() => setCreatePatientModal(false)}
-              >
-                <AiOutlineClose size={20} />
-              </label>
-              <CreatePatient
-                supabase={supabase}
-                setCreatePatientModal={setCreatePatientModal}
-                setAlert={setAlert}
-                setSuccess={setSuccess}
-                setRefresh={setRefresh}
-              />
-            </div>
-          </div>
-        </div>
-      )}
-      {updatePatientModal && (
-        <div>
-          <input
-            type="checkbox"
-            id="my-modal-update-patient"
-            className="modal-toggle"
-          />
-          <div className="modal w-full">
-            <div className="modal-box w-[90%] sm:w-[80%]">
-              <label
-                htmlFor="my-modal-update-patient"
-                className="btn btn-sm btn-circle absolute right-2 top-2"
-                onClick={() => setUpdatePatientModal(false)}
-              >
-                <AiOutlineClose size={20} />
-              </label>
-              <UpdatePatient
-                supabase={supabase}
-                setUpdatePatientModal={setUpdatePatientModal}
-                selectedPatient={selectedPatient}
-                setAlert={setAlert}
-                setSuccess={setSuccess}
-                setRefresh={setRefresh}
-              />
-            </div>
-          </div>
-        </div>
-      )}
       {PHQ9Modal && (
         <div>
           <input
@@ -302,34 +199,6 @@ export default function index() {
               <CreatePredict
                 supabase={supabase}
                 setCreatePredictModal={setCreatePredictModal}
-                selectedPatient={selectedPatient}
-                setAlert={setAlert}
-                setSuccess={setSuccess}
-                setRefresh={setRefresh}
-              />
-            </div>
-          </div>
-        </div>
-      )}
-      {deletePatientModal && (
-        <div>
-          <input
-            type="checkbox"
-            id="my-modal-delete-patient"
-            className="modal-toggle"
-          />
-          <div className="modal w-full">
-            <div className="modal-box w-[90%] sm:w-[80%]">
-              <label
-                htmlFor="my-modal-delete-patient"
-                className="btn btn-sm btn-circle absolute right-2 top-2"
-                onClick={() => setDeletePatientModal(false)}
-              >
-                <AiOutlineClose size={20} />
-              </label>
-              <DeletePatient
-                supabase={supabase}
-                setDeletePatientModal={setDeletePatientModal}
                 selectedPatient={selectedPatient}
                 setAlert={setAlert}
                 setSuccess={setSuccess}
