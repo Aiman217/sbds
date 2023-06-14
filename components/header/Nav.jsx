@@ -4,6 +4,7 @@ import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { HiMenu } from "react-icons/hi";
 import { RxDashboard } from "react-icons/rx";
 import { RiUserHeartLine, RiUserSettingsLine } from "react-icons/ri";
+import { FaUserMd } from "react-icons/fa";
 import { useRouter } from "next/router";
 import Avatar from "boring-avatars";
 
@@ -83,12 +84,9 @@ export default function Nav({ children }) {
                   </div>
                 </li>
                 <li className="uppercase font-bold">
-                  <div
-                    className="tooltip tooltip-right"
-                    data-tip="Patient Monitoring"
-                  >
-                    <Link href="/dashboard/patient-mntr">
-                      <RiUserHeartLine size={30} />
+                  <div className="tooltip tooltip-right" data-tip="Profile">
+                    <Link href="/dashboard/profile">
+                      <FaUserMd size={30} />
                     </Link>
                   </div>
                 </li>
@@ -99,6 +97,16 @@ export default function Nav({ children }) {
                   >
                     <Link href="/dashboard/patient-mngmt">
                       <RiUserSettingsLine size={30} />
+                    </Link>
+                  </div>
+                </li>
+                <li className="uppercase font-bold">
+                  <div
+                    className="tooltip tooltip-right"
+                    data-tip="Patient Monitoring"
+                  >
+                    <Link href="/dashboard/patient-mntr">
+                      <RiUserHeartLine size={30} />
                     </Link>
                   </div>
                 </li>
@@ -126,15 +134,21 @@ export default function Nav({ children }) {
                 </Link>
               </li>
               <li className="uppercase font-bold flex flex-row">
-                <Link href="/dashboard/patient-mntr">
-                  <RiUserHeartLine size={30} />
-                  Patient Monitoring
+                <Link href="/dashboard/profile">
+                  <FaUserMd size={30} />
+                  Profile
                 </Link>
               </li>
               <li className="uppercase font-bold flex flex-row">
                 <Link href="/dashboard/patient-mngmt">
                   <RiUserSettingsLine size={30} />
                   Patient Management
+                </Link>
+              </li>
+              <li className="uppercase font-bold flex flex-row">
+                <Link href="/dashboard/patient-mntr">
+                  <RiUserHeartLine size={30} />
+                  Patient Monitoring
                 </Link>
               </li>
             </ul>
