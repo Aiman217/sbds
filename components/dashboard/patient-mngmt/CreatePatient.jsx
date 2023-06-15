@@ -232,10 +232,8 @@ export default function CreatePatient({
         <div className="form-control">
           <button
             onClick={createPatient}
-            className={
-              "btn btn-block btn-success mt-6 " +
-              (formEmpty() ? "btn-disabled" : "")
-            }
+            className="btn btn-block btn-success mt-6"
+            disabled={formEmpty() ? "disabled" : ""}
           >
             Create
           </button>

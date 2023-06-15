@@ -250,10 +250,8 @@ export default function UpdatePatient({
         <div className="form-control">
           <button
             onClick={updatePatient}
-            className={
-              "btn btn-block btn-info mt-6 " +
-              (formEmpty() ? "btn-disabled" : "")
-            }
+            className="btn btn-block btn-info mt-6"
+            disabled={formEmpty() ? "disabled" : ""}
           >
             Update
           </button>

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Datepicker from "react-tailwindcss-datepicker";
 import AlertMsgHndl from "@/components/functions/AlertMsgHndl";
 import EmptyCheck from "@/components/functions/EmptyCheck";
 
@@ -10,6 +11,7 @@ export default function CreateProfile({
   setRefresh,
 }) {
   const [name, setName] = useState("");
+  const [dob, setDOB] = useState(0);
 
   function formEmpty() {
     return EmptyCheck(name);
@@ -39,9 +41,13 @@ export default function CreateProfile({
   }
 
   async function createPatient() {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     const { error } = await supabase.from("user").insert([
       {
         name: name,
+        account_created_at: user.created_at,
       },
     ]);
     setCreateProfileModal(false);
@@ -87,13 +93,25 @@ export default function CreateProfile({
             }}
           />
         </div>
+        <div className="form-control w-full">
+          <label className="label">
+            <span className="label-text">Date of Birth</span>
+          </label>
+          <Datepicker
+            useRange={false}
+            asSingle={true}
+            value={dob}
+            primaryColor="pink"
+            onChange={(e) => {
+              setDOB(e.startDate);
+            }}
+          />
+        </div>
         <div className="form-control">
           <button
             onClick={createPatient}
-            className={
-              "btn btn-block btn-success mt-6 " +
-              (formEmpty() ? "btn-disabled" : "")
-            }
+            className="btn btn-block btn-success mt-6"
+            disabled={formEmpty() ? "disabled" : ""}
           >
             Create
           </button>

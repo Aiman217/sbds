@@ -1,16 +1,20 @@
-import { AiOutlineClose } from "react-icons/ai";
+import { AiOutlineCloseCircle } from "react-icons/ai";
 
 export default function Alert({ alert, setAlert, success }) {
   return (
     <>
       <div className="toast">
-        <div className={"alert alert-success shadow-lg " + (success ? "alert-success" : "alert-error")}>
-          <div>
-            <span className="text-sm sm:text-base">{alert}</span>
-            <AiOutlineClose
+        <div
+          className={
+            "alert shadow-lg " + (success ? "alert-success" : "alert-error")
+          }
+        >
+          <div className="flex flex-row gap-2">
+            <span className="text-sm font-semibold sm:text-base">{alert}</span>
+            <AiOutlineCloseCircle
               onClick={() => setAlert("")}
-              size={20}
-              className="text-white cursor-pointer"
+              size={25}
+              className="cursor-pointer"
             />
           </div>
         </div>

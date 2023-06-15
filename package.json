@@ -17,6 +17,7 @@
     "boring-avatars": "^1.7.0",
     "chart.js": "^4.3.0",
     "daisyui": "^3.1.0",
+    "dayjs": "^1.11.8",
     "next": "13.3.0",
     "postcss": "8.4.21",
     "react": "18.2.0",
@@ -24,6 +25,7 @@
     "react-csv": "^2.2.2",
     "react-dom": "18.2.0",
     "react-icons": "^4.8.0",
+    "react-tailwindcss-datepicker": "^1.6.3",
     "tailwindcss": "3.3.2",
     "uuid": "^9.0.0"
   }
