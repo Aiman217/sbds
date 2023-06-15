@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Datepicker from "react-tailwindcss-datepicker";
+import { v4 as uuidv4 } from "uuid";
 import AlertMsgHndl from "@/components/functions/AlertMsgHndl";
 import EmptyCheck from "@/components/functions/EmptyCheck";
 
@@ -10,34 +11,36 @@ export default function CreateProfile({
   setSuccess,
   setRefresh,
 }) {
+  const [image, setImage] = useState([]);
   const [name, setName] = useState("");
+  const [gender, setGender] = useState("");
+  const [phone, setPhone] = useState(0);
+  const [officeAddress, setOfficeAddress] = useState("");
   const [dob, setDOB] = useState(0);
+  const [imageURL, setImageURL] = useState("");
 
   function formEmpty() {
-    return EmptyCheck(name);
+    return (
+      EmptyCheck(name) ||
+      EmptyCheck(gender) ||
+      EmptyCheck(phone) ||
+      EmptyCheck(officeAddress) ||
+      EmptyCheck(dob) ||
+      EmptyCheck(imageURL)
+    );
   }
 
-  async function uploadFile() {
-    const { data, error } = await supabase.storage
+  async function uploadImage() {
+    const tempImageName = uuidv4();
+    const { path } = await supabase.storage
       .from("user")
-      .upload("file_path2", uploadPhoto);
-    if (error) {
-      console.log(error);
-    } else {
-      console.log(data.path);
-      getFileURL();
-    }
+      .upload(tempImageName, image);
+    getImageUrl(tempImageName);
   }
 
-  async function getFileURL() {
-    const { data, error } = supabase.storage
-      .from("user")
-      .getPublicUrl("file_path2");
-    if (error) {
-      console.log(error);
-    } else {
-      console.log(data);
-    }
+  function getImageUrl(tempImageName) {
+    const { data } = supabase.storage.from("user").getPublicUrl(tempImageName);
+    setImageURL(data);
   }
 
   async function createPatient() {
@@ -46,8 +49,13 @@ export default function CreateProfile({
     } = await supabase.auth.getUser();
     const { error } = await supabase.from("user").insert([
       {
-        name: name,
         account_created_at: user.created_at,
+        name: name,
+        gender: gender,
+        phone: phone,
+        office_address: officeAddress,
+        dob: dob.startDate,
+        image: imageURL.publicUrl,
       },
     ]);
     setCreateProfileModal(false);
@@ -64,7 +72,7 @@ export default function CreateProfile({
     <>
       <div className="form-control">
         <h1 className="text-lg font-bold uppercase text-center mt-4">
-          Add New Patient
+          Create Profile
         </h1>
         <div className="divider p-0 m-0"></div>
         <div className="form-control w-full">
@@ -82,16 +90,46 @@ export default function CreateProfile({
         </div>
         <div className="form-control w-full">
           <label className="label">
-            <span className="label-text">Profile Image</span>
+            <span className="label-text">Gender</span>
+          </label>
+          <select
+            className="select select-bordered mb-2"
+            onChange={(event) => {
+              setGender(event.target.value);
+            }}
+            defaultValue=""
+          >
+            <option value="" disabled>
+              Pick gender
+            </option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+          </select>
+        </div>
+        <div className="form-control w-full">
+          <label className="label">
+            <span className="label-text">Phone</span>
           </label>
           <input
-            type="file"
-            className="file-input file-input-bordered w-full"
-            accept="image/*"
-            onChange={(e) => {
-              setUploadPhoto(e.target.files[0]);
+            onChange={(event) => {
+              setPhone(event.target.value);
             }}
+            type="number"
+            placeholder="phone"
+            className="input input-bordered mb-2"
           />
+        </div>
+        <div className="form-control w-full">
+          <label className="label">
+            <span className="label-text">Office Address</span>
+          </label>
+          <textarea
+            onChange={(event) => {
+              setOfficeAddress(event.target.value);
+            }}
+            className="textarea textarea-bordered"
+            placeholder="office address"
+          ></textarea>
         </div>
         <div className="form-control w-full">
           <label className="label">
@@ -102,15 +140,35 @@ export default function CreateProfile({
             asSingle={true}
             value={dob}
             primaryColor="pink"
-            onChange={(e) => {
-              setDOB(e.startDate);
+            onChange={(event) => {
+              setDOB(event);
             }}
           />
         </div>
-        <div className="form-control">
+        <div className="form-control w-full">
+          <label className="label">
+            <span className="label-text">Profile Image</span>
+          </label>
+          <input
+            type="file"
+            className="file-input file-input-bordered w-full"
+            accept="image/*"
+            onChange={(event) => {
+              setImage(event.target.files[0]);
+            }}
+          />
+        </div>
+        <div className="flex flex-row gap-2">
+          <button
+            onClick={uploadImage}
+            className="btn btn-info mt-6"
+            disabled={EmptyCheck(image) ? "disabled" : ""}
+          >
+            Upload
+          </button>
           <button
             onClick={createPatient}
-            className="btn btn-block btn-success mt-6"
+            className="flex-grow btn btn-success mt-6"
             disabled={formEmpty() ? "disabled" : ""}
           >
             Create
