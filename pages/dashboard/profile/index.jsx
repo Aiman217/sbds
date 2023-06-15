@@ -1,83 +1,38 @@
 import Head from "next/head";
 import { useState, useEffect } from "react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { AiOutlineClose } from "react-icons/ai";
 import { v4 as uuidv4 } from "uuid";
 import Alert from "@/components/functions/Alert";
 import Loading from "@/components/functions/Loading";
 import EmptyCheck from "@/components/functions/EmptyCheck";
+import CreateProfile from "@/components/dashboard/profile/CreateProfile";
 
 export default function index() {
   const supabase = useSupabaseClient();
+  const [userProfile, setUserProfile] = useState([]);
   const [uploadPhoto, setUploadPhoto] = useState([]);
   const [createProfileModal, setCreateProfileModal] = useState(false);
   const [alert, setAlert] = useState("");
   const [success, setSuccess] = useState(false);
   const [refresh, setRefresh] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  // Upload file using standard upload
-  async function uploadFile() {
-    const { data, error } = await supabase.storage
-      .from("user")
-      .upload("file_path2", uploadPhoto);
-    if (error) {
-      // Handle error
-      console.log(error);
-    } else {
-      // Handle success
-      console.log(data.path);
-      getFileURL();
-    }
-  }
-
-  // Upload file using standard upload
-  async function getFileURL() {
-    const { data, error } = supabase.storage
-      .from("user")
-      .getPublicUrl("file_path2");
-    if (error) {
-      // Handle error
-      console.log(error);
-    } else {
-      // Handle success
-      console.log(data);
-    }
-  }
-
-  async function createProfile() {
-    const { error } = await supabase.from("user").insert([
-      {
-        patient_id_fk: selectedPatient.id,
-        little_interest: littleInterest,
-        feeling_down: feelingDown,
-        sleeping_trouble: sleepingTrouble,
-        feeling_tired: feelingTired,
-        poor_appetite: poorAppetite,
-        feeling_bad: feelingBad,
-        trouble_concentrating: troubleConcentrating,
-        moving_slowly: movingSlowly,
-        thoughts_self_harm: thoughtsSelfHarm,
-      },
-    ]);
-    setPHQ9Modal(false);
-    AlertMsgHndl(
-      "Successfully add patient phq9 form!",
-      error,
-      setAlert,
-      setSuccess,
-      setRefresh
-    );
-  }
-
-  // useEffect(() => {
-  //   const getUser = async () => {
-  //     const { data: profile } = await supabase.from("user").select("*").eq("doctor_id", );
-  //     setPatientData(patient);
-  //     setRefresh(false);
-  //     setLoading(false);
-  //   };
-  //   getPatient();
-  // }, [refresh]);
+  useEffect(() => {
+    const getUser = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      const { data: profile } = await supabase
+        .from("user")
+        .select("*")
+        .eq("user_id", user.id);
+      setUserProfile(profile);
+      setRefresh(false);
+      setLoading(false);
+    };
+    getUser();
+  }, [refresh]);
 
   return (
     <>
@@ -85,7 +40,6 @@ export default function index() {
         <title>Profile</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      {console.log(supabase)}
       <div className="h-full w-full p-4 flex flex-col gap-4">
         <div className="flex flex-row justify-between items-center">
           <div className="flex flex-col">
@@ -104,18 +58,16 @@ export default function index() {
             </label>
           </div>
         </div>
-        <input
-          type="file"
-          className="file-input file-input-bordered file-input-primary w-full max-w-xs"
-          accept="image/*"
-          onChange={(e) => {
-            setUploadPhoto(e.target.files[0]);
-          }}
-        />
-        <div className="form-control">
-          <button onClick={uploadFile} className="btn btn-block btn-info mt-6 ">
-            Upload
-          </button>
+        <div className="card w-full bg-base-200 shadow-xl">
+          <div className="card-body p-2 items-center text-center">
+            <div className="card w-full bg-base-100 shadow-xl">
+              {!EmptyCheck(userProfile) ? (
+                <div className="card-body items-center text-center">Exist</div>
+              ) : (
+                <div className="card-body items-center text-center">Empty</div>
+              )}
+            </div>
+          </div>
         </div>
       </div>
       {createProfileModal && (
@@ -134,7 +86,7 @@ export default function index() {
               >
                 <AiOutlineClose size={20} />
               </label>
-              <CreatePatient
+              <CreateProfile
                 supabase={supabase}
                 setCreateProfileModal={setCreateProfileModal}
                 setAlert={setAlert}
