@@ -16,7 +16,7 @@
     "autoprefixer": "10.4.14",
     "boring-avatars": "^1.7.0",
     "chart.js": "^4.3.0",
-    "daisyui": "^2.51.5",
+    "daisyui": "^3.1.0",
     "next": "13.3.0",
     "postcss": "8.4.21",
     "react": "18.2.0",
@@ -24,6 +24,6 @@
     "react-csv": "^2.2.2",
     "react-dom": "18.2.0",
     "react-icons": "^4.8.0",
-    "tailwindcss": "3.3.1"
+    "tailwindcss": "3.3.2"
   }
 }
