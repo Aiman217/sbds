@@ -14,6 +14,9 @@ export async function middleware(req) {
   // Check auth condition
   if (session) {
     // Authentication successful, forward request to protected route.
+    if (req.nextUrl.pathname === "/") {
+      return NextResponse.rewrite(new URL("/dashboard", req.url));
+    }
     return res;
   }
 

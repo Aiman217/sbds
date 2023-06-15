@@ -22,7 +22,7 @@ export default function Nav({ children }) {
 
   return (
     <div data-theme="light">
-      <div className="drawer bg-primary text-base-100">
+      <div className="drawer transition-transform translate-x-0 [.drawer-toggle:checked~&]:translate-x-2 bg-primary text-base-100">
         <input id="my-drawer-1" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content flex flex-col min-h-screen">
           <div className="navbar px-4 lg:px-10 justify-between">
@@ -124,7 +124,7 @@ export default function Nav({ children }) {
             htmlFor="my-drawer-1"
             className="drawer-overlay lg:hidden"
           ></label>
-          <div className="menu border-r-2 border-base-100 rounded-r-2xl bg-primary p-4 w-[70%] md:w-[50%] lg:hidden">
+          <div className="menu border-r-2 border-base-100 rounded-r-2xl bg-primary p-4 h-full w-[70%] md:w-[50%] lg:hidden">
             <div className="divider flex-none before:bg-base-100 after:bg-base-100" />
             <ul className="flex grow flex-col justify-center items-start gap-4">
               <li className="uppercase font-bold flex flex-row">
