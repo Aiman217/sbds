@@ -58,13 +58,13 @@ export default function index() {
             []
           )}
         </div>
-        <div className="card w-full bg-base-200 shadow-xl">
+        <div className="card w-full bg-base-200 shadow-xl mt-10">
           <div className="card-body p-2 items-center text-center">
             <div className="card w-full bg-base-100 shadow-xl">
               {!EmptyCheck(userProfile) ? (
-                <div className="card-body">
+                <div className="card-body items-center">
                   <img
-                    className="mask mask-squircle fixed -translate-y-3/4 translate-x-[400%]"
+                    className="mask mask-squircle fixed -translate-y-3/4"
                     src={userProfile.image}
                     height={100}
                     width={100}
