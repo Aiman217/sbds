@@ -123,7 +123,7 @@ export default function index() {
                       <label
                         htmlFor="my-modal-create-predict"
                         className="btn btn-sm btn-warning gap-2"
-                        disabled={item.phq9 ? "disabled" : ""}
+                        disabled={!item.phq9 ? "disabled" : ""}
                         onClick={() => {
                           setSelectedPatient(item);
                           setCreatePredictModal(true);
