@@ -2,9 +2,6 @@ import React from "react";
 import Link from "next/link";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { HiMenu } from "react-icons/hi";
-import { RxDashboard } from "react-icons/rx";
-import { RiUserHeartLine, RiUserSettingsLine } from "react-icons/ri";
-import { FaUserMd } from "react-icons/fa";
 import { useRouter } from "next/router";
 import Avatar from "boring-avatars";
 
@@ -22,139 +19,85 @@ export default function Nav({ children }) {
 
   return (
     <div data-theme="light">
-      <div className="drawer transition-transform translate-x-0 [.drawer-toggle:checked~&]:translate-x-2 bg-primary text-base-100">
-        <input id="my-drawer-1" type="checkbox" className="drawer-toggle" />
-        <div className="drawer-content flex flex-col min-h-screen">
-          <div className="navbar px-4 lg:px-10 justify-between">
-            <div className={!session ? "hidden" : "block lg:hidden"}>
-              <label
-                htmlFor="my-drawer-1"
-                className="btn btn-sm btn-square btn-ghost"
-              >
-                <HiMenu htmlFor="my-drawer-1" size={25} />
+      <div className="sticky top-0 z-20 w-full h-full">
+        <div className="navbar bg-primary text-base-100">
+          <div className="navbar-start">
+            <div className="dropdown">
+              <label tabIndex={0} className="btn btn-ghost btn-circle">
+                <HiMenu size={25} />
               </label>
-            </div>
-            <div>
-              <h1 className="font-bold text-center w-full">
-                <div>SBDS@USM</div>
-              </h1>
-            </div>
-            <div
-              className={
-                "dropdown dropdown-end ml-4 " + (!session ? "hidden" : "")
-              }
-            >
-              <label
+              <ul
                 tabIndex={0}
-                className="btn btn-sm md:btn-md btn-ghost btn-circle avatar"
+                className="menu menu-sm dropdown-content mt-3 p-2 shadow bg-base-200 rounded-box w-52 z-20 gap-2"
               >
-                <div className="flex rounded-full justify-center items-center">
-                  <Avatar size={40} name="Eunice Kennedy" variant="bauhaus" />
-                </div>
-              </label>
-              <div
-                tabIndex={0}
-                className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-primary rounded-box w-52"
-              >
-                {session ? (
-                  <button
-                    className={"btn btn-sm btn-error m-2"}
-                    onClick={() => signOut()}
+                <li>
+                  <Link
+                    href="/dashboard"
+                    className="bg-primary font-semibold uppercase justify-center"
                   >
-                    Sign Out
-                  </button>
-                ) : (
-                  []
-                )}
-              </div>
-            </div>
-          </div>
-          <div className="flex flex-row h-full overflow-hidden">
-            <div
-              className={
-                "h-full w-20 " + (!session ? "hidden" : "hidden lg:block")
-              }
-            >
-              <ul className="flex flex-col justify-center items-center gap-4 py-6">
-                <li className="uppercase font-bold">
-                  <div className="tooltip tooltip-right" data-tip="Dashboard">
-                    <Link href="/dashboard">
-                      <RxDashboard size={30} />
-                    </Link>
-                  </div>
+                    Dashboard
+                  </Link>
                 </li>
-                <li className="uppercase font-bold">
-                  <div className="tooltip tooltip-right" data-tip="Profile">
-                    <Link href="/dashboard/profile">
-                      <FaUserMd size={30} />
-                    </Link>
-                  </div>
-                </li>
-                <li className="uppercase font-bold">
-                  <div
-                    className="tooltip tooltip-right"
-                    data-tip="Patient Management"
+                <li>
+                  <Link
+                    href="/dashboard/patient-mngmt"
+                    className="bg-primary font-semibold uppercase justify-center"
                   >
-                    <Link href="/dashboard/patient-mngmt">
-                      <RiUserSettingsLine size={30} />
-                    </Link>
-                  </div>
+                    Patient Management
+                  </Link>
                 </li>
-                <li className="uppercase font-bold">
-                  <div
-                    className="tooltip tooltip-right"
-                    data-tip="Patient Monitoring"
+                <li>
+                  <Link
+                    href="/dashboard/patient-mntr"
+                    className="bg-primary font-semibold uppercase justify-center"
                   >
-                    <Link href="/dashboard/patient-mntr">
-                      <RiUserHeartLine size={30} />
-                    </Link>
-                  </div>
+                    Patient Monitoring
+                  </Link>
                 </li>
               </ul>
             </div>
-            {/* Content of each page appear here */}
-            <div className="grow overflow-auto bg-base-100 text-neutral rounded-2xl">
-              {React.cloneElement(children, { session: session })}
+          </div>
+          <div className="navbar-center">
+            <a className="btn btn-ghost normal-case text-xl">SBDS@USM</a>
+          </div>
+          <div className="navbar-end">
+            <div className="dropdown dropdown-end z-20">
+              <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+                <div className="w-10 rounded-full">
+                  <Avatar size={40} name="Eunice Kennedy" variant="bauhaus" />
+                </div>
+              </label>
+              <ul
+                tabIndex={0}
+                className="menu menu-sm dropdown-content mt-3 p-2 shadow bg-base-200 rounded-box w-52 gap-2"
+              >
+                <li>
+                  <Link
+                    href="/dashboard/profile"
+                    className="bg-primary font-semibold uppercase justify-center"
+                  >
+                    Profile
+                  </Link>
+                </li>
+                <li>
+                  {session ? (
+                    <button
+                      className={"btn btn-outline bg-base-100 btn-sm btn-error"}
+                      onClick={() => signOut()}
+                    >
+                      Sign Out
+                    </button>
+                  ) : (
+                    []
+                  )}
+                </li>
+              </ul>
             </div>
-            {/* Content of each page end here */}
           </div>
         </div>
-        <div className="drawer-side">
-          <label
-            htmlFor="my-drawer-1"
-            className="drawer-overlay lg:hidden"
-          ></label>
-          <div className="menu border-r-2 border-base-100 rounded-r-2xl bg-primary p-4 h-full w-[70%] md:w-[50%] lg:hidden">
-            <div className="divider flex-none before:bg-base-100 after:bg-base-100" />
-            <ul className="flex grow flex-col justify-center items-start gap-4">
-              <li className="uppercase font-bold flex flex-row">
-                <Link href="/dashboard">
-                  <RxDashboard size={30} />
-                  Dashboard
-                </Link>
-              </li>
-              <li className="uppercase font-bold flex flex-row">
-                <Link href="/dashboard/profile">
-                  <FaUserMd size={30} />
-                  Profile
-                </Link>
-              </li>
-              <li className="uppercase font-bold flex flex-row">
-                <Link href="/dashboard/patient-mngmt">
-                  <RiUserSettingsLine size={30} />
-                  Patient Management
-                </Link>
-              </li>
-              <li className="uppercase font-bold flex flex-row">
-                <Link href="/dashboard/patient-mntr">
-                  <RiUserHeartLine size={30} />
-                  Patient Monitoring
-                </Link>
-              </li>
-            </ul>
-            <div className="divider flex-none before:bg-base-100 after:bg-base-100" />
-          </div>
-        </div>
+      </div>
+      <div className="z-0">
+        {React.cloneElement(children, { session: session })}
       </div>
     </div>
   );

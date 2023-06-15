@@ -25,7 +25,7 @@ export default function index() {
         .from("user")
         .select("*")
         .eq("user_id", user.id);
-      setUserProfile(profile);
+      setUserProfile(profile[0]);
       setRefresh(false);
       setLoading(false);
     };
@@ -62,7 +62,81 @@ export default function index() {
           <div className="card-body p-2 items-center text-center">
             <div className="card w-full bg-base-100 shadow-xl">
               {!EmptyCheck(userProfile) ? (
-                <div className="card-body items-center text-center">Exist</div>
+                <div className="card-body">
+                  <img
+                    className="mask mask-squircle fixed -translate-y-3/4 translate-x-[400%]"
+                    src={userProfile.image}
+                    height={100}
+                    width={100}
+                  />
+                  <div className="flex flex-row flex-wrap gap-4 mt-10">
+                    <div className="form-control">
+                      <label className="label">
+                        <span className="label-text">Name</span>
+                      </label>
+                      <input
+                        type="text"
+                        placeholder={userProfile.name}
+                        className="input input-bordered mb-2"
+                        disabled="disabled"
+                      />
+                    </div>
+                    <div className="form-control">
+                      <label className="label">
+                        <span className="label-text">Email</span>
+                      </label>
+                      <input
+                        type="text"
+                        placeholder={userProfile.email}
+                        className="input input-bordered mb-2"
+                        disabled="disabled"
+                      />
+                    </div>
+                    <div className="form-control">
+                      <label className="label">
+                        <span className="label-text">Gender</span>
+                      </label>
+                      <input
+                        type="text"
+                        placeholder={userProfile.gender}
+                        className="input input-bordered mb-2"
+                        disabled="disabled"
+                      />
+                    </div>
+                    <div className="form-control">
+                      <label className="label">
+                        <span className="label-text">Phone</span>
+                      </label>
+                      <input
+                        type="number"
+                        placeholder={userProfile.phone}
+                        className="input input-bordered mb-2"
+                        disabled="disabled"
+                      />
+                    </div>
+                    <div className="form-control">
+                      <label className="label">
+                        <span className="label-text">Office Address</span>
+                      </label>
+                      <textarea
+                        className="textarea textarea-bordered"
+                        placeholder={userProfile.office_address}
+                        disabled="disabled"
+                      ></textarea>
+                    </div>
+                    <div className="form-control">
+                      <label className="label">
+                        <span className="label-text">Date of Birth</span>
+                      </label>
+                      <input
+                        type="text"
+                        placeholder={userProfile.dob}
+                        className="input input-bordered mb-2"
+                        disabled="disabled"
+                      />
+                    </div>
+                  </div>
+                </div>
               ) : (
                 <div className="card-body items-center text-center">Empty</div>
               )}
