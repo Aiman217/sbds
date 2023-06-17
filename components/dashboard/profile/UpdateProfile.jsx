@@ -175,14 +175,14 @@ export default function UpdateProfile({
         <div className="flex flex-row gap-2">
           <button
             onClick={uploadImage}
-            className="btn btn-info mt-6"
+            className="btn btn-warning mt-6"
             disabled={EmptyCheck(image) ? "disabled" : ""}
           >
             Upload
           </button>
           <button
             onClick={updateProfile}
-            className="flex-grow btn btn-success mt-6"
+            className="flex-grow btn btn-info mt-6"
             disabled={formEmpty() ? "disabled" : ""}
           >
             Update

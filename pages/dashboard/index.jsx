@@ -2,8 +2,9 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import GenderBar from "@/components/dashboard/GenderBar";
-import Loading from "@/components/functions/Loading";
 import GenderPie from "@/components/dashboard/GenderPie";
+import AgeBar from "@/components/dashboard/AgeBar";
+import Loading from "@/components/functions/Loading";
 
 export default function index() {
   const supabase = useSupabaseClient();
@@ -73,6 +74,7 @@ export default function index() {
               <div className="card-body items-center text-center">
                 <GenderPie data={patientData} />
                 <GenderBar data={patientData} />
+                <AgeBar data={patientData} />
               </div>
             </div>
           </div>

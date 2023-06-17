@@ -28,7 +28,7 @@ export const options = {
     },
     title: {
       display: true,
-      text: "Patients by Gender",
+      text: "Patients by Status Category",
     },
   },
 };

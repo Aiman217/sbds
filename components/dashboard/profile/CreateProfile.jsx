@@ -168,7 +168,7 @@ export default function CreateProfile({
         <div className="flex flex-row gap-2">
           <button
             onClick={uploadImage}
-            className="btn btn-info mt-6"
+            className="btn btn-warning mt-6"
             disabled={EmptyCheck(image) ? "disabled" : ""}
           >
             Upload

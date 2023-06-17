@@ -59,7 +59,7 @@ export default function index() {
           ) : (
             <label
               htmlFor="my-modal-update-profile"
-              className="btn btn-sm btn-success gap-2 modal-button"
+              className="btn btn-sm btn-info gap-2 modal-button"
               onClick={() => {
                 setUpdateProfileModal(true);
               }}
@@ -72,15 +72,16 @@ export default function index() {
           <div className="card-body p-2 items-center text-center">
             <div className="card w-full bg-base-100 shadow-xl">
               {!EmptyCheck(userProfile) ? (
-                <div className="card-body items-center">
+                <div className="card-body lg:flex-row items-center">
                   <img
-                    className="mask mask-squircle fixed -translate-y-3/4"
+                    className="mask mask-squircle"
                     src={userProfile.image}
                     height={100}
                     width={100}
                   />
-                  <div className="flex flex-row flex-wrap gap-4 mt-10">
-                    <div className="form-control">
+                  <div className="divider lg:divider-horizontal p-0 m-0"></div>
+                  <div className="flex flex-row flex-wrap gap-4">
+                    <div className="form-control w-full lg:w-fit">
                       <label className="label">
                         <span className="label-text">Name</span>
                       </label>
@@ -91,7 +92,7 @@ export default function index() {
                         disabled="disabled"
                       />
                     </div>
-                    <div className="form-control">
+                    <div className="form-control w-full lg:w-fit">
                       <label className="label">
                         <span className="label-text">Email</span>
                       </label>
@@ -102,7 +103,7 @@ export default function index() {
                         disabled="disabled"
                       />
                     </div>
-                    <div className="form-control">
+                    <div className="form-control w-full lg:w-fit">
                       <label className="label">
                         <span className="label-text">Gender</span>
                       </label>
@@ -113,7 +114,7 @@ export default function index() {
                         disabled="disabled"
                       />
                     </div>
-                    <div className="form-control">
+                    <div className="form-control w-full lg:w-fit">
                       <label className="label">
                         <span className="label-text">Phone</span>
                       </label>
@@ -124,7 +125,7 @@ export default function index() {
                         disabled="disabled"
                       />
                     </div>
-                    <div className="form-control">
+                    <div className="form-control w-full lg:w-fit">
                       <label className="label">
                         <span className="label-text">Office Address</span>
                       </label>
@@ -134,7 +135,7 @@ export default function index() {
                         disabled="disabled"
                       ></textarea>
                     </div>
-                    <div className="form-control">
+                    <div className="form-control w-full lg:w-fit">
                       <label className="label">
                         <span className="label-text">Date of Birth</span>
                       </label>
@@ -148,8 +149,9 @@ export default function index() {
                   </div>
                 </div>
               ) : (
-                <div className="card-body items-center text-center font-bold">
-                  No profile created yet. Please create it using create profile button.
+                <div className="card-body items-center text-center italic">
+                  No profile created yet. Please create it using create profile
+                  button.
                 </div>
               )}
             </div>

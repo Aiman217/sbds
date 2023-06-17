@@ -2,6 +2,8 @@ import React from "react";
 import Link from "next/link";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { HiMenu } from "react-icons/hi";
+import { AiFillGithub } from "react-icons/ai";
+import { FiAlertTriangle } from "react-icons/fi";
 import { useRouter } from "next/router";
 import Avatar from "boring-avatars";
 
@@ -100,11 +102,31 @@ export default function Nav({ children }) {
           )}
         </div>
       </div>
-      <div className="z-0 flex justify-center">
+      <div className="z-0 flex justify-center min-h-screen">
         <div className="w-[90%]">
           {React.cloneElement(children, { session: session })}
         </div>
       </div>
+      <footer className="sticky bottom-0 footer items-center p-4 bg-primary text-base-100">
+        <div className="items-center grid-flow-col">
+          <FiAlertTriangle size={30} />
+          <p className="italic ml-2">
+            Prediction by machine learning model are based on statistical
+            correlations, and may not be accurate or relevant for every
+            individual.
+          </p>
+        </div>
+        <div className="grid-flow-col gap-4 md:place-self-center md:justify-self-end">
+          <a
+            target="_blank"
+            href="https://github.com/Aiman217/sbds"
+            rel="noopener noreferrer"
+            className="btn btn-circle"
+          >
+            <AiFillGithub size={30} />
+          </a>
+        </div>
+      </footer>
     </div>
   );
 }

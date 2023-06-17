@@ -87,8 +87,8 @@ export default function DownloadCSV({ supabase, setDownloadCSVModal }) {
           ) : (
             []
           )}
-          <button onClick={getCSV} className={"btn btn-success flex-1"}>
-            Confirm
+          <button onClick={getCSV} className={"btn btn-info flex-1"}>
+            Download
           </button>
           <button
             onClick={() => {
