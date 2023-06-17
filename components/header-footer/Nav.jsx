@@ -20,8 +20,8 @@ export default function Nav({ children }) {
   }
 
   return (
-    <div data-theme="light">
-      <div className="sticky top-0 z-20 w-full h-full">
+    <div data-theme="light" className="flex flex-col min-h-screen w-full">
+      <div className="sticky top-0 z-20">
         <div className="navbar bg-primary text-base-100">
           {session ? (
             <div className="navbar-start">
@@ -102,28 +102,27 @@ export default function Nav({ children }) {
           )}
         </div>
       </div>
-      <div className="z-0 flex justify-center min-h-screen">
-        <div className="w-[90%]">
+      <div className="z-0 flex justify-center grow">
+        <div className="lg:w-[90%] overflow-auto">
           {React.cloneElement(children, { session: session })}
         </div>
       </div>
-      <footer className="sticky bottom-0 footer items-center p-4 bg-primary text-base-100">
+      <footer className="sticky bottom-0 footer gap-2 items-center p-4 bg-primary text-base-100">
         <div className="items-center grid-flow-col">
-          <FiAlertTriangle size={30} />
-          <p className="italic ml-2">
+          <p className="italic text-justify text-xs lg:text-sm">
             Prediction by machine learning model are based on statistical
             correlations, and may not be accurate or relevant for every
             individual.
           </p>
         </div>
-        <div className="grid-flow-col gap-4 md:place-self-center md:justify-self-end">
+        <div className="lg:place-self-center lg:justify-self-end">
           <a
             target="_blank"
             href="https://github.com/Aiman217/sbds"
             rel="noopener noreferrer"
-            className="btn btn-circle"
+            className="btn btn-primary btn-circle"
           >
-            <AiFillGithub size={30} />
+            <AiFillGithub size={30} className="text-base-100" />
           </a>
         </div>
       </footer>
