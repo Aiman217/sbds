@@ -42,7 +42,7 @@ export default function index() {
         <div className="flex flex-col justify-center items-center">
           <h1 className="font-bold text-3xl capitalize mb-4">Dashboard</h1>
         </div>
-        <div className="card w-full bg-base-200 shadow-xl">
+        <div className="card w-full bg-primary text-base-100 shadow-xl">
           <div className="card-body p-2 items-center text-center">
             <h2 className="card-title">Statistics</h2>
             <div className="stats w-full shadow">
@@ -69,7 +69,7 @@ export default function index() {
             </div>
           </div>
         </div>
-        <div className="card w-full bg-base-200 shadow-xl">
+        <div className="card w-full bg-primary text-base-100 shadow-xl">
           <div className="card-body p-2 items-center text-center">
             <h2 className="card-title">Data Visualization</h2>
             <div className="card w-full bg-base-100 shadow-xl">

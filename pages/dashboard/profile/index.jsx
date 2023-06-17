@@ -70,7 +70,7 @@ export default function index() {
             </label>
           )}
         </div>
-        <div className="card w-full bg-base-200 shadow-xl">
+        <div className="card w-full bg-primary text-base-100 shadow-xl">
           <div className="card-body p-2 items-center text-center">
             <div className="card w-full bg-base-100 shadow-xl">
               {!EmptyCheck(userProfile) ? (
@@ -81,7 +81,7 @@ export default function index() {
                     height={100}
                     width={100}
                   />
-                  <div className="divider lg:divider-horizontal p-0 m-0"></div>
+                  <div className="divider lg:divider-horizontal before:bg-primary after:bg-primary p-0 m-0"></div>
                   <div className="flex flex-row flex-wrap gap-4">
                     <div className="form-control w-full lg:w-fit">
                       <label className="label">

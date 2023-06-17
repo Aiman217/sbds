@@ -21,7 +21,7 @@ export default function Nav({ children }) {
 
   return (
     <div data-theme="light" className="flex flex-col min-h-screen w-full">
-      <div className="sticky top-0 z-20">
+      <div className="sticky top-0 z-10">
         <div className="navbar bg-primary text-base-100">
           {session ? (
             <div className="navbar-start">
@@ -102,12 +102,12 @@ export default function Nav({ children }) {
           )}
         </div>
       </div>
-      <div className="z-0 flex justify-center grow">
+      <div className="flex justify-center grow">
         <div className="lg:w-[90%] overflow-auto">
           {React.cloneElement(children, { session: session })}
         </div>
       </div>
-      <footer className="sticky bottom-0 footer gap-2 items-center p-4 bg-primary text-base-100">
+      <footer className="sticky bottom-0 footer gap-2 items-center p-4 bg-primary text-base-100 z-10">
         <div className="items-center grid-flow-col">
           <p className="italic text-justify text-xs lg:text-sm">
             Prediction by machine learning model are based on statistical
