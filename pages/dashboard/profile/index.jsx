@@ -6,11 +6,13 @@ import Alert from "@/components/functions/Alert";
 import Loading from "@/components/functions/Loading";
 import EmptyCheck from "@/components/functions/EmptyCheck";
 import CreateProfile from "@/components/dashboard/profile/CreateProfile";
+import UpdateProfile from "@/components/dashboard/profile/UpdateProfile";
 
 export default function index() {
   const supabase = useSupabaseClient();
   const [userProfile, setUserProfile] = useState([]);
   const [createProfileModal, setCreateProfileModal] = useState(false);
+  const [updateProfileModal, setUpdateProfileModal] = useState(false);
   const [alert, setAlert] = useState("");
   const [success, setSuccess] = useState(false);
   const [refresh, setRefresh] = useState(false);
@@ -55,7 +57,15 @@ export default function index() {
               Create Profile
             </label>
           ) : (
-            []
+            <label
+              htmlFor="my-modal-update-profile"
+              className="btn btn-sm btn-success gap-2 modal-button"
+              onClick={() => {
+                setUpdateProfileModal(true);
+              }}
+            >
+              Update Profile
+            </label>
           )}
         </div>
         <div className="card w-full bg-base-200 shadow-xl mt-10">
@@ -138,7 +148,9 @@ export default function index() {
                   </div>
                 </div>
               ) : (
-                <div className="card-body items-center text-center">Empty</div>
+                <div className="card-body items-center text-center font-bold">
+                  No profile created yet. Please create it using create profile button.
+                </div>
               )}
             </div>
           </div>
@@ -163,6 +175,34 @@ export default function index() {
               <CreateProfile
                 supabase={supabase}
                 setCreateProfileModal={setCreateProfileModal}
+                setAlert={setAlert}
+                setSuccess={setSuccess}
+                setRefresh={setRefresh}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+      {updateProfileModal && (
+        <div>
+          <input
+            type="checkbox"
+            id="my-modal-update-profile"
+            className="modal-toggle"
+          />
+          <div className="modal w-full">
+            <div className="modal-box w-[90%] sm:w-[80%]">
+              <label
+                htmlFor="my-modal-update-profile"
+                className="btn btn-sm btn-circle absolute right-2 top-2"
+                onClick={() => setUpdateProfileModal(false)}
+              >
+                <AiOutlineClose size={20} />
+              </label>
+              <UpdateProfile
+                supabase={supabase}
+                setUpdateProfileModal={setUpdateProfileModal}
+                selectedProfile={userProfile}
                 setAlert={setAlert}
                 setSuccess={setSuccess}
                 setRefresh={setRefresh}

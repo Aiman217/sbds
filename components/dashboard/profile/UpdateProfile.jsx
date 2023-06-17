@@ -4,20 +4,26 @@ import { v4 as uuidv4 } from "uuid";
 import AlertMsgHndl from "@/components/functions/AlertMsgHndl";
 import EmptyCheck from "@/components/functions/EmptyCheck";
 
-export default function CreateProfile({
+export default function UpdateProfile({
   supabase,
-  setCreateProfileModal,
+  setUpdateProfileModal,
+  selectedProfile,
   setAlert,
   setSuccess,
   setRefresh,
 }) {
   const [image, setImage] = useState([]);
-  const [name, setName] = useState("");
-  const [gender, setGender] = useState("");
-  const [phone, setPhone] = useState(0);
-  const [officeAddress, setOfficeAddress] = useState("");
-  const [dob, setDOB] = useState(0);
-  const [imageURL, setImageURL] = useState("");
+  const [name, setName] = useState(selectedProfile?.name);
+  const [gender, setGender] = useState(selectedProfile?.gender);
+  const [phone, setPhone] = useState(selectedProfile?.phone);
+  const [officeAddress, setOfficeAddress] = useState(
+    selectedProfile?.office_address
+  );
+  const [dob, setDOB] = useState({
+    startDate: selectedProfile?.dob,
+    endDate: selectedProfile?.dob,
+  });
+  const [imageURL, setImageURL] = useState(selectedProfile?.image);
 
   function formEmpty() {
     return (
@@ -43,24 +49,27 @@ export default function CreateProfile({
     setImageURL(data.publicUrl);
   }
 
-  async function createPatient() {
+  async function updateProfile() {
     const {
       data: { user },
     } = await supabase.auth.getUser();
-    const { error } = await supabase.from("user").insert([
-      {
-        account_created_at: user.created_at,
-        name: name,
-        gender: gender,
-        phone: phone,
-        office_address: officeAddress,
-        dob: dob.startDate,
-        image: imageURL,
-      },
-    ]);
-    setCreateProfileModal(false);
+    const { error } = await supabase
+      .from("user")
+      .update([
+        {
+          account_created_at: user.created_at,
+          name: name,
+          gender: gender,
+          phone: phone,
+          office_address: officeAddress,
+          dob: dob.startDate,
+          image: imageURL,
+        },
+      ])
+      .eq("user_id", selectedProfile?.user_id);
+    setUpdateProfileModal(false);
     AlertMsgHndl(
-      "Successfully create user profile!",
+      "Successfully update user profile!",
       error,
       setAlert,
       setSuccess,
@@ -72,23 +81,19 @@ export default function CreateProfile({
     <>
       <div className="form-control">
         <h1 className="text-lg font-bold uppercase text-center mt-4">
-          Create Profile
+          Update Profile
         </h1>
         <div className="divider p-0 m-0"></div>
         <div className="form-control w-full flex-row flex-wrap gap-4 justify-center items-center">
-          {!EmptyCheck(imageURL) ? (
-            <img
-              className="mask mask-squircle"
-              src={imageURL}
-              height={100}
-              width={100}
-            />
-          ) : (
-            []
-          )}
+          <img
+            className="mask mask-squircle"
+            src={imageURL}
+            height={100}
+            width={100}
+          />
           <input
             type="file"
-            className="file-input file-input-sm file-input-bordered m-2"
+            className="file-input file-input-sm file-input-bordered mb-2"
             accept="image/*"
             onChange={(event) => {
               setImage(event.target.files[0]);
@@ -104,7 +109,7 @@ export default function CreateProfile({
               setName(event.target.value);
             }}
             type="text"
-            placeholder="name"
+            value={!EmptyCheck(name) ? name : "name"}
             className="input input-bordered mb-2"
           />
         </div>
@@ -117,7 +122,7 @@ export default function CreateProfile({
             onChange={(event) => {
               setGender(event.target.value);
             }}
-            defaultValue=""
+            defaultValue={!EmptyCheck(gender) ? gender : ""}
           >
             <option value="" disabled>
               Pick gender
@@ -135,7 +140,7 @@ export default function CreateProfile({
               setPhone(event.target.value);
             }}
             type="number"
-            placeholder="phone"
+            value={!EmptyCheck(phone) ? phone : "phone"}
             className="input input-bordered mb-2"
           />
         </div>
@@ -148,7 +153,9 @@ export default function CreateProfile({
               setOfficeAddress(event.target.value);
             }}
             className="textarea textarea-bordered"
-            placeholder="office address"
+            value={
+              !EmptyCheck(officeAddress) ? officeAddress : "office address"
+            }
           ></textarea>
         </div>
         <div className="form-control w-full">
@@ -174,11 +181,11 @@ export default function CreateProfile({
             Upload
           </button>
           <button
-            onClick={createPatient}
+            onClick={updateProfile}
             className="flex-grow btn btn-success mt-6"
             disabled={formEmpty() ? "disabled" : ""}
           >
-            Create
+            Update
           </button>
         </div>
       </div>
