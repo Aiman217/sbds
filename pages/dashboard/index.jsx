@@ -39,7 +39,9 @@ export default function index() {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <div className="h-full w-full p-4 flex flex-col gap-4">
-        <h1 className="font-bold text-3xl capitalize mb-4">Dashboard</h1>
+        <div className="flex flex-col justify-center items-center">
+          <h1 className="font-bold text-3xl capitalize mb-4">Dashboard</h1>
+        </div>
         <div className="card w-full bg-base-200 shadow-xl">
           <div className="card-body p-2 items-center text-center">
             <h2 className="card-title">Statistics</h2>

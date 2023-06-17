@@ -47,9 +47,9 @@ export default function index() {
             <h1 className="font-bold text-3xl capitalize mb-4">
               Patient Monitoring
             </h1>
-            <p className="text-md mb-4">
+            <p className="italic text-md mb-4">
               The prediction process required the patient&apos;s PHQ9 form. If
-              the prediction button is disabled, please fill in the PHQ9 Form
+              the prediction button is disabled, please fill in the PHQ9 form
               first before trying again.
             </p>
           </div>

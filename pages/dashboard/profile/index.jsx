@@ -43,8 +43,10 @@ export default function index() {
       <div className="h-full w-full p-4 flex flex-col gap-4">
         <div className="flex flex-row flex-wrap justify-between items-center">
           <div className="flex flex-col">
-            <h1 className="font-bold text-3xl capitalize mb-4">Profile</h1>
-            <p className="text-md mb-4">Update your profile.</p>
+            <h1 className="font-bold text-3xl capitalize mb-4">
+              Profile Management
+            </h1>
+            <p className="italic text-md mb-4">Manage your profile.</p>
           </div>
           {EmptyCheck(userProfile) ? (
             <label
@@ -68,7 +70,7 @@ export default function index() {
             </label>
           )}
         </div>
-        <div className="card w-full bg-base-200 shadow-xl mt-10">
+        <div className="card w-full bg-base-200 shadow-xl">
           <div className="card-body p-2 items-center text-center">
             <div className="card w-full bg-base-100 shadow-xl">
               {!EmptyCheck(userProfile) ? (

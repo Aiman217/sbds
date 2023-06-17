@@ -49,7 +49,7 @@ export default function index() {
             <h1 className="font-bold text-3xl capitalize mb-4">
               Patient Management
             </h1>
-            <p className="text-md mb-4">
+            <p className="italic text-md mb-4">
               Manage your patient&apos;s data. To update patient&apos;s PHQ9
               form, please go to Patient Monitoring page.
             </p>
