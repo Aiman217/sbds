@@ -101,7 +101,7 @@ export default function CreatePatient({
           past_suicidal_attempt: pastSuicidalAttempt,
           medical_comorbidity: medicalComorbidity,
           doctor_id: user.id,
-          nurse_id: 0,
+          nurse_id: user.id,
         },
       ]);
       setCreatePatientModal(false);
