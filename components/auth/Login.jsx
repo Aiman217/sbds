@@ -1,3 +1,5 @@
+import { BsGithub } from "react-icons/bs";
+import AlertMsgHndl from "@/components/functions/AlertMsgHndl";
 import EmptyCheck from "@/components/functions/EmptyCheck";
 
 export default function Login({
@@ -7,6 +9,9 @@ export default function Login({
   password,
   setPassword,
   setIsRegister,
+  setAlert,
+  setSuccess,
+  setRefresh,
 }) {
   function formEmpty() {
     return EmptyCheck(email) || EmptyCheck(password);
@@ -19,11 +24,38 @@ export default function Login({
     });
   }
 
+  async function resetPassword() {
+    const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: "https://sbds.vercel.app/reset-password",
+    });
+    AlertMsgHndl(
+      "Successfully send request for reset password! Please check your email!",
+      error,
+      setAlert,
+      setSuccess,
+      setRefresh
+    );
+  }
+
+  async function signInGitHub() {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "github",
+    });
+  }
+
   return (
     <>
-      <div className="card w-full max-w-sm shadow-2xl bg-base-100">
+      <div className="card w-full max-w-sm shadow-lg shadow-primary bg-base-100">
         <div className="card-body text-center items-center">
           <h2 className="card-title font-bold text-2xl">Login Now!</h2>
+          <div className="divider m-0 p-0"></div>
+          <div className="form-control">
+            <button className="btn btn-primary" onClick={signInGitHub}>
+              Sign Up With
+              <BsGithub size={25} />
+            </button>
+          </div>
+          <div className="divider m-0 p-0"></div>
           <div className="form-control w-full">
             <label className="label">
               <span className="label-text">Email</span>
@@ -50,13 +82,17 @@ export default function Login({
               className="input input-bordered"
             />
             <label className="label">
-              <a href="#" className="label-text-alt link link-hover">
+              <a
+                href="#"
+                onClick={resetPassword}
+                className="label-text-alt link link-hover"
+              >
                 Forgot password?
               </a>
             </label>
             <label className="label">
               <a
-                href="#"
+                href="#register"
                 onClick={() => {
                   setIsRegister(true);
                 }}
