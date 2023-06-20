@@ -74,28 +74,60 @@ export default function CreatePHQ9({
   }
 
   async function createPHQ9() {
-    const { error } = await supabase.from("phq9").insert([
-      {
-        patient_id_fk: selectedPatient.id,
-        little_interest: littleInterest,
-        feeling_down: feelingDown,
-        sleeping_trouble: sleepingTrouble,
-        feeling_tired: feelingTired,
-        poor_appetite: poorAppetite,
-        feeling_bad: feelingBad,
-        trouble_concentrating: troubleConcentrating,
-        moving_slowly: movingSlowly,
-        thoughts_self_harm: thoughtsSelfHarm,
-      },
-    ]);
-    setPHQ9Modal(false);
-    AlertMsgHndl(
-      "Successfully add patient phq9 form!",
-      error,
-      setAlert,
-      setSuccess,
-      setRefresh
-    );
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (user.user_metadata.role === "Nurse") {
+      const { error } = await supabase.from("phq9").insert([
+        {
+          patient_id_fk: selectedPatient.id,
+          little_interest: littleInterest,
+          feeling_down: feelingDown,
+          sleeping_trouble: sleepingTrouble,
+          feeling_tired: feelingTired,
+          poor_appetite: poorAppetite,
+          feeling_bad: feelingBad,
+          trouble_concentrating: troubleConcentrating,
+          moving_slowly: movingSlowly,
+          thoughts_self_harm: thoughtsSelfHarm,
+          doctor_id: user.user_metadata.doctor_id,
+          nurse_id: user.id,
+        },
+      ]);
+      setPHQ9Modal(false);
+      AlertMsgHndl(
+        "Successfully add patient phq9 form!",
+        error,
+        setAlert,
+        setSuccess,
+        setRefresh
+      );
+    } else if (user.user_metadata.role === "Doctor") {
+      const { error } = await supabase.from("phq9").insert([
+        {
+          patient_id_fk: selectedPatient.id,
+          little_interest: littleInterest,
+          feeling_down: feelingDown,
+          sleeping_trouble: sleepingTrouble,
+          feeling_tired: feelingTired,
+          poor_appetite: poorAppetite,
+          feeling_bad: feelingBad,
+          trouble_concentrating: troubleConcentrating,
+          moving_slowly: movingSlowly,
+          thoughts_self_harm: thoughtsSelfHarm,
+          doctor_id: user.id,
+          nurse_id: 0,
+        },
+      ]);
+      setPHQ9Modal(false);
+      AlertMsgHndl(
+        "Successfully add patient phq9 form!",
+        error,
+        setAlert,
+        setSuccess,
+        setRefresh
+      );
+    }
   }
 
   return (
