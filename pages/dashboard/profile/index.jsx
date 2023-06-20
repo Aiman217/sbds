@@ -5,13 +5,13 @@ import { AiOutlineClose } from "react-icons/ai";
 import Alert from "@/components/functions/Alert";
 import Loading from "@/components/functions/Loading";
 import EmptyCheck from "@/components/functions/EmptyCheck";
-import CreateProfile from "@/components/dashboard/profile/CreateProfile";
+import UpdateRole from "@/components/dashboard/profile/UpdateRole";
 import UpdateProfile from "@/components/dashboard/profile/UpdateProfile";
 
 export default function index() {
   const supabase = useSupabaseClient();
   const [userProfile, setUserProfile] = useState([]);
-  const [createProfileModal, setCreateProfileModal] = useState(false);
+  const [updateRoleModal, setUpdateRoleModal] = useState(false);
   const [updateProfileModal, setUpdateProfileModal] = useState(false);
   const [alert, setAlert] = useState("");
   const [success, setSuccess] = useState(false);
@@ -48,17 +48,16 @@ export default function index() {
             </h1>
             <p className="italic text-md mb-4">Manage your profile.</p>
           </div>
-          {EmptyCheck(userProfile) ? (
+          <div className="flex flex-row gap-2">
             <label
-              htmlFor="my-modal-create-profile"
-              className="btn btn-sm btn-success gap-2 modal-button"
+              htmlFor="my-modal-update-role"
+              className="btn btn-sm btn-warning gap-2 modal-button"
               onClick={() => {
-                setCreateProfileModal(true);
+                setUpdateRoleModal(true);
               }}
             >
-              Create Profile
+              Change Role
             </label>
-          ) : (
             <label
               htmlFor="my-modal-update-profile"
               className="btn btn-sm btn-info gap-2 modal-button"
@@ -68,117 +67,110 @@ export default function index() {
             >
               Update Profile
             </label>
-          )}
+          </div>
         </div>
         <div className="card w-full bg-primary text-base-100 shadow-xl">
           <div className="card-body p-2 items-center text-center">
             <div className="card w-full bg-base-100 shadow-xl">
-              {!EmptyCheck(userProfile) ? (
-                <div className="card-body lg:flex-row items-center">
-                  <img
-                    className="mask mask-squircle"
-                    src={userProfile.image}
-                    height={100}
-                    width={100}
-                  />
-                  <div className="divider lg:divider-horizontal before:bg-primary after:bg-primary p-0 m-0"></div>
-                  <div className="flex flex-row flex-wrap gap-4">
-                    <div className="form-control w-full lg:w-fit">
-                      <label className="label">
-                        <span className="label-text">Name</span>
-                      </label>
-                      <input
-                        type="text"
-                        placeholder={userProfile.name}
-                        className="input input-bordered mb-2"
-                        disabled="disabled"
-                      />
-                    </div>
-                    <div className="form-control w-full lg:w-fit">
-                      <label className="label">
-                        <span className="label-text">Email</span>
-                      </label>
-                      <input
-                        type="text"
-                        placeholder={userProfile.email}
-                        className="input input-bordered mb-2"
-                        disabled="disabled"
-                      />
-                    </div>
-                    <div className="form-control w-full lg:w-fit">
-                      <label className="label">
-                        <span className="label-text">Gender</span>
-                      </label>
-                      <input
-                        type="text"
-                        placeholder={userProfile.gender}
-                        className="input input-bordered mb-2"
-                        disabled="disabled"
-                      />
-                    </div>
-                    <div className="form-control w-full lg:w-fit">
-                      <label className="label">
-                        <span className="label-text">Phone</span>
-                      </label>
-                      <input
-                        type="number"
-                        placeholder={userProfile.phone}
-                        className="input input-bordered mb-2"
-                        disabled="disabled"
-                      />
-                    </div>
-                    <div className="form-control w-full lg:w-fit">
-                      <label className="label">
-                        <span className="label-text">Office Address</span>
-                      </label>
-                      <textarea
-                        className="textarea textarea-bordered"
-                        placeholder={userProfile.office_address}
-                        disabled="disabled"
-                      ></textarea>
-                    </div>
-                    <div className="form-control w-full lg:w-fit">
-                      <label className="label">
-                        <span className="label-text">Date of Birth</span>
-                      </label>
-                      <input
-                        type="text"
-                        placeholder={userProfile.dob}
-                        className="input input-bordered mb-2"
-                        disabled="disabled"
-                      />
-                    </div>
+              <div className="card-body lg:flex-row items-center">
+                <img
+                  className="mask mask-squircle"
+                  src={userProfile.image}
+                  height={100}
+                  width={100}
+                />
+                <div className="divider lg:divider-horizontal before:bg-primary after:bg-primary p-0 m-0"></div>
+                <div className="flex flex-row flex-wrap gap-4">
+                  <div className="form-control w-full lg:w-fit">
+                    <label className="label">
+                      <span className="label-text">Name</span>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder={userProfile.name}
+                      className="input input-bordered mb-2"
+                      disabled="disabled"
+                    />
+                  </div>
+                  <div className="form-control w-full lg:w-fit">
+                    <label className="label">
+                      <span className="label-text">Email</span>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder={userProfile.email}
+                      className="input input-bordered mb-2"
+                      disabled="disabled"
+                    />
+                  </div>
+                  <div className="form-control w-full lg:w-fit">
+                    <label className="label">
+                      <span className="label-text">Gender</span>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder={userProfile.gender}
+                      className="input input-bordered mb-2"
+                      disabled="disabled"
+                    />
+                  </div>
+                  <div className="form-control w-full lg:w-fit">
+                    <label className="label">
+                      <span className="label-text">Phone</span>
+                    </label>
+                    <input
+                      type="number"
+                      placeholder={userProfile.phone}
+                      className="input input-bordered mb-2"
+                      disabled="disabled"
+                    />
+                  </div>
+                  <div className="form-control w-full lg:w-fit">
+                    <label className="label">
+                      <span className="label-text">Office Address</span>
+                    </label>
+                    <textarea
+                      className="textarea textarea-bordered"
+                      placeholder={userProfile.office_address}
+                      disabled="disabled"
+                    ></textarea>
+                  </div>
+                  <div className="form-control w-full lg:w-fit">
+                    <label className="label">
+                      <span className="label-text">Date of Birth</span>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder={userProfile.dob}
+                      className="input input-bordered mb-2"
+                      disabled="disabled"
+                    />
                   </div>
                 </div>
-              ) : (
-                <div className="card-body items-center text-center italic">
-                  No profile created yet. Please create it using create profile
-                  button.
-                </div>
-              )}
+              </div>
             </div>
           </div>
         </div>
       </div>
-      {createProfileModal && (
+      {updateRoleModal && (
         <div>
           <input
             type="checkbox"
-            id="my-modal-create-profile"
+            id="my-modal-update-role"
             className="modal-toggle"
           />
           <div className="modal w-full">
             <div className="modal-box w-[90%] sm:w-[80%]">
               <label
-                htmlFor="my-modal-create-profile"
+                htmlFor="my-modal-update-role"
                 className="btn btn-sm btn-circle absolute right-2 top-2"
-                onClick={() => setCreateProfileModal(false)}
+                onClick={() => setUpdateRoleModal(false)}
               >
                 <AiOutlineClose size={20} />
               </label>
-              <CreateProfile
+              <UpdateRole
                 supabase={supabase}
-                setCreateProfileModal={setCreateProfileModal}
+                setUpdateRoleModal={setUpdateRoleModal}
                 setAlert={setAlert}
                 setSuccess={setSuccess}
                 setRefresh={setRefresh}

@@ -54,10 +54,9 @@ export default function UpdateProfile({
       data: { user },
     } = await supabase.auth.getUser();
     const { error } = await supabase
-      .from("user")
+      .from("users")
       .update([
         {
-          account_created_at: user.created_at,
           name: name,
           gender: gender,
           phone: phone,
@@ -66,7 +65,7 @@ export default function UpdateProfile({
           image: imageURL,
         },
       ])
-      .eq("user_id", selectedProfile?.user_id);
+      .eq("id", selectedProfile?.id);
     setUpdateProfileModal(false);
     AlertMsgHndl(
       "Successfully update user profile!",
@@ -109,7 +108,7 @@ export default function UpdateProfile({
               setName(event.target.value);
             }}
             type="text"
-            value={!EmptyCheck(name) ? name : "name"}
+            defaultValue={!EmptyCheck(name) ? name : "name"}
             className="input input-bordered mb-2"
           />
         </div>
@@ -140,7 +139,7 @@ export default function UpdateProfile({
               setPhone(event.target.value);
             }}
             type="number"
-            value={!EmptyCheck(phone) ? phone : "phone"}
+            defaultValue={!EmptyCheck(phone) ? phone : "phone"}
             className="input input-bordered mb-2"
           />
         </div>
@@ -153,7 +152,7 @@ export default function UpdateProfile({
               setOfficeAddress(event.target.value);
             }}
             className="textarea textarea-bordered"
-            value={
+            defaultValue={
               !EmptyCheck(officeAddress) ? officeAddress : "office address"
             }
           ></textarea>
