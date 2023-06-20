@@ -1,16 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { HiMenu } from "react-icons/hi";
 import { AiFillGithub } from "react-icons/ai";
-import { FiAlertTriangle } from "react-icons/fi";
 import { useRouter } from "next/router";
 import Avatar from "boring-avatars";
+import EmptyCheck from "@/components/functions/EmptyCheck";
 
 export default function Nav({ children }) {
   const session = useSession();
   const supabase = useSupabaseClient();
   const router = useRouter();
+  const [userRole, setUserRole] = useState([]);
 
   function signOut() {
     supabase.auth.signOut();
@@ -18,6 +19,22 @@ export default function Nav({ children }) {
       router.push("/login");
     }, 1000);
   }
+
+  useEffect(() => {
+    const getUser = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      const { data: profile } = await supabase
+        .from("users")
+        .select("is_doctor")
+        .eq("id", user.id);
+      setUserRole(profile[0]);
+    };
+    if (session) {
+      getUser();
+    }
+  }, []);
 
   return (
     <div data-theme="light" className="flex flex-col min-h-screen w-full">
@@ -67,7 +84,14 @@ export default function Nav({ children }) {
             <a className="font-bold text-xl">SBDS@USM</a>
           </div>
           {session ? (
-            <div className="navbar-end">
+            <div className="navbar-end gap-4">
+              <div>
+                {!EmptyCheck(userRole) && userRole.is_doctor ? (
+                  <div className="badge badge-outline badge-lg">DOCTOR</div>
+                ) : (
+                  <div className="badge badge-outline badge-lg">NURSE</div>
+                )}
+              </div>
               <div className="dropdown dropdown-end z-20">
                 <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                   <div className="w-10 rounded-full">
