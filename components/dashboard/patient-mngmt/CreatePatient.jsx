@@ -86,7 +86,7 @@ export default function CreatePatient({
         setSuccess,
         setRefresh
       );
-    } else if (user.user_metadata.role === "Doctor") {
+    } else {
       const { error } = await supabase.from("patient").insert([
         {
           name: name,
