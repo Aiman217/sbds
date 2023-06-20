@@ -171,6 +171,7 @@ export default function index() {
               <UpdateRole
                 supabase={supabase}
                 setUpdateRoleModal={setUpdateRoleModal}
+                selectedProfile={userProfile}
                 setAlert={setAlert}
                 setSuccess={setSuccess}
                 setRefresh={setRefresh}
