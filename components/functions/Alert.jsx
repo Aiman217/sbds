@@ -3,7 +3,7 @@ import { AiOutlineCloseCircle } from "react-icons/ai";
 export default function Alert({ alert, setAlert, success }) {
   return (
     <>
-      <div className="toast">
+      <div className="toast z-20">
         <div
           className={
             "alert shadow-lg " + (success ? "alert-success" : "alert-error")
