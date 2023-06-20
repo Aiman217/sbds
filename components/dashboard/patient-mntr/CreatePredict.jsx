@@ -44,6 +44,10 @@ export default function CreatePredict({
   }
 
   async function updatePrediction(predict, id) {
+    const { data: patient } = await supabase
+      .from("patient")
+      .select("nurse_id")
+      .eq("id", selectedPatient.id);
     if (!EmptyCheck(selectedPatient?.result)) {
       const { error } = await supabase
         .from("result")
@@ -64,21 +68,43 @@ export default function CreatePredict({
         setRefresh
       );
     } else {
-      const { error } = await supabase.from("result").insert([
-        {
-          patient_id_fk: selectedPatient.id,
-          result: predict.prediction,
-          algo: predict.algorithm,
-        },
-      ]);
-      setCreatePredictModal(false);
-      AlertMsgHndl(
-        "Successfully add patient prediction result!",
-        error,
-        setAlert,
-        setSuccess,
-        setRefresh
-      );
+      if (patient[0].nurse_id !== 0) {
+        const { error } = await supabase.from("result").insert([
+          {
+            patient_id_fk: selectedPatient.id,
+            result: predict.prediction,
+            algo: predict.algorithm,
+            doctor_id: selectedPatient.doctor_id,
+            nurse_id: selectedPatient.nurse_id,
+          },
+        ]);
+        setCreatePredictModal(false);
+        AlertMsgHndl(
+          "Successfully add patient prediction result!",
+          error,
+          setAlert,
+          setSuccess,
+          setRefresh
+        );
+      } else if (patient[0].nurse_id === 0) {
+        const { error } = await supabase.from("result").insert([
+          {
+            patient_id_fk: selectedPatient.id,
+            result: predict.prediction,
+            algo: predict.algorithm,
+            doctor_id: selectedPatient.doctor_id,
+            nurse_id: 0,
+          },
+        ]);
+        setCreatePredictModal(false);
+        AlertMsgHndl(
+          "Successfully add patient prediction result!",
+          error,
+          setAlert,
+          setSuccess,
+          setRefresh
+        );
+      }
     }
   }
 

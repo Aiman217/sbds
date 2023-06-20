@@ -74,10 +74,11 @@ export default function CreatePHQ9({
   }
 
   async function createPHQ9() {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    if (user.user_metadata.role === "Nurse") {
+    const { data: patient } = await supabase
+      .from("patient")
+      .select("nurse_id")
+      .eq("id", selectedPatient.id);
+    if (patient[0].nurse_id !== 0) {
       const { error } = await supabase.from("phq9").insert([
         {
           patient_id_fk: selectedPatient.id,
@@ -90,8 +91,8 @@ export default function CreatePHQ9({
           trouble_concentrating: troubleConcentrating,
           moving_slowly: movingSlowly,
           thoughts_self_harm: thoughtsSelfHarm,
-          doctor_id: user.user_metadata.doctor_id,
-          nurse_id: user.id,
+          doctor_id: selectedPatient.doctor_id,
+          nurse_id: selectedPatient.nurse_id,
         },
       ]);
       setPHQ9Modal(false);
@@ -102,7 +103,7 @@ export default function CreatePHQ9({
         setSuccess,
         setRefresh
       );
-    } else if (user.user_metadata.role === "Doctor") {
+    } else if (patient[0].nurse_id === 0) {
       const { error } = await supabase.from("phq9").insert([
         {
           patient_id_fk: selectedPatient.id,
@@ -115,7 +116,7 @@ export default function CreatePHQ9({
           trouble_concentrating: troubleConcentrating,
           moving_slowly: movingSlowly,
           thoughts_self_harm: thoughtsSelfHarm,
-          doctor_id: user.id,
+          doctor_id: selectedPatient.doctor_id,
           nurse_id: 0,
         },
       ]);
