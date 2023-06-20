@@ -24,9 +24,9 @@ export default function index() {
         data: { user },
       } = await supabase.auth.getUser();
       const { data: profile } = await supabase
-        .from("user")
+        .from("users")
         .select("*")
-        .eq("user_id", user.id);
+        .eq("id", user.id);
       setUserProfile(profile[0]);
       setRefresh(false);
       setLoading(false);
