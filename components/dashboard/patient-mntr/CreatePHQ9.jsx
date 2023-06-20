@@ -74,61 +74,30 @@ export default function CreatePHQ9({
   }
 
   async function createPHQ9() {
-    const { data: patient } = await supabase
-      .from("patient")
-      .select("nurse_id")
-      .eq("id", selectedPatient.id);
-    if (patient[0].nurse_id !== 0) {
-      const { error } = await supabase.from("phq9").insert([
-        {
-          patient_id_fk: selectedPatient.id,
-          little_interest: littleInterest,
-          feeling_down: feelingDown,
-          sleeping_trouble: sleepingTrouble,
-          feeling_tired: feelingTired,
-          poor_appetite: poorAppetite,
-          feeling_bad: feelingBad,
-          trouble_concentrating: troubleConcentrating,
-          moving_slowly: movingSlowly,
-          thoughts_self_harm: thoughtsSelfHarm,
-          doctor_id: selectedPatient.doctor_id,
-          nurse_id: selectedPatient.nurse_id,
-        },
-      ]);
-      setPHQ9Modal(false);
-      AlertMsgHndl(
-        "Successfully add patient phq9 form!",
-        error,
-        setAlert,
-        setSuccess,
-        setRefresh
-      );
-    } else if (patient[0].nurse_id === 0) {
-      const { error } = await supabase.from("phq9").insert([
-        {
-          patient_id_fk: selectedPatient.id,
-          little_interest: littleInterest,
-          feeling_down: feelingDown,
-          sleeping_trouble: sleepingTrouble,
-          feeling_tired: feelingTired,
-          poor_appetite: poorAppetite,
-          feeling_bad: feelingBad,
-          trouble_concentrating: troubleConcentrating,
-          moving_slowly: movingSlowly,
-          thoughts_self_harm: thoughtsSelfHarm,
-          doctor_id: selectedPatient.doctor_id,
-          nurse_id: 0,
-        },
-      ]);
-      setPHQ9Modal(false);
-      AlertMsgHndl(
-        "Successfully add patient phq9 form!",
-        error,
-        setAlert,
-        setSuccess,
-        setRefresh
-      );
-    }
+    const { error } = await supabase.from("phq9").insert([
+      {
+        patient_id_fk: selectedPatient.id,
+        little_interest: littleInterest,
+        feeling_down: feelingDown,
+        sleeping_trouble: sleepingTrouble,
+        feeling_tired: feelingTired,
+        poor_appetite: poorAppetite,
+        feeling_bad: feelingBad,
+        trouble_concentrating: troubleConcentrating,
+        moving_slowly: movingSlowly,
+        thoughts_self_harm: thoughtsSelfHarm,
+        doctor_id: selectedPatient.doctor_id,
+        nurse_id: selectedPatient.nurse_id,
+      },
+    ]);
+    setPHQ9Modal(false);
+    AlertMsgHndl(
+      "Successfully add patient phq9 form!",
+      error,
+      setAlert,
+      setSuccess,
+      setRefresh
+    );
   }
 
   return (
