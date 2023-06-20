@@ -21,20 +21,16 @@ export default function Nav({ children }) {
   }
 
   useEffect(() => {
-    const getUser = async () => {
+    const getUserRole = async () => {
       const {
         data: { user },
       } = await supabase.auth.getUser();
-      const { data: profile } = await supabase
-        .from("users")
-        .select("is_doctor")
-        .eq("id", user.id);
-      setUserRole(profile[0]);
+      setUserRole(user?.user_metadata?.role);
     };
     if (session) {
-      getUser();
+      getUserRole();
     }
-  }, []);
+  }, [session]);
 
   return (
     <div data-theme="light" className="flex flex-col min-h-screen w-full">
@@ -86,10 +82,10 @@ export default function Nav({ children }) {
           {session ? (
             <div className="navbar-end gap-4">
               <div>
-                {!EmptyCheck(userRole) && userRole.is_doctor ? (
-                  <div className="badge badge-outline badge-lg">DOCTOR</div>
-                ) : (
+                {userRole === "Nurse" ? (
                   <div className="badge badge-outline badge-lg">NURSE</div>
+                ) : (
+                  <div className="badge badge-outline badge-lg">DOCTOR</div>
                 )}
               </div>
               <div className="dropdown dropdown-end z-20">

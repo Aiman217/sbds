@@ -5,13 +5,11 @@ import { AiOutlineClose } from "react-icons/ai";
 import Alert from "@/components/functions/Alert";
 import Loading from "@/components/functions/Loading";
 import EmptyCheck from "@/components/functions/EmptyCheck";
-import UpdateRole from "@/components/dashboard/profile/UpdateRole";
 import UpdateProfile from "@/components/dashboard/profile/UpdateProfile";
 
 export default function index() {
   const supabase = useSupabaseClient();
   const [userProfile, setUserProfile] = useState([]);
-  const [updateRoleModal, setUpdateRoleModal] = useState(false);
   const [updateProfileModal, setUpdateProfileModal] = useState(false);
   const [alert, setAlert] = useState("");
   const [success, setSuccess] = useState(false);
@@ -49,15 +47,6 @@ export default function index() {
             <p className="italic text-md mb-4">Manage your profile.</p>
           </div>
           <div className="flex flex-row gap-2">
-            <label
-              htmlFor="my-modal-update-role"
-              className="btn btn-sm btn-warning gap-2 modal-button"
-              onClick={() => {
-                setUpdateRoleModal(true);
-              }}
-            >
-              Change Role
-            </label>
             <label
               htmlFor="my-modal-update-profile"
               className="btn btn-sm btn-info gap-2 modal-button"
@@ -152,34 +141,6 @@ export default function index() {
           </div>
         </div>
       </div>
-      {updateRoleModal && (
-        <div>
-          <input
-            type="checkbox"
-            id="my-modal-update-role"
-            className="modal-toggle"
-          />
-          <div className="modal w-full">
-            <div className="modal-box w-[90%] sm:w-[80%]">
-              <label
-                htmlFor="my-modal-update-role"
-                className="btn btn-sm btn-circle absolute right-2 top-2"
-                onClick={() => setUpdateRoleModal(false)}
-              >
-                <AiOutlineClose size={20} />
-              </label>
-              <UpdateRole
-                supabase={supabase}
-                setUpdateRoleModal={setUpdateRoleModal}
-                selectedProfile={userProfile}
-                setAlert={setAlert}
-                setSuccess={setSuccess}
-                setRefresh={setRefresh}
-              />
-            </div>
-          </div>
-        </div>
-      )}
       {updateProfileModal && (
         <div>
           <input

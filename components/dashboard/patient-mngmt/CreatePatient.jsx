@@ -57,29 +57,62 @@ export default function CreatePatient({
   }
 
   async function createPatient() {
-    const { error } = await supabase.from("patient").insert([
-      {
-        name: name,
-        age: age,
-        gender: gender,
-        ethnicity: ethnicity,
-        religion: religion,
-        marital_status: marital_status,
-        employment: employment,
-        has_depressive_disorder: hasDepressiveDisorder,
-        past_psychiatric_disorder: pastPsychiatricDisorder,
-        past_suicidal_attempt: pastSuicidalAttempt,
-        medical_comorbidity: medicalComorbidity,
-      },
-    ]);
-    setCreatePatientModal(false);
-    AlertMsgHndl(
-      "Successfully add new patient!",
-      error,
-      setAlert,
-      setSuccess,
-      setRefresh
-    );
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (user.user_metadata.role === "Nurse") {
+      const { error } = await supabase.from("patient").insert([
+        {
+          name: name,
+          age: age,
+          gender: gender,
+          ethnicity: ethnicity,
+          religion: religion,
+          marital_status: marital_status,
+          employment: employment,
+          has_depressive_disorder: hasDepressiveDisorder,
+          past_psychiatric_disorder: pastPsychiatricDisorder,
+          past_suicidal_attempt: pastSuicidalAttempt,
+          medical_comorbidity: medicalComorbidity,
+          doctor_id: user.user_metadata.doctor_id,
+          nurse_id: user.id,
+        },
+      ]);
+      setCreatePatientModal(false);
+      AlertMsgHndl(
+        "Successfully add new patient!",
+        error,
+        setAlert,
+        setSuccess,
+        setRefresh
+      );
+    } else if (user.user_metadata.role === "Doctor") {
+      const { error } = await supabase.from("patient").insert([
+        {
+          name: name,
+          age: age,
+          gender: gender,
+          ethnicity: ethnicity,
+          religion: religion,
+          marital_status: marital_status,
+          employment: employment,
+          has_depressive_disorder: hasDepressiveDisorder,
+          past_psychiatric_disorder: pastPsychiatricDisorder,
+          past_suicidal_attempt: pastSuicidalAttempt,
+          medical_comorbidity: medicalComorbidity,
+          doctor_id: user.id,
+          nurse_id: 0,
+        },
+      ]);
+      setCreatePatientModal(false);
+      AlertMsgHndl(
+        "Successfully add new patient!",
+        error,
+        setAlert,
+        setSuccess,
+        setRefresh
+      );
+    }
   }
 
   return (
