@@ -22,6 +22,13 @@ export default function Login({
       email: email,
       password: password,
     });
+    AlertMsgHndl(
+      "Successfully sign in!",
+      error,
+      setAlert,
+      setSuccess,
+      setRefresh
+    );
   }
 
   async function resetPassword() {
@@ -47,15 +54,18 @@ export default function Login({
     <>
       <div className="card w-full max-w-sm shadow-lg shadow-primary bg-base-100">
         <div className="card-body text-center items-center">
-          <h2 className="card-title font-bold text-2xl">Login Now!</h2>
-          <div className="divider m-0 p-0"></div>
+          <h2 className="card-title font-bold text-2xl uppercase">Login</h2>
+          <p>
+            Sign in with GitHub would not support health staff role. Please sign
+            up using email and password if you need to use that feature.
+          </p>
           <div className="form-control">
             <button className="btn btn-primary" onClick={signInGitHub}>
-              Sign Up With
+              Sign in with
               <BsGithub size={25} />
             </button>
           </div>
-          <div className="divider m-0 p-0"></div>
+          <div className="divider m-0 p-0">OR</div>
           <div className="form-control w-full">
             <label className="label">
               <span className="label-text">Email</span>
@@ -85,7 +95,7 @@ export default function Login({
               <a
                 href="#"
                 onClick={resetPassword}
-                className="label-text-alt link link-hover"
+                className="label-text-alt link link-hover link-primary"
               >
                 Forgot password?
               </a>
@@ -96,7 +106,7 @@ export default function Login({
                 onClick={() => {
                   setIsRegister(true);
                 }}
-                className="label-text-alt link link-hover"
+                className="label-text-alt link link-hover link-primary"
               >
                 Dont have an account?
               </a>
@@ -108,7 +118,7 @@ export default function Login({
               onClick={signIn}
               disabled={formEmpty() ? "disabled" : ""}
             >
-              Login
+              Sign in
             </button>
           </div>
         </div>

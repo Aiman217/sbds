@@ -1,5 +1,6 @@
-import EmptyCheck from "@/components/functions/EmptyCheck";
 import { useEffect, useState } from "react";
+import AlertMsgHndl from "@/components/functions/AlertMsgHndl";
+import EmptyCheck from "@/components/functions/EmptyCheck";
 
 export default function Register({
   supabase,
@@ -8,29 +9,36 @@ export default function Register({
   password,
   setPassword,
   setIsRegister,
+  setAlert,
+  setSuccess,
+  setRefresh,
 }) {
   const [staffRole, setStaffRole] = useState("");
   const [doctorList, setDoctorList] = useState("");
   const [doctorID, setDoctorID] = useState(0);
-  const [username, setUsername] = useState("");
 
   function formEmpty() {
-    return EmptyCheck(email) || EmptyCheck(password);
+    return EmptyCheck(staffRole) || EmptyCheck(email) || EmptyCheck(password);
   }
 
   async function signUp() {
     const { data, error } = await supabase.auth.signUp({
       email: email,
       password: password,
-      username: username,
       options: {
         data: {
-          username: username,
           role: staffRole,
           doctor_id: doctorID,
         },
       },
     });
+    AlertMsgHndl(
+      "Successfully sign up!",
+      error,
+      setAlert,
+      setSuccess,
+      setRefresh
+    );
   }
 
   useEffect(() => {
@@ -47,7 +55,7 @@ export default function Register({
     <>
       <div className="card w-full max-w-sm shadow-lg shadow-primary bg-base-100">
         <div className="card-body text-center items-center">
-          <h2 className="card-title font-bold text-2xl">Register Now!</h2>
+          <h2 className="card-title font-bold text-2xl uppercase">Register</h2>
           <div className="divider m-0 p-0"></div>
           <div className="form-control w-full">
             <label className="label">
@@ -61,7 +69,7 @@ export default function Register({
               defaultValue=""
             >
               <option value="" disabled>
-                Pick staff role
+                Pick health staff role
               </option>
               <option value="Nurse">Nurse</option>
               <option value="Doctor">Doctor</option>
@@ -94,19 +102,6 @@ export default function Register({
           )}
           <div className="form-control w-full">
             <label className="label">
-              <span className="label-text">Username</span>
-            </label>
-            <input
-              type="text"
-              placeholder="username"
-              onChange={(event) => {
-                setUsername(event.target.value);
-              }}
-              className="input input-bordered"
-            />
-          </div>
-          <div className="form-control w-full">
-            <label className="label">
               <span className="label-text">Email</span>
             </label>
             <input
@@ -137,7 +132,7 @@ export default function Register({
               onClick={() => {
                 setIsRegister(false);
               }}
-              className="label-text-alt link link-hover"
+              className="label-text-alt link link-hover link-primary"
             >
               Already have an account?
             </a>
@@ -148,7 +143,7 @@ export default function Register({
               onClick={signUp}
               disabled={formEmpty() ? "disabled" : ""}
             >
-              Register
+              Sign up
             </button>
           </div>
         </div>

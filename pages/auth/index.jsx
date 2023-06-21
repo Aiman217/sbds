@@ -39,6 +39,9 @@ export default function index({ session }) {
             password={password}
             setPassword={setPassword}
             setIsRegister={setIsRegister}
+            setAlert={setAlert}
+            setSuccess={setSuccess}
+            setRefresh={setRefresh}
           />
         ) : (
           <Login
