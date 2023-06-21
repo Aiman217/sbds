@@ -16,7 +16,7 @@ export default function Nav({ children }) {
   function signOut() {
     supabase.auth.signOut();
     setTimeout(() => {
-      router.push("/login");
+      router.push("/auth");
     }, 1000);
   }
 
