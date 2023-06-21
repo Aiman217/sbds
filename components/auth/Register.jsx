@@ -53,10 +53,10 @@ export default function Register({
 
   return (
     <>
-      <div className="card w-full max-w-sm shadow-lg shadow-primary bg-base-100">
+      <div className="card w-full max-w-lg shadow-lg shadow-primary bg-base-100">
         <div className="card-body text-center items-center">
           <h2 className="card-title font-bold text-2xl uppercase">Register</h2>
-          <div className="divider m-0 p-0"></div>
+          <div className="divider m-4 p-0"></div>
           <div className="form-control w-full">
             <label className="label">
               <span className="label-text">Register As</span>
@@ -125,18 +125,18 @@ export default function Register({
               }}
               className="input input-bordered"
             />
+            <label className="label">
+              <a
+                href="#login"
+                onClick={() => {
+                  setIsRegister(false);
+                }}
+                className="label-text-alt link link-hover link-primary"
+              >
+                Already have an account?
+              </a>
+            </label>
           </div>
-          <label className="label">
-            <a
-              href="#login"
-              onClick={() => {
-                setIsRegister(false);
-              }}
-              className="label-text-alt link link-hover link-primary"
-            >
-              Already have an account?
-            </a>
-          </label>
           <div className="form-control w-full mt-6">
             <button
               className="btn btn-primary"

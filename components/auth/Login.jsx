@@ -52,10 +52,10 @@ export default function Login({
 
   return (
     <>
-      <div className="card w-full max-w-sm shadow-lg shadow-primary bg-base-100">
+      <div className="card w-full max-w-lg shadow-lg shadow-primary bg-base-100">
         <div className="card-body text-center items-center">
           <h2 className="card-title font-bold text-2xl uppercase">Login</h2>
-          <p>
+          <p className="italic text-xs lg:text-sm my-4">
             Sign in with GitHub would not support health staff role. Please sign
             up using email and password if you need to use that feature.
           </p>
@@ -65,7 +65,7 @@ export default function Login({
               <BsGithub size={25} />
             </button>
           </div>
-          <div className="divider m-0 p-0">OR</div>
+          <div className="divider m-4 p-0">OR</div>
           <div className="form-control w-full">
             <label className="label">
               <span className="label-text">Email</span>
