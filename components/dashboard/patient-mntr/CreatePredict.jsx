@@ -95,9 +95,6 @@ export default function CreatePredict({
           Suicidal Behaviour Prediction
         </h1>
         <div className="divider p-0 m-0"></div>
-        <p className="text-base text-center">
-          Prediction process might take some time. Please wait patiently.
-        </p>
         <div className="form-control">
           <label className="label">
             <span className="label-text">Name</span>
@@ -169,11 +166,10 @@ export default function CreatePredict({
               onClick={() => {
                 getPrediction(selectedPatient?.id);
               }}
-              className={
-                "btn btn-warning " + (loading ? "loading btn-circle" : "")
-              }
+              className="btn btn-warning"
             >
-              {!loading ? "Predict" : ""}
+              <div className={loading ? "loading loading-infinity" : ""}></div>
+              {!loading ? "Predict" : "Please wait!"}
             </button>
           </div>
         </div>
