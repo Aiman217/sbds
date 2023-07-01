@@ -55,11 +55,17 @@ export default function Login({
       <div className="card w-full max-w-lg shadow-lg shadow-primary bg-base-100">
         <div className="card-body text-center items-center">
           <h2 className="card-title font-bold text-2xl uppercase">Login</h2>
-          <p className="italic text-xs lg:text-sm my-4">
-            Sign in with GitHub would not support health staff role. Please sign
-            up using email and password if you need to use that feature.
-          </p>
-          <div className="form-control">
+          <div className="indicator">
+            <div
+              className="tooltip"
+              data-tip="Sign in with GitHub would not support health staff role. Please
+                sign up using email and password if you need to use that
+                feature."
+            >
+              <span className="indicator-item badge badge-warning cursor-pointer">
+                !
+              </span>
+            </div>
             <button className="btn btn-primary" onClick={signInGitHub}>
               Sign in with
               <BsGithub size={25} />
