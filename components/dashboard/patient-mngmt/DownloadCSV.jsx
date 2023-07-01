@@ -11,10 +11,26 @@ export default function DownloadCSV({ supabase, setDownloadCSVModal }) {
   async function getCSV() {
     const { data: patient } = await supabase
       .from("patient")
-      .select("*, result!inner(*)")
+      .select(
+        "*, phq9(little_interest, feeling_down, sleeping_trouble, feeling_tired, poor_appetite, feeling_bad, trouble_concentrating, moving_slowly, thoughts_self_harm), results:result(result, algo)"
+      )
       .eq(filterType, filterAs)
       .order("name");
-    setDownloadData(patient);
+    let csvFinal = [];
+    const excludedProperties = ["phq9", "results"];
+    if (!EmptyCheck(patient)) {
+      csvFinal = patient.map((v) => ({
+        ...v,
+        ...v.phq9,
+        ...v.results,
+      }));
+      csvFinal = csvFinal.map((parent) => {
+        const { ...rest } = parent;
+        excludedProperties.forEach((property) => delete rest[property]);
+        return { ...rest };
+      });
+    }
+    setDownloadData(csvFinal);
   }
 
   return (
