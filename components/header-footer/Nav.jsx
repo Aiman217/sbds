@@ -33,7 +33,10 @@ export default function Nav({ children }) {
   }, [session]);
 
   return (
-    <div data-theme="light" className="flex flex-col min-h-screen w-full">
+    <div
+      data-theme="light"
+      className="flex flex-col min-h-screen w-full bg-[url('/img/bg.jpg')]"
+    >
       <div className="sticky top-0 z-10">
         <div className="navbar bg-primary text-base-100 w-full">
           {session ? (
@@ -79,6 +82,14 @@ export default function Nav({ children }) {
           <div className={session ? "navbar-center" : "grow justify-center"}>
             <a className="font-bold text-xl">SBDS@USM</a>
           </div>
+          <a
+            target="_blank"
+            href="https://github.com/Aiman217/sbds"
+            rel="noopener noreferrer"
+            className="btn btn-primary btn-circle ml-2"
+          >
+            <AiFillGithub size={30} className="text-base-100" />
+          </a>
           {session ? (
             <div className="navbar-end gap-4">
               <div>
@@ -120,23 +131,9 @@ export default function Nav({ children }) {
           ) : (
             []
           )}
-          <div
-            className={
-              "divider divider-horizontal before:bg-base-200 after:bg-base-200 m-0 p-0 " +
-              (!session ? "hidden" : "")
-            }
-          ></div>
-          <a
-            target="_blank"
-            href="https://github.com/Aiman217/sbds"
-            rel="noopener noreferrer"
-            className="btn btn-primary btn-circle"
-          >
-            <AiFillGithub size={30} className="text-base-100" />
-          </a>
         </div>
       </div>
-      <div className="flex justify-center grow">
+      <div className="flex justify-center grow backdrop-blur-sm">
         <div className="lg:w-[90%] overflow-auto">
           {React.cloneElement(children, { session: session })}
         </div>

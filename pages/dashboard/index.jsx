@@ -40,7 +40,7 @@ export default function index() {
       </Head>
       <div className="h-full w-full p-4 flex flex-col gap-4">
         <div className="flex flex-col justify-center items-center">
-          <h1 className="font-bold text-3xl capitalize mb-4">Dashboard</h1>
+          <h1 className="font-bold text-3xl text-base-100 capitalize mb-4">Dashboard</h1>
         </div>
         <div className="card w-full bg-primary text-base-100 shadow-xl">
           <div className="card-body p-2 items-center text-center">

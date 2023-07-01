@@ -44,10 +44,10 @@ export default function index() {
       <div className="h-full w-full p-4 flex flex-col gap-4">
         <div className="flex flex-row flex-wrap justify-between items-center">
           <div className="flex flex-col">
-            <h1 className="font-bold text-3xl capitalize mb-4">
+            <h1 className="font-bold text-3xl text-base-100 capitalize mb-4">
               Patient Monitoring
             </h1>
-            <p className="italic text-md mb-4">
+            <p className="italic text-md mb-4 text-base-100">
               The prediction process required the patient&apos;s PHQ9 form. If
               the prediction button is disabled, please fill in the PHQ9 form
               first before trying again. Prediction by machine learning model
