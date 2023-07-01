@@ -62,7 +62,7 @@ export default function Login({
                 sign up using email and password if you need to use that
                 feature."
             >
-              <span className="indicator-item badge badge-warning cursor-pointer">
+              <span className="indicator-item badge badge-lg badge-warning cursor-pointer font-bold">
                 !
               </span>
             </div>

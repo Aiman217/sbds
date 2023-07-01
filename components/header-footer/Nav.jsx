@@ -35,7 +35,7 @@ export default function Nav({ children }) {
   return (
     <div data-theme="light" className="flex flex-col min-h-screen w-full">
       <div className="sticky top-0 z-10">
-        <div className="navbar bg-primary text-base-100">
+        <div className="navbar bg-primary text-base-100 w-full">
           {session ? (
             <div className="navbar-start">
               <div className="dropdown">
@@ -120,22 +120,12 @@ export default function Nav({ children }) {
           ) : (
             []
           )}
-        </div>
-      </div>
-      <div className="flex justify-center grow">
-        <div className="lg:w-[90%] overflow-auto">
-          {React.cloneElement(children, { session: session })}
-        </div>
-      </div>
-      <footer className="sticky bottom-0 footer gap-2 items-center p-4 bg-primary text-base-100 z-10">
-        <div className="items-center grid-flow-col">
-          <p className="italic text-justify text-xs lg:text-sm">
-            Prediction by machine learning model are based on statistical
-            correlations, and may not be accurate or relevant for every
-            individual.
-          </p>
-        </div>
-        <div className="lg:place-self-center lg:justify-self-end">
+          <div
+            className={
+              "divider divider-horizontal before:bg-base-200 after:bg-base-200 m-0 p-0 " +
+              (!session ? "hidden" : "")
+            }
+          ></div>
           <a
             target="_blank"
             href="https://github.com/Aiman217/sbds"
@@ -145,7 +135,12 @@ export default function Nav({ children }) {
             <AiFillGithub size={30} className="text-base-100" />
           </a>
         </div>
-      </footer>
+      </div>
+      <div className="flex justify-center grow">
+        <div className="lg:w-[90%] overflow-auto">
+          {React.cloneElement(children, { session: session })}
+        </div>
+      </div>
     </div>
   );
 }

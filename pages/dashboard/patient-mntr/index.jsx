@@ -50,7 +50,9 @@ export default function index() {
             <p className="italic text-md mb-4">
               The prediction process required the patient&apos;s PHQ9 form. If
               the prediction button is disabled, please fill in the PHQ9 form
-              first before trying again.
+              first before trying again. Prediction by machine learning model
+              are based on statistical correlations, and may not be accurate or
+              relevant for every individual.
             </p>
           </div>
         </div>
