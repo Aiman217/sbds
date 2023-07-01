@@ -76,7 +76,7 @@ export default function index() {
           </div>
         </div>
         <div className="overflow-x-auto">
-          <table className="table w-full z-0 [&_thead_tr_th]:bg-primary [&_tbody_tr_th]:bg-base-200 [&_tbody_tr_td]:bg-base-200 [&_thead_tr_th]:text-base-100">
+          <table className="table w-full z-0 [&_thead_tr_th]:bg-primary [&_tbody_tr_th]:bg-base-100 [&_tbody_tr_td]:bg-base-100 [&_thead_tr_th]:text-base-100">
             <thead>
               <tr>
                 <th></th>
